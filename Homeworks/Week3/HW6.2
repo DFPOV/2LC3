@@ -1,0 +1,153 @@
+— Homework 6 Notebook 2: Quantification Expansion 2
+[1]
+Preloaded here is the inductive theory of natural numbers, set up in the same way as in H6.1.
+
+This notebook assumes that you already worked through H6.1, and the set-up here is the same, with “Quantification expansion” enabled, but you are allowed to have up to two hint items per hint. So calculations as in Homework Notebook 6.1 still work perfectly here:
+
+[2]
+Calculation:
+    ∑ i : ℕ ❙ 1 ≤ i < 4 • i · i
+  =⟨ Quantification expansion ⟩
+      (i · i)[i ≔ 1]
+    + (i · i)[i ≔ 2]
+    + (i · i)[i ≔ 3]
+  =⟨ Substitution ⟩
+    1 · 1 + 2 · 2 + 3 · 3
+  =⟨ Evaluation ⟩
+    1 + 4 + 9
+  =⟨ Evaluation ⟩
+    14
+
+Calculation:
+        (∑ i : ℕ ❙ 1 ≤ i < 4 • i · i )
+    = ⟨ Quantification expansion ⟩
+            — CalcCheck: ─ OK
+        ((i · i)[i ≔ 1] + (i · i)[i ≔ 2]) + (i · i)[i ≔ 3]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (1 · 1 + 2 · 2) + 3 · 3
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        (1 + 4) + 9
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        14
+— CalcCheck: All steps OK
+[3]
+But here you can also combine the first two steps:
+
+[4]
+Calculation:
+    ∑ i : ℕ ❙ 1 ≤ i < 4 • i · i
+  =⟨ Quantification expansion, substitution ⟩
+    1 · 1 + 2 · 2 + 3 · 3
+  =⟨ Evaluation ⟩
+    14
+
+Calculation:
+        (∑ i : ℕ ❙ 1 ≤ i < 4 • i · i )
+    = ⟨ Quantification expansion, Substitution ⟩
+            — CalcCheck: ─ OK
+        (1 · 1 + 2 · 2) + 3 · 3
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        14
+— CalcCheck: All steps OK
+[5]
+Or you could combine Substitution with Evaluation:
+
+[6]
+Calculation:
+    ∑ i : ℕ ❙ 1 ≤ i < 4 • i · i
+  =⟨ Quantification expansion ⟩
+      (i · i)[i ≔ 1]
+    + (i · i)[i ≔ 2]
+    + (i · i)[i ≔ 3]
+  =⟨ Substitution, Evaluation ⟩
+    1 + 4 + 9
+  =⟨ Evaluation ⟩
+    14
+
+Calculation:
+        (∑ i : ℕ ❙ 1 ≤ i < 4 • i · i )
+    = ⟨ Quantification expansion ⟩
+            — CalcCheck: ─ OK
+        ((i · i)[i ≔ 1] + (i · i)[i ≔ 2]) + (i · i)[i ≔ 3]
+    = ⟨ Substitution, Evaluation ⟩
+            — CalcCheck: ─ OK
+        (1 + 4) + 9
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        14
+— CalcCheck: All steps OK
+[7]
+For the following examples, you are invited to also try them also by combining for example Quantification expansion with Substition into a single step as above.
+
+You should not need other tools such as a calculator to do any of these.
+
+Write down as many intermediate steps as you consider appropriate for supporting your solution process.
+
+End each calculation with a single number.
+
+[8]
+Calculation:
+    ∑ i : ℕ ❙ 3 ≤ i < 6 • i · i · i
+  =⟨ Quantification expansion, Substitution ⟩
+    (3 · 3 · 3) + (4 · 4 · 4) + (5 · 5 · 5)
+  =⟨ Evaluation ⟩
+    (27) + (64) + (125)
+  =⟨ Evaluation ⟩
+    216
+    
+
+Calculation:
+        (∑ i : ℕ ❙ 3 ≤ i < 6 • (i · i) · i )
+    = ⟨ Quantification expansion, Substitution ⟩
+            — CalcCheck: ─ OK
+        ((3 · 3) · 3 + (4 · 4) · 4) + (5 · 5) · 5
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        (27 + 64) + 125
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        216
+— CalcCheck: All steps OK
+[9]
+Calculation:
+    ∏ i : ℕ ❙ 4 ≤ i < 8 • i
+  =⟨ Quantification expansion, Substitution ⟩
+    4 · 5 · 6 · 7
+  =⟨ Evaluation ⟩
+    840
+
+Calculation:
+        (∏ i : ℕ ❙ 4 ≤ i < 8 • i )
+    = ⟨ Quantification expansion, Substitution ⟩
+            — CalcCheck: ─ OK
+        ((4 · 5) · 6) · 7
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        840
+— CalcCheck: All steps OK
+[10]
+Calculation:
+    ∑ k, n : ℕ ❙ 3 ≤ k < 5 ∧ 4 ≤ n < 6 • k · n
+  =⟨ Quantification expansion, Substitution ⟩
+    (3 · 4) + (3 · 5) + (4 · 4) + (4 · 5)
+  =⟨ Evaluation ⟩
+    12 + 15 + 16 + 20
+  =⟨ Evaluation ⟩
+    63
+
+Calculation:
+        (∑ k : ℕ; n : ℕ ❙ 3 ≤ k < 5 ∧ 4 ≤ n < 6 • k · n )
+    = ⟨ Quantification expansion, Substitution ⟩
+            — CalcCheck: ─ OK
+        ((3 · 4 + 3 · 5) + 4 · 4) + 4 · 5
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        ((12 + 15) + 16) + 20
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        63
+— CalcCheck: All steps OK

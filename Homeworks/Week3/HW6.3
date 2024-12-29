@@ -1,0 +1,120 @@
+— Homework 6 Notebook 3: Quantification Expansion
+[1]
+This notebook assumes that you already worked through H6.1 and H6.2, and the set-up here is the same, with the inductive theory of natural numbers preloaded, symmetry and associativity of + and · activated, and “Quantification expansion” enabled, but you are allowed to have up to four hint items per hint.
+
+So calculations as in Homework Notebook 6.1 still work perfectly here:
+
+[2]
+Calculation:
+    ∑ i : ℕ ❙ 1 ≤ i < 4 • i · i
+  =⟨ Quantification expansion ⟩
+      (i · i)[i ≔ 1]
+    + (i · i)[i ≔ 2]
+    + (i · i)[i ≔ 3]
+  =⟨ Substitution ⟩
+    1 · 1 + 2 · 2 + 3 · 3
+  =⟨ Evaluation ⟩
+    1 + 4 + 9
+  =⟨ Evaluation ⟩
+    14
+
+Calculation:
+        (∑ i : ℕ ❙ 1 ≤ i < 4 • i · i )
+    = ⟨ Quantification expansion ⟩
+            — CalcCheck: ─ OK
+        ((i · i)[i ≔ 1] + (i · i)[i ≔ 2]) + (i · i)[i ≔ 3]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (1 · 1 + 2 · 2) + 3 · 3
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        (1 + 4) + 9
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        14
+— CalcCheck: All steps OK
+[3]
+But here you also can do this in a single step:
+
+[4]
+Calculation:
+    ∑ i : ℕ ❙ 1 ≤ i < 4 • i · i
+  =⟨ Quantification expansion, substitution, evaluation ⟩
+    14
+
+Calculation:
+        (∑ i : ℕ ❙ 1 ≤ i < 4 • i · i )
+    = ⟨ Quantification expansion, Substitution, Evaluation ⟩
+            — CalcCheck: ─ OK
+        14
+— CalcCheck: All steps OK
+[5]
+For the following examples, you are invited to also try them in a single step, but if you don’t get it checked, you should fall back to making (some) intermediate step(s) explicit again.
+
+You should not need other tools such as a calculator to do any of these.
+
+Write down as many intermediate steps as you consider appropriate for supporting your solution process.
+
+[6]
+Calculation:
+    ∏ k : ℕ ❙ 0 < k < 6 • k
+  =⟨ Quantification expansion, Substitution, Evaluation ⟩
+    120
+
+Calculation:
+        (∏ k : ℕ ❙ 0 < k < 6 • k )
+    = ⟨ Quantification expansion, Substitution, Evaluation ⟩
+            — CalcCheck: ─ OK
+        120
+— CalcCheck: All steps OK
+[7]
+Calculation:
+    ∑ k : ℕ ❙ 1 < k < 7 • 7 - k
+  =⟨ Quantification expansion, Substitution, Evaluation ⟩
+    15
+
+Calculation:
+        (∑ k : ℕ ❙ 1 < k < 7 • 7 - k )
+    = ⟨ Quantification expansion, Substitution, Evaluation ⟩
+            — CalcCheck: ─ OK
+        15
+— CalcCheck: All steps OK
+[8]
+Calculation:
+    ∏ k : ℕ ❙ 4 ≤ k < 14 • 12 - k
+  =⟨ Quantification expansion, Substitution, Evaluation ⟩
+    0
+
+Calculation:
+        (∏ k : ℕ ❙ 4 ≤ k < 14 • 12 - k )
+    = ⟨ Quantification expansion, Substitution, Evaluation ⟩
+            — CalcCheck: ─ OK
+        0
+— CalcCheck: All steps OK
+[9]
+Calculation:
+    ∑ i, j : ℕ ❙ 3 < i ≤ 6 ∧ 3 ≤ j < 5 • i · j
+  =⟨ Quantification expansion, Substitution, Evaluation ⟩
+    105 
+
+Calculation:
+        (∑ i : ℕ; j : ℕ ❙ 3 < i ≤ 6 ∧ 3 ≤ j < 5 • i · j )
+    = ⟨ Quantification expansion, Substitution, Evaluation ⟩
+            — CalcCheck: ─ OK
+        105
+— CalcCheck: All steps OK
+[10]
+The problem that failed to keep young Carl Friedrich Gauss busy for a long time should also fail to keep you busy for a long time (although, if it was set in H6.1, it probably would keep you busy for a while…):
+
+[11]
+Calculation:
+    ∑ i : ℕ ❙ i ≤ 100 • i
+  =⟨ Quantification expansion, Substitution, Evaluation ⟩
+    5050
+
+Calculation:
+        (∑ i : ℕ ❙ i ≤ 100 • i )
+    = ⟨ Quantification expansion, Substitution, Evaluation ⟩
+            — CalcCheck: ─ OK
+        5050
+— CalcCheck: All steps OK

@@ -1,0 +1,196 @@
+— Homework 5 Notebook 2: Calculations with Monotonicity and Antitonicity
+[1]
+The equational theory of integers is preloaded here, but without activation of automatic associativity and symmetry. Facts are available here, but not Evaluation.
+
+Here you have also the following theorems available:
+
+“≤-Monotonicity of +”:            a ≤ b  ⇒  a + d ≤ b + d
+
+“≤-Antitonicity of unary minus”:  a ≤ b  ⇒    - b ≤   - a
+
+“≤-Monotonicity of -”:            a ≤ b  ⇒  a - d ≤ b - d
+“≤-Antitonicity of -”:            c ≤ b  ⇒  a - b ≤ a - c
+First a demonstration of how these are used:
+
+[2]
+Calculation:
+    3 + r
+  ≤⟨ “≤-Monotonicity of +” with Fact `3 ≤ 5` ⟩
+    5 + r
+
+Calculation:
+        3 + r
+    ≤ ⟨ “≤-Monotonicity of +” with Fact `3 ≤ 5` ⟩
+            — CalcCheck: Found “≤-Monotonicity of +”
+            — CalcCheck: ─ OK
+        5 + r
+— CalcCheck: All steps OK
+[3]
+Calculation:
+    5 - 2
+  ≤⟨ “≤-Monotonicity of -” with Fact `5 ≤ 7` ⟩
+    7 - 2
+  ≤⟨ “≤-Antitonicity of -” with Fact `1 ≤ 2` ⟩
+    7 - 1
+
+Calculation:
+        5 - 2
+    ≤ ⟨ “≤-Monotonicity of -” with Fact `5 ≤ 7` ⟩
+            — CalcCheck: Found “≤-Monotonicity of -”
+            — CalcCheck: ─ OK
+        7 - 2
+    ≤ ⟨ “≤-Antitonicity of -” with Fact `1 ≤ 2` ⟩
+            — CalcCheck: Found “≤-Antitonicity of -”
+            — CalcCheck: ─ OK
+        7 - 1
+— CalcCheck: All steps OK
+[4]
+Calculation:
+    15 - (3 + 4)
+  ≤⟨ “≤-Antitonicity of -” with
+     “≤-Monotonicity of +” with Fact `2 ≤ 3` ⟩
+    15 - (2 + 4)
+  =⟨ Fact `2 = 7 - 5` ⟩
+    15 - ((7 - 5) + 4)
+  ≤⟨ “≤-Antitonicity of -” with
+     “≤-Monotonicity of +” with
+     “≤-Antitonicity of -” with Fact `5 ≤ 6` ⟩
+    15 - ((7 - 6) + 4)
+
+Calculation:
+        15 - (3 + 4)
+    ≤ ⟨ “≤-Antitonicity of -” with “≤-Monotonicity of +” with Fact `2 ≤ 3` ⟩
+            — CalcCheck: Found “≤-Antitonicity of -”
+            — CalcCheck: Found “≤-Monotonicity of +”
+            — CalcCheck: ─ OK
+        15 - (2 + 4)
+    = ⟨ Fact `2 = 7 - 5` ⟩
+            — CalcCheck: ─ OK
+        15 - ((7 - 5) + 4)
+    ≤ ⟨ “≤-Antitonicity of -” with “≤-Monotonicity of +” with “≤-Antitonicity of -” with Fact `5 ≤ 6` ⟩
+            — CalcCheck: Found “≤-Antitonicity of -”
+            — CalcCheck: Found “≤-Monotonicity of +”
+            — CalcCheck: ─ OK
+        15 - ((7 - 6) + 4)
+— CalcCheck: All steps OK
+[5]
+Now “fill-in-the-blanks”: In the following calculation chain, replace each hint item “?₁” with an appropriate hint item, that is (for now),
+
+either a theorem name or theorem number from the list of integer theorems here,
+or the keyword Substitution,
+or “Fact `expr`” for some expression expr (this is accepted only where expr could by evaluated to true by Evaluation),
+or with “mon with hi” where “mon” is one of the monotonicity or antitonicity theorem names listed above, and “hi” is a hint item.
+Being aware of the associating conventions governing _+_ and _-_ is essential for getting this right.
+
+As usual, make no other changes besides replacing “?₁”!
+
+[6]
+Calculation:
+    5 + (u - 7)
+  ≤⟨ “≤-Monotonicity of +” with Fact `5 ≤ 6` ⟩ 
+    6 + (u - 7)
+  =⟨ “Mutual associativity of + and -”⟩
+    (6 + u) - 7
+  ≤⟨ “≤-Antitonicity of -” with Fact `5 ≤ 7` ⟩
+    (6 + u) - 5
+  ≤⟨ “≤-Monotonicity of -” with
+      “≤-Monotonicity of +” with Fact `6 ≤ 7` ⟩
+    (7 + u) - 5
+  =⟨ “Mutual associativity of + and -”⟩
+    7 + (u - 5)
+  ≤⟨  
+      “≤-Monotonicity of +”with
+      “≤-Antitonicity of -”with Fact `4 ≤ 5`
+    ⟩
+    7 + (u - 4)
+  =⟨ “Self-inverse of unary minus” ⟩
+    7 + - - (u - 4)
+  =⟨ “Subtraction” ⟩
+    7 + - - (u + - 4)
+  =⟨ “Distributivity of unary minus over +” ⟩
+    7 + - (- u + - - 4)
+  =⟨ “Self-inverse of unary minus” ⟩
+    7 + - (- u + 4)
+  ≤⟨
+      “≤-Monotonicity of +”with
+      “≤-Antitonicity of unary minus”with
+      “≤-Monotonicity of +” with Fact `2 ≤ 4` ⟩
+     7 + - (- u + 2)
+
+Calculation:
+        5 + (u - 7)
+    ≤ ⟨ “≤-Monotonicity of +” with Fact `5 ≤ 6` ⟩
+            — CalcCheck: Found “≤-Monotonicity of +”
+            — CalcCheck: ─ OK
+        6 + (u - 7)
+    = ⟨ “Mutual associativity of + and -” ⟩
+            — CalcCheck: Found (15.25a) “Mutual associativity of + and -”
+            — CalcCheck: ─ OK
+        (6 + u) - 7
+    ≤ ⟨ “≤-Antitonicity of -” with Fact `5 ≤ 7` ⟩
+            — CalcCheck: Found “≤-Antitonicity of -”
+            — CalcCheck: ─ OK
+        (6 + u) - 5
+    ≤ ⟨ “≤-Monotonicity of -” with “≤-Monotonicity of +” with Fact `6 ≤ 7` ⟩
+            — CalcCheck: Found “≤-Monotonicity of -”
+            — CalcCheck: Found “≤-Monotonicity of +”
+            — CalcCheck: ─ OK
+        (7 + u) - 5
+    = ⟨ “Mutual associativity of + and -” ⟩
+            — CalcCheck: Found (15.25a) “Mutual associativity of + and -”
+            — CalcCheck: ─ OK
+        7 + (u - 5)
+    ≤ ⟨ “≤-Monotonicity of +” with “≤-Antitonicity of -” with Fact `4 ≤ 5` ⟩
+            — CalcCheck: Found “≤-Monotonicity of +”
+            — CalcCheck: Found “≤-Antitonicity of -”
+            — CalcCheck: ─ OK
+        7 + (u - 4)
+    = ⟨ “Self-inverse of unary minus” ⟩
+            — CalcCheck: Found (15.17) “Self-inverse of unary minus”
+            — CalcCheck: ─ OK
+        7 + - (- (u - 4))
+    = ⟨ “Subtraction” ⟩
+            — CalcCheck: Found (15.14) “Subtraction”
+            — CalcCheck: ─ OK
+        7 + - (- (u + - 4))
+    = ⟨ “Distributivity of unary minus over +” ⟩
+            — CalcCheck: Found (15.19) “Distributivity of unary minus over +”
+            — CalcCheck: ─ OK
+        7 + - (- u + - (- 4))
+    = ⟨ “Self-inverse of unary minus” ⟩
+            — CalcCheck: Found (15.17) “Self-inverse of unary minus”
+            — CalcCheck: ─ OK
+        7 + - (- u + 4)
+    ≤ ⟨ “≤-Monotonicity of +” with “≤-Antitonicity of unary minus” with “≤-Monotonicity of +” with Fact `2 ≤ 4` ⟩
+            — CalcCheck: Found “≤-Monotonicity of +”
+            — CalcCheck: Found “≤-Antitonicity of unary minus”
+            — CalcCheck: ─ OK
+        7 + - (- u + 2)
+— CalcCheck: All steps OK
+[7]
+Feedback
+[8]
+This was (every answer is right; “no answer” is wrong):
+
+  all very easy
+  generally easy
+  OK
+  occasionally hard
+  mostly hard
+  all very hard
+[9]
+This was (every answer is right; “no answer” is wrong):
+
+  all very boring
+  mostly boring
+  OK
+  occasionally interesting
+  mostly interesting
+  all very interesting
+[10]
+Concluding Declaration
+[11]
+Your answers above are completely your own work? (“No answer” is wrong.)
+
+  Yes
+  No

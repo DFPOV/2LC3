@@ -1,0 +1,249 @@
+— Homework 5 Notebook 1: Leibniz as Axiom, Replacement
+[1]
+The propositional calculus up to implication is preloaded here, and also the usual equational integer properties including activation; you also have:
+
+      “Cancellation of +”: a + b = a + c  ≡  b = c
+[2]
+Leibniz’s Rule as an Axiom, Replacement Theorems
+[3]
+Be aware that metavariables like E and P here are intended to be instantiatable with arbitrary expressions.
+
+All steps must remain valid not matter which expression such a metavariable is instantiated with.
+
+Therefore, the following step is invalid:
+
+    E[z ≔ 2]
+  =⟨ Substitution ⟩
+    E
+One instantiation that shows this is instantiating E with z + 1; the resulting instance of the step above is clearly invalid:
+
+    (z + 1)[z ≔ 2]
+  =⟨ Substitution ⟩
+    z + 1
+Therefore substitutions into metavariables, such as E[z ≔ a], cannot be simplified.
+
+[4]
+The following axiom version of the inference rule (1.5) “Leibniz” is presented in the last part of LADM Section 3.6 (pp. 60–61):
+
+[5]
+Axiom (3.83) “Leibniz”: e = f  ⇒  E[z ≔ e] = E[z ≔ f]
+
+Axiom (3.83) “Leibniz”: e = f ⇒ E[z ≔ e] = E[z ≔ f]
+[6]
+Since the statement of this theorem involves substitution, and since CalcCheck does not yet use second-order matching, using this theorem requires making those substitutions explicit in some way.
+
+For example, the following is not accepted:
+
+    Fact: x = 3 ⇒ x + 2 = 5
+    Proof:
+       x = 3 ⇒ x + 2 = 5
+     ≡⟨ Fact `5 = 3 + 2` ⟩
+       x = 3 ⇒ x + 2 = 3 + 2  — This is (3.83) “Leibniz”
+In such cases, an additional “backwards” Substitution step is typically necessary:
+
+[7]
+Fact “H5.1a”: x = 3 ⇒ x + 2 = 5
+Proof:
+    x = 3 ⇒ x + 2 = 5
+  ≡⟨ Fact `5 = 3 + 2` ⟩
+    x = 3 ⇒ x + 2 = 3 + 2
+  ≡⟨ Substitution ⟩
+    x = 3 ⇒ (z + 2)[z ≔ x] = (z + 2)[z ≔ 3]
+  — This is (3.83) “Leibniz”
+
+Fact “H5.1a”: x = 3 ⇒ x + 2 = 5
+Proof:
+    Calculation for expected goal  `x = 3 ⇒ x + 2 = 5`:
+            x = 3 ⇒ x + 2 = 5
+        ≡ ⟨ Fact `5 = 3 + 2` ⟩
+                — CalcCheck: ─ OK
+            x = 3 ⇒ x + 2 = 3 + 2
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            x = 3 ⇒ (z + 2)[z ≔ x] = (z + 2)[z ≔ 3]     — This is (3.83) “Leibniz”    
+    — CalcCheck: Found (3.83) “Leibniz”   
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[8]
+The “Leibniz” axiom above is an implication; all the theorems derived from it in LADM Section 3.6 are equivalences.
+
+As far as these equivalences specialise the argument type of one or both of the equalities = in the “Leibniz” axiom to 𝔹, LADM silently uses ≡ instead of =.
+
+Since these two are treated as different in CalcCheck, additional conversion steps are required, using the conversion theorem you already know:
+
+“Definition of ≡”:  (p ≡ q) = (p = q)
+Find the right implication property (see Ex3.1) to reference in the place of the question mark in the first of these properties — while LADM names these “Substitution”, we prefer the name “Replacement” (not least to avoid confusion with the keyword Substitution):
+
+[9]
+Theorem (3.84) (3.84a) “Replacement”:
+    (e = f) ∧ E[z ≔ e]  ≡  (e = f) ∧ E[z ≔ f]
+Proof:
+    (e = f) ∧ E[z ≔ e] ≡ (e = f) ∧ E[z ≔ f]
+  ≡⟨ “Golden rule” ⟩
+    ((e = f) ≡ (E[z ≔ e] ≡ ((e = f) ∨ E[z ≔ e] ))) ≡  ((e = f) ≡ (E[z ≔ f] ≡ ( (e = f) ∨ E[z ≔ f])))
+  ≡⟨ “Implication via ∨”⟩
+    ((e = f) ≡ (e = f) ⇒ E[z ≔ e]) ≡ ((e = f) ≡ (e = f) ⇒ E[z ≔ f])
+  ≡⟨ “Identity of ≡”⟩
+    ((e = f) ⇒ E[z ≔ e]) ≡ ((e = f) ⇒ E[z ≔ f])
+  ≡⟨ “Distributivity of ⇒ over ≡”⟩
+    (e = f) ⇒ (E[z ≔ e] ≡ E[z ≔ f])
+  ≡⟨ “Definition of ≡” ⟩
+    e = f ⇒ E[z ≔ e] = E[z ≔ f] — This is “Leibniz”
+
+Theorem (3.84) (3.84a) “Replacement”: e = f ∧ E[z ≔ e] ≡ e = f ∧ E[z ≔ f]
+Proof:
+    Calculation for expected goal  `e = f ∧ E[z ≔ e] ≡ e = f ∧ E[z ≔ f]`:
+            e = f ∧ E[z ≔ e] ≡ e = f ∧ E[z ≔ f]
+        ≡ ⟨ “Golden rule” ⟩
+                — CalcCheck: Found (3.35) “Golden rule”
+                — CalcCheck: ─ OK
+            (e = f ≡ (E[z ≔ e] ≡ e = f ∨ E[z ≔ e])) ≡ (e = f ≡ (E[z ≔ f] ≡ e = f ∨ E[z ≔ f]))
+        ≡ ⟨ “Implication via ∨” ⟩
+                — CalcCheck: Found (3.57=) “Implication via ∨”
+                — CalcCheck: ─ OK
+            (e = f ≡ e = f ⇒ E[z ≔ e]) ≡ (e = f ≡ e = f ⇒ E[z ≔ f])
+        ≡ ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            e = f ⇒ E[z ≔ e] ≡ e = f ⇒ E[z ≔ f]
+        ≡ ⟨ “Distributivity of ⇒ over ≡” ⟩
+                — CalcCheck: Found (3.63) “Distributivity of ⇒ over ≡”
+                — CalcCheck: ─ OK
+            e = f ⇒ (E[z ≔ e] ≡ E[z ≔ f])
+        ≡ ⟨ “Definition of ≡” ⟩
+                — CalcCheck: Found “Definition of ≡”
+                — CalcCheck: ─ OK
+            e = f ⇒ E[z ≔ e] = E[z ≔ f]     — This is “Leibniz”    
+    — CalcCheck: Found (3.83) “Leibniz”   
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[10]
+This can be used to show, for example, that “superfluous reformulations” don’t make a difference:
+
+[11]
+Fact “H5.1b”: (n = 5) ∧ (2 · n - 3 = 7)  ≡  (n = 5)
+Proof:
+    (n = 5) ∧ (2 · n - 3 = 7)
+  ≡⟨ Substitution ⟩
+    (n = 5) ∧ (2 · z - 3 = 7)[z ≔ n]
+  ≡⟨ “Replacement” ⟩
+    (n = 5) ∧ (2 · z - 3 = 7)[z ≔ 5]
+  ≡⟨ Substitution ⟩
+    (n = 5) ∧ (2 · 5 - 3 = 7)
+  ≡⟨ Fact `2 · 5 - 3 = 7` ⟩
+    (n = 5) ∧ true
+  ≡⟨ “Identity of ∧” ⟩
+    (n = 5)
+
+Fact “H5.1b”: n = 5 ∧ 2 · n - 3 = 7 ≡ n = 5
+Proof:
+    Calculation for expected goal  `n = 5 ∧ 2 · n - 3 = 7 ≡ n = 5`:
+            n = 5 ∧ 2 · n - 3 = 7
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            n = 5 ∧ (2 · z - 3 = 7)[z ≔ n]
+        ≡ ⟨ “Replacement” ⟩
+                — CalcCheck: Found (3.84a) “Replacement”, (3.51) “Replacement”
+                — CalcCheck: ─ OK
+            n = 5 ∧ (2 · z - 3 = 7)[z ≔ 5]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            n = 5 ∧ 2 · 5 - 3 = 7
+        ≡ ⟨ Fact `2 · 5 - 3 = 7` ⟩
+                — CalcCheck: ─ OK
+            n = 5 ∧ true
+        ≡ ⟨ “Identity of ∧” ⟩
+                — CalcCheck: Found (3.39) “Identity of ∧”
+                — CalcCheck: ─ OK
+            n = 5    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[12]
+Situations like the one in the following Lemma (H5.1b) frequently occur in program correctness proofs — prove this example using “Replacement”:
+
+[13]
+Lemma (H5.1c):
+     s = 2 · n + 1  ∧  q + s = (n + 1) · (n + 1)
+  ≡  s = 2 · n + 1  ∧  q     = n · n
+Proof:
+    s = 2 · n + 1  ∧  q + s = (n + 1) · (n + 1)
+  ≡⟨ “Distributivity of · over +”⟩
+    s = 2 · n + 1  ∧  q + s = (n · n) + (1 · n) + (1 · n) + 1 · 1
+  ≡⟨ “Distributivity of · over +” ⟩
+    s = 2 · n + 1  ∧  q + s = (n · n) + ((1 + 1) · n) + 1 · 1
+  ≡⟨ Fact `1 + 1 = 2` ⟩
+    s = 2 · n + 1  ∧  q + s = (n · n) + 2 · n + 1 · 1
+  ≡⟨ Fact `1 · 1 = 1`⟩
+    s = 2 · n + 1  ∧  q + s = (n · n) + 2 · n + 1
+  ≡⟨ Substitution ⟩
+    s = 2 · n + 1  ∧  (q + z = (n · n) + (2 · n + 1)) [z ≔ s]
+  ≡⟨ “Replacement”⟩ 
+    s = 2 · n + 1  ∧  (q + z = (n · n) + (2 · n + 1)) [z ≔ 2 · n + 1] 
+  ≡⟨ Substitution ⟩
+    s = 2 · n + 1  ∧  (q + (2 · n + 1) = (n · n) + (2 · n + 1))
+  ≡⟨ “Cancellation of +” ⟩
+    s = 2 · n + 1  ∧ q = (n · n)
+
+ 
+
+Lemma (H5.1c): s = 2 · n + 1 ∧ q + s = (n + 1) · (n + 1) ≡ s = 2 · n + 1 ∧ q = n · n
+Proof:
+    Calculation for expected goal  `s = 2 · n + 1 ∧ q + s = (n + 1) · (n + 1) ≡ s = 2 · n + 1 ∧ q = n · n`:
+            s = 2 · n + 1 ∧ q + s = (n + 1) · (n + 1)
+        ≡ ⟨ “Distributivity of · over +” ⟩
+                — CalcCheck: Found (15.5) “Distributivity of · over +”
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ q + s = ((n · n + 1 · n) + 1 · n) + 1 · 1
+        ≡ ⟨ “Distributivity of · over +” ⟩
+                — CalcCheck: Found (15.5) “Distributivity of · over +”
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ q + s = (n · n + (1 + 1) · n) + 1 · 1
+        ≡ ⟨ Fact `1 + 1 = 2` ⟩
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ q + s = (n · n + 2 · n) + 1 · 1
+        ≡ ⟨ Fact `1 · 1 = 1` ⟩
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ q + s = (n · n + 2 · n) + 1
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ (q + z = n · n + (2 · n + 1))[z ≔ s]
+        ≡ ⟨ “Replacement” ⟩
+                — CalcCheck: Found (3.84a) “Replacement”, (3.51) “Replacement”
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ (q + z = n · n + (2 · n + 1))[z ≔ 2 · n + 1]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ q + (2 · n + 1) = n · n + (2 · n + 1)
+        ≡ ⟨ “Cancellation of +” ⟩
+                — CalcCheck: Found (15.8) “Cancellation of +”
+                — CalcCheck: ─ OK
+            s = 2 · n + 1 ∧ q = n · n    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[14]
+Feedback
+[15]
+This was (every answer is right; “no answer” is wrong):
+
+  all very easy
+  generally easy
+  OK
+  occasionally hard
+  mostly hard
+  all very hard
+[16]
+This was (every answer is right; “no answer” is wrong):
+
+  all very boring
+  mostly boring
+  OK
+  occasionally interesting
+  mostly interesting
+  all very interesting
+[17]
+Concluding Declaration
+[18]
+Your answers above are completely your own work? (“No answer” is wrong.)
+
+  Yes
+  No
