@@ -1,0 +1,384 @@
+— Homework 4 Notebook 2: Propositional Calculus
+[1]
+Preloaded here is the content of LADM chapter 3 up to (3.82).
+
+It is assumed that you will have worked through a decent selection of Exercises 2.4 to 2.6 before working on the current notebook.
+
+Symmetry and associativity of equivalence, disjunction, and conjunction are activated.
+
+Prove the following theorems — where these theorems have numbers, you are only allowed to use theorems with smaller numbers (or theorems occurring before the current theorem in this notebook). (Theorems with larger numbers may still be offered by theorem name completion, but will not be accepted by the proof checker.)
+
+Even though theorem numbers are relevant for which theorems you are allowed to use, you still do not have to refer to theorems by their numbers — it remains preferred that you refer to named theorems by (one of) their names.
+
+(A notebook with this kind of organisation could occur in an exam.)
+
+Only one hint item is allowed per hint.
+
+Each of the theorems here has a proof with at most five steps; many need only two or three steps.
+
+If this particular notebook were given to you in a midterm, you would have about an hour to work on it.
+
+[2]
+From Equivalence to Conjunction
+[3]
+Theorem “Identity of ≢”: (p ≢ false) ≡ p
+Proof:
+    (p ≢ false) ≡ p
+  =⟨ “Symmetry of ≢”⟩
+    (false ≢ p) ≡ p
+  =⟨ (3.14) ⟩
+    (¬ false ≡ p) ≡ p
+  =⟨ “Negation of `false`” ⟩
+    true ≡ p ≡ p
+  =⟨ “Identity of ≡”⟩
+    true
+
+
+
+
+    
+
+[4]
+A nameless theorem worth remembering:
+
+[5]
+Theorem (3.32): p ∨ q ≡ p ∨ ¬ q ≡ p
+Proof:
+    p ∨ q ≡ p ∨ ¬ q
+  =⟨ “Distributivity of ∨ over ≡” ⟩
+    p ∨ (q ≡ ¬ q)
+  =⟨ “Commutativity of ¬ with ≡”⟩
+    p ∨ ¬ (q ≡ q)
+  =⟨ “Identity of ≡”⟩
+    p ∨ ¬ true
+  =⟨ “Definition of `false`”⟩
+    p ∨ false
+  =⟨ “Identity of ∨”⟩
+    p
+
+[6]
+Theorem (3.38) “Idempotency of ∧”: p ∧ p ≡ p
+Proof:
+    p ∧ p
+  =⟨ “Definition of ∧”⟩
+    p ≡ (p ≡ (p ∨ p))
+  =⟨ “Idempotency of ∨”⟩
+    p ≡ p ≡ p
+  =⟨ “Identity of ≡”⟩
+    p
+
+[7]
+Theorem (3.39) “Identity of ∧”: p ∧ true ≡ p
+Proof:
+    p ∧ true   
+  =⟨ “Golden rule”⟩
+    p ≡ (true ≡ p ∨ true)
+  =⟨ “Zero of ∨”⟩
+    p ≡ (true ≡ true)
+  =⟨ “Identity of ≡”⟩
+    p
+
+[8]
+Theorem (3.42) “Contradiction”: p ∧ ¬ p ≡ false
+Proof:
+    p ∧ ¬ p
+  =⟨ “Golden rule” ⟩
+    p ≡ (¬ p ≡ (p ∨ ¬ p))
+  =⟨ “LEM”⟩
+    p ≡ (¬ p ≡ true)
+  =⟨ “Commutativity of ¬ with ≡” ⟩
+    p ≡ ¬ (p ≡ true)
+  =⟨ “Associativity of ≡” ⟩
+    p ≡ ¬ (true ≡ p)
+  =⟨ “Commutativity of ¬ with ≡”⟩
+    p ≡ (¬ true ≡ p)
+  =⟨ “Associativity of ≡”⟩
+    p ≡ (p ≡ ¬ true)
+  =⟨ “Definition of `false`”⟩
+    p ≡ (p ≡ false)
+  =⟨ “Definition of ≡”⟩
+    false
+
+[9]
+Using the golden rule also works well (and in many different ways) for proving the absorption laws — the first one is particularly brief, starting with the golden rule as definition of conjunction:
+
+[10]
+Theorem (3.43) (3.43a) “Absorption”: p ∧ (p ∨ q) ≡ p
+Proof:
+    p ∧ (p ∨ q)
+  =⟨ “Definition of ∧”⟩
+    p ≡ ((p ∨ q) ≡ p ∨ (p ∨ q)) 
+  =⟨ “Associativity of ∨” ⟩
+    p ≡ ((p ∨ q) ≡ (p ∨ p) ∨ q) 
+  =⟨ “Idempotency of ∨”⟩
+    p ≡ ((p ∨ q) ≡ (p ∨ q))
+  =⟨ “Identity of ≡” ⟩
+    p
+
+[11]
+Theorem (3.43) (3.43b) “Absorption”: p ∨ (p ∧ q) ≡ p
+Proof:
+    p ∨ (p ∧ q)
+  =⟨ “Definition of ∧” ⟩
+    p ∨ (p ≡ (q ≡ p ∨ q))
+  =⟨ “Distributivity of ∨ over ≡”⟩
+    (p ∨ p) ≡ (p ∨ (q ≡ p ∨ q))
+  =⟨ “Idempotency of ∨”⟩
+    p ≡ (p ∨ (q ≡ p ∨ q))
+  =⟨ “Distributivity of ∨ over ≡”⟩
+    p ≡ (p ∨ q) ≡ (p ∨ p ∨ q)
+  =⟨ “Idempotency of ∨”⟩
+    p ≡ (p ∨ q) ≡ (p ∨ q)
+  =⟨ “Identity of ≡”⟩
+    p
+
+[12]
+We add two variants of absorption modulo double negation that are not listed in LADM:
+
+[13]
+Theorem (3.44) (3.44c) “Absorption”: ¬ p ∧ (p ∨ q) ≡ ¬ p ∧ q
+Proof:
+    ¬ p ∧ (p ∨ q) ≡ ¬ p ∧ q
+  =⟨ “Definition of ∧”⟩
+    ¬ p ≡ ((p ∨ q) ≡ ((¬ p ∨ p) ∨ q)) ≡ ¬ p ≡ q ≡ (¬ p ∨ q)
+  =⟨ “LEM”⟩
+    ¬ p ≡ ((p ∨ q) ≡ (true ∨ q)) ≡ ¬ p ≡ q ≡ (¬ p ∨ q)
+  =⟨ “Zero of ∨”⟩
+    ¬ p ≡ ((p ∨ q) ≡ true) ≡ ¬ p ≡ q ≡ (¬ p ∨ q)
+  =⟨ “Associativity of ≡”⟩
+    (¬ p ≡ (¬ p ≡ true)) ≡ (p ∨ q) ≡ q ≡ (¬ p ∨ q)
+  =⟨ “Commutativity of ¬ with ≡”⟩
+    (¬ p ≡ ¬ (p ≡ true)) ≡ (p ∨ q) ≡ q ≡ (¬ p ∨ q)
+  =⟨ “Cancellation of ¬”⟩
+    p ≡ (p ≡ true) ≡ (p ∨ q) ≡ (q ≡ (¬ p ∨ q))
+  =⟨ (3.32) ⟩
+    p ≡ (p ≡ true) ≡ (p ∨ q) ≡ (p ∨ q)
+  =⟨ “Identity of ≡”⟩
+    true
+
+[14]
+Theorem (3.44) (3.44d) “Absorption”: ¬ p ∨ (p ∧ q) ≡ ¬ p ∨ q
+Proof:
+    ¬ p ∨ (p ∧ q)
+  =⟨ “Definition of ∧”⟩
+    ¬ p ∨ (p ≡ (q ≡ (p ∨ q)))
+  =⟨ “Distributivity of ∨ over ≡”⟩
+    (¬ p ∨ p) ≡ (¬ p ∨ (q ≡ (p ∨ q)))
+  =⟨ “LEM”⟩
+    true ≡ (¬ p ∨ (q ≡ (p ∨ q)))
+  =⟨ “Distributivity of ∨ over ≡”⟩
+    true ≡ (¬ p ∨ q) ≡ (¬ p ∨ p ∨ q)
+  =⟨ “Associativity of ∨”⟩
+    true ≡ (¬ p ∨ q) ≡ ((¬ p ∨ p) ∨ q)
+  =⟨ “LEM”⟩
+    true ≡ (¬ p ∨ q) ≡ (true ∨ q)
+  =⟨ “Zero of ∨”⟩
+    true ≡ (¬ p ∨ q) ≡ true
+  =⟨ “Identity of ≡”⟩
+    (¬ p ∨ q)
+
+[15]
+Theorem (3.47) (3.47b) “De Morgan”: ¬(p ∨ q) ≡ ¬ p ∧ ¬ q
+Proof:
+    ¬ p ∧ ¬ q
+  =⟨ “Definition of ∧” ⟩
+    ¬ p ≡ (¬ q ≡ (¬ p ∨ ¬ q))
+  =⟨ (3.32) ⟩
+    ¬ p ≡ (¬ q ∨ p)
+  =⟨ “Commutativity of ¬ with ≡” ⟩
+    ¬ (p ≡ (¬ q ∨ p))
+  =⟨ (3.32) ⟩
+    ¬ (p ∨ q)
+
+
+    
+
+[16]
+Since theorem (3.48) is another name-less theorem worth remembering the number of, we include it here, too — use the golden rule again, remember (3.32), and check out the list of negation properties in Ex2.4.
+
+[17]
+Theorem (3.48): p ∧ q ≡ p ∧ ¬ q ≡ ¬ p
+Proof:
+    p ∧ q ≡ p ∧ ¬ q ≡ ¬ p
+  =⟨ “Golden rule” ⟩
+    p ≡ q ≡ (p ∨ q) ≡ p ≡ ¬ q ≡ (p ∨ ¬ q) ≡ ¬ p
+  =⟨ “Associativity of ≡” ⟩
+    ((p ∨ q) ≡ (p ∨ ¬ q)) ≡ p ≡ q ≡ p ≡ ¬ q ≡ ¬ p
+  =⟨ “Distributivity of ∨ over ≡”⟩
+    (p ∨ (¬ q ≡ q)) ≡ p ≡ q ≡ p ≡ ¬ q ≡ ¬ p
+  =⟨ “Commutativity of ¬ with ≡”⟩
+    (p ∨ ¬ (q ≡ q)) ≡ p ≡ q ≡ p ≡ ¬ q ≡ ¬ p
+  =⟨ “Identity of ≡” ⟩
+    (p ∨ ¬ true) ≡ p ≡ q ≡ p ≡ ¬ q ≡ ¬ p
+  =⟨ “Definition of `false`”⟩
+    (p ∨ false) ≡ p ≡ q ≡ p ≡ ¬ q ≡ ¬ p
+  =⟨ “Identity of ∨”⟩
+    p ≡ p ≡ q ≡ p ≡ ¬ q ≡ ¬ p
+  =⟨ “Identity of ≡”⟩
+    (¬ p ≡ p) ≡ (¬ q ≡ q)
+  =⟨ “Commutativity of ¬ with ≡”⟩
+    ¬ (p ≡ p) ≡ ¬ (q ≡ q)
+  =⟨ “Identity of ≡”⟩
+    ¬ true ≡ ¬ true
+  =⟨ “Definition of `false`”⟩
+    false ≡ false
+  =⟨ “Identity of ≡”⟩ 
+    true
+
+[18]
+Implication
+[19]
+Theorem (3.62): p ⇒ (q ≡ r) ≡ p ∧ q ≡ p ∧ r
+Proof:
+    p ⇒ (q ≡ r)
+  =⟨ “Definition of ⇒” ⟩
+    ¬ p ∨ (q ≡ r)
+  =⟨ “Distributivity of ∨ over ≡”⟩
+    (¬ p ∨ q) ≡ (¬ p ∨ r)
+  =⟨ “Definition of implication”⟩
+    (p ⇒ q) ≡ (p ⇒ r)
+  =⟨ “Definition of ⇒ via ∧”⟩
+    p ∧ q ≡ p ≡ p ∧ r ≡ p
+  =⟨ “Identity of ≡”⟩
+    p ∧ q ≡ p ∧ r
+
+[20]
+Theorem (3.63) “Distributivity of ⇒ over ≡”: p ⇒ (q ≡ r) ≡ p ⇒ q ≡ p ⇒ r
+Proof:
+    p ⇒ (q ≡ r)
+  =⟨ “Definition of ⇒” ⟩
+    ¬ p ∨ (q ≡ r)
+  =⟨ “Distributivity of ∨ over ≡”⟩
+    (¬ p ∨ q) ≡ (¬ p ∨ r)
+  =⟨ “Definition of implication”⟩
+    (p ⇒ q) ≡ (p ⇒ r)
+
+[21]
+Theorem (3.64) “Self-distributivity of ⇒”: p ⇒ (q ⇒ r) ≡ (p ⇒ q) ⇒ (p ⇒ r)
+Proof:
+    p ⇒ (q ⇒ r)
+  =⟨“Definition of ⇒”⟩
+    ¬ p ∨ ¬ q ∨ r
+  =⟨ “Absorption”⟩
+    ¬ p ∨ (¬ ¬ p ∧ ¬ q) ∨ r
+  =⟨ “Double negation”⟩
+    ¬ p ∨ (p ∧ ¬ q) ∨ r
+  =⟨ “De Morgan”⟩
+    ¬ (¬ p ∨ q) ∨ (¬ p ∨ r)
+  =⟨ “Material implication”⟩
+    ¬ (p ⇒ q) ∨ (p ⇒ r)
+  =⟨ “Material implication”⟩
+    (p ⇒ q) ⇒ (p ⇒ r)
+
+
+  
+
+[22]
+Theorem (3.65) “Shunting”: p ∧ q ⇒ r ≡ p ⇒ (q ⇒ r)
+Proof:
+    p ⇒ (q ⇒ r)
+  =⟨ “Material implication”⟩
+    (¬ p ∨ ¬ q) ∨ r
+  =⟨ “De Morgan”⟩
+    ¬ (p ∧ q) ∨ r
+  =⟨ “Material implication”⟩
+    (p ∧ q) ⇒ r
+
+
+  
+
+[23]
+Theorem (3.66) “Strong modus ponens”:
+    p ∧ (p ⇒ q) ≡ p ∧ q
+Proof:
+    p ∧ (p ⇒ q)
+  =⟨ “Material implication”⟩
+    p ∧ (¬ p ∨ q)
+  =⟨ “Distributivity of ∧ over ∨”⟩
+    (p ∧ ¬ p) ∨ (p ∧ q)
+  =⟨ “Contradiction”⟩
+    (false) ∨ (p ∧ q)
+  =⟨ “Identity of ∨”⟩
+    p ∧ q
+
+[24]
+Theorem (3.75) “ex falso quodlibet”: false ⇒ p
+Proof:
+    false ⇒ p
+  =⟨ “Material implication”⟩
+    ¬ false ∨ p
+  =⟨ “Negation of `false`”⟩
+    true ∨ p
+  =⟨ “Zero of ∨”⟩
+    true
+
+[25]
+Theorem (3.77) “Modus ponens”: p ∧ (p ⇒ q) ⇒ q
+Proof:
+    p ∧ (p ⇒ q) ⇒ q
+  =⟨ “Material implication” ⟩
+    p ∧ (¬ p ∨ q) ⇒ q
+  =⟨“Absorption”⟩
+    p ∧ q ⇒ q
+  =⟨ “Material implication”⟩
+    ¬ (p ∧ q) ∨ q
+  =⟨ “De Morgan”⟩
+    ¬ p ∨ ¬ q ∨ q
+  =⟨ “Associativity of ∨”⟩
+    ¬ q ∨ q ∨ ¬ p
+  =⟨ “LEM”⟩
+    true ∨ ¬ p
+  =⟨ “Zero of ∨”⟩
+    true
+
+[26]
+Theorem (3.78) “Case analysis”: (p ⇒ r) ∧ (q ⇒ r) ≡ (p ∨ q ⇒ r)
+Proof:
+    p ∨ q ⇒ r
+  =⟨ “Material implication”⟩
+    ¬ (p ∨ q) ∨ r
+  =⟨ “De Morgan”⟩
+    (¬ p ∧ ¬ q) ∨ r
+  =⟨ “Distributivity of ∨ over ∧”⟩
+    (¬ p ∨ r) ∧ (¬ q ∨ r)
+  =⟨ “Material implication”⟩
+    (p ⇒ r) ∧ (q ⇒ r)
+
+[27]
+Theorem “Implication strengthening”:  p ⇒ q  ≡  p ⇒ p ∧ q
+Proof:
+    p ⇒ p ∧ q
+  =⟨ “Material implication”⟩
+    ¬ p ∨ (p ∧ q)
+  =⟨ “Absorption”⟩
+    ¬ p ∨ q
+  =⟨ “Material implication”⟩
+    p ⇒ q
+
+[28]
+Feedback
+[29]
+This was (every answer is right; “no answer” is wrong):
+
+  all very easy
+  generally easy
+  OK
+  occasionally hard
+  mostly hard
+  all very hard
+[30]
+This was (every answer is right; “no answer” is wrong):
+
+  all very boring
+  mostly boring
+  OK
+  occasionally interesting
+  mostly interesting
+  all very interesting
+[31]
+Concluding Declaration
+[32]
+Your answers above are completely your own work? (“No answer” is wrong.)
+
+  Yes
+  No

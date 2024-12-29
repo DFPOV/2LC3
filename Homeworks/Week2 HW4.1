@@ -1,0 +1,249 @@
+— Homework 4 Notebook 1: Natural Numbers and Induction
+[1]
+Here we develop a theory of the natural numbers based on induction over zero 0 and successor suc_.
+
+The advantage of making successor a unary prefix operator is that we can write suc suc suc 0 without parentheses. (We give it the same precedence as the other unary prefix operators.)
+
+Besides equality _=_ and the material from Homework 3 (≡, ¬, ≢), the following are already provided here:
+
+Declaration: ℕ : Type
+Declaration: suc_ : ℕ → ℕ
+Evaluation is not available here, and Facts only can involve natural-number literals and suc_, for example, “Fact `suc suc 1 = 3`”.
+
+Only one hint item is allowed per hint.
+
+[2]
+Recall from the lecture that the induction principle for the natural numbers states that for proving a property P involving a variable m : ℕ, it is sufficient to prove both of the following:
+
+the base case P[m ≔ 0], and
+the induction step P ⇒ P[m ≔ suc m].
+Proving the induction step is normally presented as a proof of P[m ≔ suc m] which is allowed to use P (which you may understand as P[m ≔ m]) as induction hypothesis.
+
+In CalcCheck, simple induction proofs for properties of the natural numbers have the following shape, assuming that P is an expression of type 𝔹 involving the variable m of type ℕ:
+
+Theorem “Property `P`”: P
+Proof:
+  By induction on `m : ℕ`:
+    Base case `P[m ≔ 0]`:
+        ?
+    Induction step `P[m ≔ suc m]`:
+        ?
+      =⟨ ? ⟩
+        ?
+      =⟨ Induction hypothesis `P` ⟩
+        ?
+      =⟨ ? ⟩
+        ?
+(This particular shape assumes an equality calculation for the induction step, but any kind of proof can be used there instead, and it can invoke the Induction hypothesis.)
+
+That is:
+
+The Base case needs to contain a proof for P[m ≔ 0].
+The Induction step needs to contain a proof for P[m ≔ suc m].
+The proof for the Induction step may use the Induction hypothesis, which is the theorem statement P itself.
+Induction hypothesis is now a new key-phrase hint item.
+
+The explicit expressions can also be omitted, so that the above pattern then changes to the following:
+
+Theorem “Property `P`”: P
+Proof:
+  By induction on `m : ℕ`:
+    Base case:
+        ?
+    Induction step:
+        ?
+      =⟨ ? ⟩
+        ?
+      =⟨ Induction hypothesis ⟩
+        ?
+      =⟨ ? ⟩
+        ?
+For the invocation of the Induction hypothesis, however, omitting the explicit expression is only allowed where only one induction hypothesis is in scope; in nested inductions where there are more than one, the expression after Induction hypothesis is always required.
+
+Important: The induction hypothesis can only be used directly, not in substitution instances.
+
+[3]
+Addition
+[4]
+Declaration: _+_ : ℕ → ℕ → ℕ
+
+[5]
+The following two axioms constitute an inductive definition of the binary infix operator +; they cover all cases for the two arguments:
+
+since the first argument is of type ℕ, it is equal to either 0 or, for some m : ℕ, to suc m;
+in either case, the second argument is the not-yet-mentioned variable n, which can be instantiated with all possible (type-correct) second arguments of +.
+[6]
+Axiom “Definition of + for 0”
+      “Left-identity of +”:           0 + n = n
+Axiom “Definition of + for `suc`”:  (suc m) + n = suc (m + n)
+
+[7]
+Proving properties of inductively-defined functions frequently requires induction proofs; here is an example:
+
+[8]
+Theorem “Right-identity of +”: m + 0 = m
+Proof:
+  By induction on `m : ℕ`:
+    Base case:
+        0 + 0
+      =⟨ “Definition of + for 0” ⟩
+        0
+    Induction step:
+        suc m + 0
+      =⟨ “Definition of + for `suc`” ⟩
+        suc (m + 0)
+      =⟨ Induction hypothesis ⟩
+        suc m
+
+[9]
+The successor operator suc can now be explained as a special case of addition. Replace the question marks with hint items — remember that Induction hypothesis is now a new key phrase hint item.
+
+[10]
+Theorem “Successor”: suc n = n + 1
+Proof:
+  By induction on `n : ℕ`:
+    Base case:
+        0 + 1
+      =⟨ “Definition of + for 0” ⟩
+        1
+      =⟨ Fact `1 = suc 0` ⟩
+        suc 0
+    Induction step:
+        suc n + 1
+      =⟨ “Definition of + for `suc`” ⟩
+        suc (n + 1)
+      =⟨ Induction hypothesis ⟩
+        suc suc n
+
+[11]
+When a theorem contains multiple variables of type ℕ, you have to choose on which to induct (or on which to induct first) (if induction is needed at all).
+
+In the case of “Shifting suc over +”, you notice that addition is involved, that the definition of + is inductive on the first argument, and that here, the first argument of + on both the left-hand and on the right-hand side is the variable m, so choosing an induction proof on m appears promising.
+
+Complete the proofs by filling in the calculations — as usual, “=⟨ ? ⟩” may need to be replaced with arbitrarily many steps.
+
+[12]
+Theorem “Shifting `suc` over +”: suc m + n = m + suc n
+Proof:
+  By induction on `m : ℕ`:
+    Base case:
+        suc 0 + n
+      =⟨ “Definition of + for `suc`” ⟩
+        suc (0 + n)
+      =⟨ “Left-identity of +” ⟩
+        suc n
+      =⟨ “Left-identity of +”⟩
+        0 + suc n
+    Induction step:
+        suc (suc m) + n
+      =⟨ “Definition of + for `suc`”⟩
+        suc (suc m + n)
+      =⟨ Induction hypothesis ⟩
+        suc (m + suc n)
+      =⟨ “Definition of + for `suc`” ⟩
+        suc m + suc n
+
+[13]
+Now do the next proof yourself — remember that in exams, you may need to create induction proofs without being able to copy a skeleton from elsewhere, so practice to manually enter induction proofs with the right indentation structure, and typically using keyword completion several times!
+
+[14]
+Theorem “Symmetry of +”: m + n = n + m
+Proof:
+  By induction on `m : ℕ`:
+    Base case: 
+        0 + n
+      =⟨ “Left-identity of +”⟩
+        n
+      =⟨ “Right-identity of +”⟩
+        n + 0
+    Induction step :
+        suc m + n
+      =⟨ “Definition of + for `suc`”⟩
+        suc (m + n)
+      =⟨ Induction hypothesis ⟩
+        suc (n + m)
+      =⟨ “Definition of + for `suc`”⟩
+        (suc n) + m
+      =⟨ “Shifting `suc` over +”⟩
+        n + suc m
+
+[15]
+Doubling
+[16]
+Declaration: double : ℕ → ℕ
+
+[17]
+Just for fun, we introduce this doubling function via an inductive definition:
+
+[18]
+Axiom “Definition of `double`”:  double 0 = 0
+Axiom “Definition of `double`”:  double (suc n) = 2 + double n
+
+[19]
+We can then prove that this function actually implements doubling via addition of the argument to itself:
+
+[20]
+Theorem “Doubling”:  double n = n + n
+Proof:
+  By induction on `n : ℕ`:
+    Base case:
+        double 0
+      =⟨ “Definition of `double`” ⟩
+        0
+      =⟨ “Right-identity of +”⟩
+        0 + 0
+    Induction step:
+        double (suc n)
+      =⟨ “Definition of `double`” ⟩
+        2 + double n
+      =⟨ Induction hypothesis ⟩
+        2 + (n + n)
+      =⟨ Fact `2 = suc 1` ⟩
+        suc 1 + (n + n)
+      =⟨ “Shifting `suc` over +”⟩
+        1 + suc (n + n)
+      =⟨ “Definition of + for `suc`”⟩
+        1 + (suc n + n)
+      =⟨ “Symmetry of +”⟩
+        (n + suc n) + 1
+      =⟨ “Successor”⟩
+        suc (n + suc n)
+      =⟨ “Definition of + for `suc`”⟩
+        suc n + suc n
+
+
+        
+
+
+
+        
+
+      
+
+[21]
+Feedback
+[22]
+This was (every answer is right; “no answer” is wrong):
+
+  all very easy
+  generally easy
+  OK
+  occasionally hard
+  mostly hard
+  all very hard
+[23]
+This was (every answer is right; “no answer” is wrong):
+
+  all very boring
+  mostly boring
+  OK
+  occasionally interesting
+  mostly interesting
+  all very interesting
+[24]
+Concluding Declaration
+[25]
+Your answers above are completely your own work? (“No answer” is wrong.)
+
+  Yes
+  No
