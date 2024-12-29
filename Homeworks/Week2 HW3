@@ -1,5 +1,4 @@
 — Homework 3: Correctness of Assignment Commands
-[1]
 The usual equational integer properties are preloaded and activated here, and also the following:
 
     “Cancellation of +”: a + b = a + c  ≡  b = c
@@ -64,6 +63,26 @@ Proof:
   ⇒⁅ x := x + 7 ⁆  ⟨ “Assignment” ⟩
     x + y = 20
 
+Lemma (1): x + y = 13 ⇒⁅ (x := x + 7) ⁆ x + y = 20
+Proof:
+    Calculation for expected goal  `x + y = 13 ⇒⁅ (x := x + 7) ⁆ x + y = 20`:
+            x + y = 13
+        ≡ ⟨ “Cancellation of +” ⟩
+                — CalcCheck: Found (15.8) “Cancellation of +”
+                — CalcCheck: ─ OK
+            (x + y) + 7 = 13 + 7
+        ≡ ⟨ Fact `20 = 13 + 7` ⟩
+                — CalcCheck: ─ OK
+            (x + 7) + y = 20
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (x + y = 20)[x ≔ x + 7]
+        ⇒⁅ x := x + 7 ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            x + y = 20    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [11]
 (Note that there can be arbitrarily many space characters between the calculation operator and the hint start bracket “⟨”. We used this here to align all the hints in the presence of the longer calculation operator “⇒⁅ x := x + 7 ⁆”.)
 
@@ -86,6 +105,23 @@ Proof:
 
     
 
+Lemma (2): n = n₀ ⇒⁅ (n := n + d) ⁆ n = n₀ + d
+Proof:
+    Calculation for expected goal  `n = n₀ ⇒⁅ (n := n + d) ⁆ n = n₀ + d`:
+            n = n₀
+        ≡ ⟨ “Cancellation of +” ⟩
+                — CalcCheck: Found (15.8) “Cancellation of +”
+                — CalcCheck: ─ OK
+            n + d = n₀ + d
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (n = n₀ + d)[n ≔ n + d]
+        ⇒⁅ n := n + d ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            n = n₀ + d    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [14]
 Remember to work bottom-up from the postcondition!
 
@@ -102,6 +138,19 @@ Proof:
 
     
 
+Lemma (3): x = x₀ ⇒⁅ (y := x + d) ⁆ x = x₀
+Proof:
+    Calculation for expected goal  `x = x₀ ⇒⁅ (y := x + d) ⁆ x = x₀`:
+            x = x₀
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (x = x₀)[y ≔ x + d]
+        ⇒⁅ y := x + d ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            x = x₀    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [16]
 The inference rule for command sequencing _⍮_ shown in class
 
@@ -144,6 +193,48 @@ Proof:
   ⇒⁅ x := y + y ⁆   ⟨ “Assignment” ⟩      ╍╍╍ Second command
     x = 12
 
+Lemma (4): x = 5 ⇒⁅ (y := x + 1 ⍮ x := y + y) ⁆ x = 12
+Proof:
+    Calculation for expected goal  `x = 5 ⇒⁅ (y := x + 1 ⍮ x := y + y) ⁆ x = 12`:
+            x = 5
+        ≡ ⟨ “Cancellation of +” ⟩
+                — CalcCheck: Found (15.8) “Cancellation of +”
+                — CalcCheck: ─ OK
+            x + 1 = 5 + 1
+        ≡ ⟨ Fact `5 + 1 = 6` ⟩
+                — CalcCheck: ─ OK
+            x + 1 = 6
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (y = 6)[y ≔ x + 1]
+        ⇒⁅ y := x + 1 ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            y = 6
+        ≡ ⟨ “Cancellation of ·” with Fact `2 ≠ 0` ⟩
+                — CalcCheck: Found (15.7) “Cancellation of ·”
+                — CalcCheck: ─ OK
+            2 · y = 2 · 6
+        ≡ ⟨ Evaluation ⟩
+                — CalcCheck: ─ OK
+            (1 + 1) · y = 12
+        ≡ ⟨ “Distributivity of · over +” ⟩
+                — CalcCheck: Found (15.5) “Distributivity of · over +”
+                — CalcCheck: ─ OK
+            1 · y + 1 · y = 12
+        ≡ ⟨ “Identity of ·” ⟩
+                — CalcCheck: Found (15.4) “Multiplicative identity”
+                — CalcCheck: ─ OK
+            y + y = 12
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (x = 12)[x ≔ y + y]
+        ⇒⁅ x := y + y ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            x = 12    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [18]
 (The sequence “╍╍╍”, obtained by typing “\comment”, starts a comment that extends until the end of the line, and is ignored by CalcCheck.)
 
@@ -194,6 +285,66 @@ Proof:
 
     
 
+Lemma (5): p = p₀ ∧ q = q₀ ⇒⁅ (p := p + q ⍮ (q := p - q ⍮ p := p - q)) ⁆ p = q₀ ∧ q = p₀
+Proof:
+    Calculation for expected goal  `p = p₀ ∧ q = q₀ ⇒⁅ (p := p + q ⍮ (q := p - q ⍮ p := p - q)) ⁆ p = q₀ ∧ q = p₀`:
+            p = p₀ ∧ q = q₀
+        ≡ ⟨ “Identity of +” ⟩
+                — CalcCheck: Found (15.3) “Additive identity”
+                — CalcCheck: ─ OK
+            p + 0 = p₀ ∧ (q + 0) + 0 = q₀
+        ≡ ⟨ “Unary minus” ⟩
+                — CalcCheck: Found (15.13) “Unary minus”
+                — CalcCheck: ─ OK
+            p + (q + - q) = p₀ ∧ (q + (p + - p)) + (q + - q) = q₀
+        ≡ ⟨ “Subtraction” ⟩
+                — CalcCheck: Found (15.14) “Subtraction”
+                — CalcCheck: ─ OK
+            (p + q) - q = p₀ ∧ (p + q) + ((- p + - q) + q) = q₀
+        ≡ ⟨ “Distributivity of unary minus over +” ⟩
+                — CalcCheck: Found (15.19) “Distributivity of unary minus over +”
+                — CalcCheck: ─ OK
+            (p + q) - q = p₀ ∧ (p + q) + (- (p + q) + q) = q₀
+        ≡ ⟨ “Self-inverse of unary minus” ⟩
+                — CalcCheck: Found (15.17) “Self-inverse of unary minus”
+                — CalcCheck: ─ OK
+            (p + q) - q = p₀ ∧ (p + q) + (- (p + q) + - (- q)) = q₀
+        ≡ ⟨ “Distributivity of unary minus over +” ⟩
+                — CalcCheck: Found (15.19) “Distributivity of unary minus over +”
+                — CalcCheck: ─ OK
+            (p + q) - q = p₀ ∧ (p + q) + - ((p + q) + - q) = q₀
+        ≡ ⟨ “Subtraction” ⟩
+                — CalcCheck: Found (15.14) “Subtraction”
+                — CalcCheck: ─ OK
+            (p + q) - q = p₀ ∧ (p + q) - ((p + q) - q) = q₀
+        ≡ ⟨ “Symmetry of ∧” ⟩
+                — CalcCheck: Found (3.36) “Symmetry of ∧”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            (p + q) - ((p + q) - q) = q₀ ∧ (p + q) - q = p₀
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (p - (p - q) = q₀ ∧ p - q = p₀)[p ≔ p + q]
+        ⇒⁅ p := p + q ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            p - (p - q) = q₀ ∧ p - q = p₀
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (p - q = q₀ ∧ q = p₀)[q ≔ p - q]
+        ⇒⁅ q := p - q ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            p - q = q₀ ∧ q = p₀
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (p = q₀ ∧ q = p₀)[p ≔ p - q]
+        ⇒⁅ p := p - q ⁆ ⟨ “Assignment” ⟩
+                — CalcCheck: Found “Assignment”
+                — CalcCheck: ─ OK
+            p = q₀ ∧ q = p₀    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [21]
 Feedback
 [22]
@@ -210,7 +361,7 @@ This was (every answer is right; “no answer” is wrong):
 
   all very boring
   mostly boring
-  OKK
+  OK
   occasionally interesting
   mostly interesting
   all very interesting

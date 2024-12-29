@@ -67,6 +67,8 @@ Addition
 [4]
 Declaration: _+_ : ℕ → ℕ → ℕ
 
+Declaration: _+_ : ℕ → (ℕ → ℕ)   
+    — CalcCheck: Operator _+_: Associating to the left; precedence 100
 [5]
 The following two axioms constitute an inductive definition of the binary infix operator +; they cover all cases for the two arguments:
 
@@ -77,6 +79,8 @@ Axiom “Definition of + for 0”
       “Left-identity of +”:           0 + n = n
 Axiom “Definition of + for `suc`”:  (suc m) + n = suc (m + n)
 
+Axiom “Definition of + for 0” “Left-identity of +”: 0 + n = n
+Axiom “Definition of + for `suc`”: suc m + n = suc (m + n)
 [7]
 Proving properties of inductively-defined functions frequently requires induction proofs; here is an example:
 
@@ -95,6 +99,33 @@ Proof:
       =⟨ Induction hypothesis ⟩
         suc m
 
+Theorem “Right-identity of +”: m + 0 = m
+Proof:
+    By induction on `m : ℕ`:
+        Base case:
+            Calculation for expected goal  `0 + 0 = 0`:
+                    0 + 0
+                = ⟨ “Definition of + for 0” ⟩
+                        — CalcCheck: Found “Definition of + for 0”
+                        — CalcCheck: ─ OK
+                    0            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            Calculation for expected goal  `suc m + 0 = suc m`:
+                    suc m + 0
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc (m + 0)
+                = ⟨ Induction hypothesis ⟩
+                        — CalcCheck: Found induction hypothesis `m + 0 = m`
+                        — CalcCheck: ─ OK
+                    suc m            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
 [9]
 The successor operator suc can now be explained as a special case of addition. Replace the question marks with hint items — remember that Induction hypothesis is now a new key phrase hint item.
 
@@ -115,6 +146,36 @@ Proof:
       =⟨ Induction hypothesis ⟩
         suc suc n
 
+Theorem “Successor”: suc n = n + 1
+Proof:
+    By induction on `n : ℕ`:
+        Base case:
+            Calculation for expected goal  `suc 0 = 0 + 1`:
+                    0 + 1
+                = ⟨ “Definition of + for 0” ⟩
+                        — CalcCheck: Found “Definition of + for 0”
+                        — CalcCheck: ─ OK
+                    1
+                = ⟨ Fact `1 = suc 0` ⟩
+                        — CalcCheck: ─ OK
+                    suc 0            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            Calculation for expected goal  `suc (suc n) = suc n + 1`:
+                    suc n + 1
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc (n + 1)
+                = ⟨ Induction hypothesis ⟩
+                        — CalcCheck: Found induction hypothesis `suc n = n + 1`
+                        — CalcCheck: ─ OK
+                    suc (suc n)            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
 [11]
 When a theorem contains multiple variables of type ℕ, you have to choose on which to induct (or on which to induct first) (if induction is needed at all).
 
@@ -143,6 +204,45 @@ Proof:
       =⟨ “Definition of + for `suc`” ⟩
         suc m + suc n
 
+Theorem “Shifting `suc` over +”: suc m + n = m + suc n
+Proof:
+    By induction on `m : ℕ`:
+        Base case:
+            Calculation for expected goal  `suc 0 + n = 0 + suc n`:
+                    suc 0 + n
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc (0 + n)
+                = ⟨ “Left-identity of +” ⟩
+                        — CalcCheck: Found “Definition of + for 0”
+                        — CalcCheck: ─ OK
+                    suc n
+                = ⟨ “Left-identity of +” ⟩
+                        — CalcCheck: Found “Definition of + for 0”
+                        — CalcCheck: ─ OK
+                    0 + suc n            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            Calculation for expected goal  `suc (suc m) + n = suc m + suc n`:
+                    suc (suc m) + n
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc (suc m + n)
+                = ⟨ Induction hypothesis ⟩
+                        — CalcCheck: Found induction hypothesis `suc m + n = m + suc n`
+                        — CalcCheck: ─ OK
+                    suc (m + suc n)
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc m + suc n            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
 [13]
 Now do the next proof yourself — remember that in exams, you may need to create induction proofs without being able to copy a skeleton from elsewhere, so practice to manually enter induction proofs with the right indentation structure, and typically using keyword completion several times!
 
@@ -167,11 +267,51 @@ Proof:
       =⟨ “Shifting `suc` over +”⟩
         n + suc m
 
+Theorem “Symmetry of +”: m + n = n + m
+Proof:
+    By induction on `m : ℕ`:
+        Base case:
+            Calculation for expected goal  `0 + n = n + 0`:
+                    0 + n
+                = ⟨ “Left-identity of +” ⟩
+                        — CalcCheck: Found “Definition of + for 0”
+                        — CalcCheck: ─ OK
+                    n
+                = ⟨ “Right-identity of +” ⟩
+                        — CalcCheck: Found “Right-identity of +”
+                        — CalcCheck: ─ OK
+                    n + 0            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            Calculation for expected goal  `suc m + n = n + suc m`:
+                    suc m + n
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc (m + n)
+                = ⟨ Induction hypothesis ⟩
+                        — CalcCheck: Found induction hypothesis `m + n = n + m`
+                        — CalcCheck: ─ OK
+                    suc (n + m)
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc n + m
+                = ⟨ “Shifting `suc` over +” ⟩
+                        — CalcCheck: Found “Shifting `suc` over +”
+                        — CalcCheck: ─ OK
+                    n + suc m            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
 [15]
 Doubling
 [16]
 Declaration: double : ℕ → ℕ
 
+Declaration: double : ℕ → ℕ
 [17]
 Just for fun, we introduce this doubling function via an inductive definition:
 
@@ -179,6 +319,8 @@ Just for fun, we introduce this doubling function via an inductive definition:
 Axiom “Definition of `double`”:  double 0 = 0
 Axiom “Definition of `double`”:  double (suc n) = 2 + double n
 
+Axiom “Definition of `double`”: double 0 = 0
+Axiom “Definition of `double`”: double (suc n) = 2 + double n
 [19]
 We can then prove that this function actually implements doubling via addition of the argument to itself:
 
@@ -220,6 +362,60 @@ Proof:
 
       
 
+Theorem “Doubling”: double n = n + n
+Proof:
+    By induction on `n : ℕ`:
+        Base case:
+            Calculation for expected goal  `double 0 = 0 + 0`:
+                    double 0
+                = ⟨ “Definition of `double`” ⟩
+                        — CalcCheck: Found “Definition of `double`”
+                        — CalcCheck: ─ OK
+                    0
+                = ⟨ “Right-identity of +” ⟩
+                        — CalcCheck: Found “Right-identity of +”
+                        — CalcCheck: ─ OK
+                    0 + 0            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            Calculation for expected goal  `double (suc n) = suc n + suc n`:
+                    double (suc n)
+                = ⟨ “Definition of `double`” ⟩
+                        — CalcCheck: Found “Definition of `double`”
+                        — CalcCheck: ─ OK
+                    2 + double n
+                = ⟨ Induction hypothesis ⟩
+                        — CalcCheck: Found induction hypothesis `double n = n + n`
+                        — CalcCheck: ─ OK
+                    2 + (n + n)
+                = ⟨ Fact `2 = suc 1` ⟩
+                        — CalcCheck: ─ OK
+                    suc 1 + (n + n)
+                = ⟨ “Shifting `suc` over +” ⟩
+                        — CalcCheck: Found “Shifting `suc` over +”
+                        — CalcCheck: ─ OK
+                    1 + suc (n + n)
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    1 + (suc n + n)
+                = ⟨ “Symmetry of +” ⟩
+                        — CalcCheck: Found “Symmetry of +”
+                        — CalcCheck: ─ OK
+                    (n + suc n) + 1
+                = ⟨ “Successor” ⟩
+                        — CalcCheck: Found “Successor”
+                        — CalcCheck: ─ OK
+                    suc (n + suc n)
+                = ⟨ “Definition of + for `suc`” ⟩
+                        — CalcCheck: Found “Definition of + for `suc`”
+                        — CalcCheck: ─ OK
+                    suc n + suc n            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
 [21]
 Feedback
 [22]

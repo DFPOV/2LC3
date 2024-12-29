@@ -38,6 +38,29 @@ Proof:
 
     
 
+Theorem “Identity of ≢”: (p ≢ false) ≡ p
+Proof:
+    Calculation for expected goal  `(p ≢ false) ≡ p`:
+            (p ≢ false) ≡ p
+        = ⟨ “Symmetry of ≢” ⟩
+                — CalcCheck: Found (3.16) “Symmetry of ≢”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            (false ≢ p) ≡ p
+        = ⟨ (3.14) ⟩
+                — CalcCheck: Found (3.14) `(p ≢ q) ≡ (¬ p ≡ q)`
+                — CalcCheck: ─ OK
+            (¬ false ≡ p) ≡ p
+        = ⟨ “Negation of `false`” ⟩
+                — CalcCheck: Found (3.13) “Negation of `false`”
+                — CalcCheck: ─ OK
+            true ≡ (p ≡ p)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [4]
 A nameless theorem worth remembering:
 
@@ -56,6 +79,32 @@ Proof:
   =⟨ “Identity of ∨”⟩
     p
 
+Theorem (3.32): p ∨ q ≡ (p ∨ ¬ q ≡ p)
+Proof:
+    Calculation for expected goal  `p ∨ q ≡ (p ∨ ¬ q ≡ p)`:
+            p ∨ q ≡ p ∨ ¬ q
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            p ∨ (q ≡ ¬ q)
+        = ⟨ “Commutativity of ¬ with ≡” ⟩
+                — CalcCheck: Found (3.9) “Commutativity of ¬ with ≡”
+                — CalcCheck: ─ OK
+            p ∨ ¬ (q ≡ q)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            p ∨ ¬ true
+        = ⟨ “Definition of `false`” ⟩
+                — CalcCheck: Found (3.8) “Definition of `false`”
+                — CalcCheck: ─ OK
+            p ∨ false
+        = ⟨ “Identity of ∨” ⟩
+                — CalcCheck: Found (3.30) “Identity of ∨”
+                — CalcCheck: ─ OK
+            p    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [6]
 Theorem (3.38) “Idempotency of ∧”: p ∧ p ≡ p
 Proof:
@@ -67,6 +116,24 @@ Proof:
   =⟨ “Identity of ≡”⟩
     p
 
+Theorem (3.38) “Idempotency of ∧”: p ∧ p ≡ p
+Proof:
+    Calculation for expected goal  `p ∧ p ≡ p`:
+            p ∧ p
+        = ⟨ “Definition of ∧” ⟩
+                — CalcCheck: Found “Definition of ∧”
+                — CalcCheck: ─ OK
+            p ≡ (p ≡ p ∨ p)
+        = ⟨ “Idempotency of ∨” ⟩
+                — CalcCheck: Found (3.26) “Idempotency of ∨”
+                — CalcCheck: ─ OK
+            p ≡ (p ≡ p)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            p    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [7]
 Theorem (3.39) “Identity of ∧”: p ∧ true ≡ p
 Proof:
@@ -78,6 +145,24 @@ Proof:
   =⟨ “Identity of ≡”⟩
     p
 
+Theorem (3.39) “Identity of ∧”: p ∧ true ≡ p
+Proof:
+    Calculation for expected goal  `p ∧ true ≡ p`:
+            p ∧ true
+        = ⟨ “Golden rule” ⟩
+                — CalcCheck: Found (3.35) “Golden rule”
+                — CalcCheck: ─ OK
+            p ≡ (true ≡ p ∨ true)
+        = ⟨ “Zero of ∨” ⟩
+                — CalcCheck: Found (3.29) “Zero of ∨”
+                — CalcCheck: ─ OK
+            p ≡ (true ≡ true)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            p    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [8]
 Theorem (3.42) “Contradiction”: p ∧ ¬ p ≡ false
 Proof:
@@ -99,6 +184,46 @@ Proof:
   =⟨ “Definition of ≡”⟩
     false
 
+Theorem (3.42) “Contradiction”: p ∧ ¬ p ≡ false
+Proof:
+    Calculation for expected goal  `p ∧ ¬ p ≡ false`:
+            p ∧ ¬ p
+        = ⟨ “Golden rule” ⟩
+                — CalcCheck: Found (3.35) “Golden rule”
+                — CalcCheck: ─ OK
+            p ≡ (¬ p ≡ p ∨ ¬ p)
+        = ⟨ “LEM” ⟩
+                — CalcCheck: Found (3.28) “Excluded middle”
+                — CalcCheck: ─ OK
+            p ≡ (¬ p ≡ true)
+        = ⟨ “Commutativity of ¬ with ≡” ⟩
+                — CalcCheck: Found (3.9) “Commutativity of ¬ with ≡”
+                — CalcCheck: ─ OK
+            p ≡ ¬ (p ≡ true)
+        = ⟨ “Associativity of ≡” ⟩
+                — CalcCheck: Found (3.1) “Associativity of ≡”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            p ≡ ¬ (true ≡ p)
+        = ⟨ “Commutativity of ¬ with ≡” ⟩
+                — CalcCheck: Found (3.9) “Commutativity of ¬ with ≡”
+                — CalcCheck: ─ OK
+            p ≡ (¬ true ≡ p)
+        = ⟨ “Associativity of ≡” ⟩
+                — CalcCheck: Found (3.1) “Associativity of ≡”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            p ≡ (p ≡ ¬ true)
+        = ⟨ “Definition of `false`” ⟩
+                — CalcCheck: Found (3.8) “Definition of `false`”
+                — CalcCheck: ─ OK
+            p ≡ (p ≡ false)
+        = ⟨ “Definition of ≡” ⟩
+                — CalcCheck: Found “Definition of ≡”
+                — CalcCheck: ─ OK
+            false    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [9]
 Using the golden rule also works well (and in many different ways) for proving the absorption laws — the first one is particularly brief, starting with the golden rule as definition of conjunction:
 
@@ -115,6 +240,29 @@ Proof:
   =⟨ “Identity of ≡” ⟩
     p
 
+Theorem (3.43) (3.43a) “Absorption”: p ∧ (p ∨ q) ≡ p
+Proof:
+    Calculation for expected goal  `p ∧ (p ∨ q) ≡ p`:
+            p ∧ (p ∨ q)
+        = ⟨ “Definition of ∧” ⟩
+                — CalcCheck: Found “Definition of ∧”
+                — CalcCheck: ─ OK
+            p ≡ (p ∨ q ≡ p ∨ (p ∨ q))
+        = ⟨ “Associativity of ∨” ⟩
+                — CalcCheck: Found (3.25) “Associativity of ∨”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            p ≡ (p ∨ q ≡ (p ∨ p) ∨ q)
+        = ⟨ “Idempotency of ∨” ⟩
+                — CalcCheck: Found (3.26) “Idempotency of ∨”
+                — CalcCheck: ─ OK
+            p ≡ (p ∨ q ≡ p ∨ q)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            p    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [11]
 Theorem (3.43) (3.43b) “Absorption”: p ∨ (p ∧ q) ≡ p
 Proof:
@@ -132,6 +280,36 @@ Proof:
   =⟨ “Identity of ≡”⟩
     p
 
+Theorem (3.43) (3.43b) “Absorption”: p ∨ (p ∧ q) ≡ p
+Proof:
+    Calculation for expected goal  `p ∨ (p ∧ q) ≡ p`:
+            p ∨ (p ∧ q)
+        = ⟨ “Definition of ∧” ⟩
+                — CalcCheck: Found “Definition of ∧”
+                — CalcCheck: ─ OK
+            p ∨ (p ≡ (q ≡ p ∨ q))
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            p ∨ p ≡ p ∨ (q ≡ p ∨ q)
+        = ⟨ “Idempotency of ∨” ⟩
+                — CalcCheck: Found (3.26) “Idempotency of ∨”
+                — CalcCheck: ─ OK
+            p ≡ p ∨ (q ≡ p ∨ q)
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            p ≡ (p ∨ q ≡ p ∨ (p ∨ q))
+        = ⟨ “Idempotency of ∨” ⟩
+                — CalcCheck: Found (3.26) “Idempotency of ∨”
+                — CalcCheck: ─ OK
+            p ≡ (p ∨ q ≡ p ∨ q)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            p    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [12]
 We add two variants of absorption modulo double negation that are not listed in LADM:
 
@@ -156,6 +334,45 @@ Proof:
   =⟨ “Identity of ≡”⟩
     true
 
+Theorem (3.44) (3.44c) “Absorption”: ¬ p ∧ (p ∨ q) ≡ ¬ p ∧ q
+Proof:
+    Calculation for expected goal  `¬ p ∧ (p ∨ q) ≡ ¬ p ∧ q`:
+            ¬ p ∧ (p ∨ q) ≡ ¬ p ∧ q
+        = ⟨ “Definition of ∧” ⟩
+                — CalcCheck: Found “Definition of ∧”
+                — CalcCheck: ─ OK
+            ¬ p ≡ ((p ∨ q ≡ (¬ p ∨ p) ∨ q) ≡ (¬ p ≡ (q ≡ ¬ p ∨ q)))
+        = ⟨ “LEM” ⟩
+                — CalcCheck: Found (3.28) “Excluded middle”
+                — CalcCheck: ─ OK
+            ¬ p ≡ ((p ∨ q ≡ true ∨ q) ≡ (¬ p ≡ (q ≡ ¬ p ∨ q)))
+        = ⟨ “Zero of ∨” ⟩
+                — CalcCheck: Found (3.29) “Zero of ∨”
+                — CalcCheck: ─ OK
+            ¬ p ≡ ((p ∨ q ≡ true) ≡ (¬ p ≡ (q ≡ ¬ p ∨ q)))
+        = ⟨ “Associativity of ≡” ⟩
+                — CalcCheck: Found (3.1) “Associativity of ≡”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            (¬ p ≡ (¬ p ≡ true)) ≡ (p ∨ q ≡ (q ≡ ¬ p ∨ q))
+        = ⟨ “Commutativity of ¬ with ≡” ⟩
+                — CalcCheck: Found (3.9) “Commutativity of ¬ with ≡”
+                — CalcCheck: ─ OK
+            (¬ p ≡ ¬ (p ≡ true)) ≡ (p ∨ q ≡ (q ≡ ¬ p ∨ q))
+        = ⟨ “Cancellation of ¬” ⟩
+                — CalcCheck: Found “Cancellation of ¬”
+                — CalcCheck: ─ OK
+            p ≡ ((p ≡ true) ≡ (p ∨ q ≡ (q ≡ ¬ p ∨ q)))
+        = ⟨ (3.32) ⟩
+                — CalcCheck: Found (3.32) `p ∨ q ≡ (p ∨ ¬ q ≡ p)`
+                — CalcCheck: ─ OK
+            p ≡ ((p ≡ true) ≡ (p ∨ q ≡ p ∨ q))
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [14]
 Theorem (3.44) (3.44d) “Absorption”: ¬ p ∨ (p ∧ q) ≡ ¬ p ∨ q
 Proof:
@@ -177,6 +394,45 @@ Proof:
   =⟨ “Identity of ≡”⟩
     (¬ p ∨ q)
 
+Theorem (3.44) (3.44d) “Absorption”: ¬ p ∨ (p ∧ q) ≡ ¬ p ∨ q
+Proof:
+    Calculation for expected goal  `¬ p ∨ (p ∧ q) ≡ ¬ p ∨ q`:
+            ¬ p ∨ (p ∧ q)
+        = ⟨ “Definition of ∧” ⟩
+                — CalcCheck: Found “Definition of ∧”
+                — CalcCheck: ─ OK
+            ¬ p ∨ (p ≡ (q ≡ p ∨ q))
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            ¬ p ∨ p ≡ ¬ p ∨ (q ≡ p ∨ q)
+        = ⟨ “LEM” ⟩
+                — CalcCheck: Found (3.28) “Excluded middle”
+                — CalcCheck: ─ OK
+            true ≡ ¬ p ∨ (q ≡ p ∨ q)
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            true ≡ (¬ p ∨ q ≡ ¬ p ∨ (p ∨ q))
+        = ⟨ “Associativity of ∨” ⟩
+                — CalcCheck: Found (3.25) “Associativity of ∨”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            true ≡ (¬ p ∨ q ≡ (¬ p ∨ p) ∨ q)
+        = ⟨ “LEM” ⟩
+                — CalcCheck: Found (3.28) “Excluded middle”
+                — CalcCheck: ─ OK
+            true ≡ (¬ p ∨ q ≡ true ∨ q)
+        = ⟨ “Zero of ∨” ⟩
+                — CalcCheck: Found (3.29) “Zero of ∨”
+                — CalcCheck: ─ OK
+            true ≡ (¬ p ∨ q ≡ true)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            ¬ p ∨ q    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [15]
 Theorem (3.47) (3.47b) “De Morgan”: ¬(p ∨ q) ≡ ¬ p ∧ ¬ q
 Proof:
@@ -193,6 +449,28 @@ Proof:
 
     
 
+Theorem (3.47) (3.47b) “De Morgan”: ¬ (p ∨ q) ≡ ¬ p ∧ ¬ q
+Proof:
+    Calculation for expected goal  `¬ (p ∨ q) ≡ ¬ p ∧ ¬ q`:
+            ¬ p ∧ ¬ q
+        = ⟨ “Definition of ∧” ⟩
+                — CalcCheck: Found “Definition of ∧”
+                — CalcCheck: ─ OK
+            ¬ p ≡ (¬ q ≡ ¬ p ∨ ¬ q)
+        = ⟨ (3.32) ⟩
+                — CalcCheck: Found (3.32) `p ∨ q ≡ (p ∨ ¬ q ≡ p)`
+                — CalcCheck: ─ OK
+            ¬ p ≡ ¬ q ∨ p
+        = ⟨ “Commutativity of ¬ with ≡” ⟩
+                — CalcCheck: Found (3.9) “Commutativity of ¬ with ≡”
+                — CalcCheck: ─ OK
+            ¬ (p ≡ ¬ q ∨ p)
+        = ⟨ (3.32) ⟩
+                — CalcCheck: Found (3.32) `p ∨ q ≡ (p ∨ ¬ q ≡ p)`
+                — CalcCheck: ─ OK
+            ¬ (p ∨ q)    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [16]
 Since theorem (3.48) is another name-less theorem worth remembering the number of, we include it here, too — use the golden rule again, remember (3.32), and check out the list of negation properties in Ex2.4.
 
@@ -225,6 +503,61 @@ Proof:
   =⟨ “Identity of ≡”⟩ 
     true
 
+Theorem (3.48): p ∧ q ≡ (p ∧ ¬ q ≡ ¬ p)
+Proof:
+    Calculation for expected goal  `p ∧ q ≡ (p ∧ ¬ q ≡ ¬ p)`:
+            p ∧ q ≡ (p ∧ ¬ q ≡ ¬ p)
+        = ⟨ “Golden rule” ⟩
+                — CalcCheck: Found (3.35) “Golden rule”
+                — CalcCheck: ─ OK
+            p ≡ (q ≡ (p ∨ q ≡ (p ≡ (¬ q ≡ (p ∨ ¬ q ≡ ¬ p)))))
+        = ⟨ “Associativity of ≡” ⟩
+                — CalcCheck: Found (3.1) “Associativity of ≡”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            (p ∨ q ≡ p ∨ ¬ q) ≡ (p ≡ (q ≡ (p ≡ (¬ q ≡ ¬ p))))
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            p ∨ (¬ q ≡ q) ≡ (p ≡ (q ≡ (p ≡ (¬ q ≡ ¬ p))))
+        = ⟨ “Commutativity of ¬ with ≡” ⟩
+                — CalcCheck: Found (3.9) “Commutativity of ¬ with ≡”
+                — CalcCheck: ─ OK
+            p ∨ ¬ (q ≡ q) ≡ (p ≡ (q ≡ (p ≡ (¬ q ≡ ¬ p))))
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            p ∨ ¬ true ≡ (p ≡ (q ≡ (p ≡ (¬ q ≡ ¬ p))))
+        = ⟨ “Definition of `false`” ⟩
+                — CalcCheck: Found (3.8) “Definition of `false`”
+                — CalcCheck: ─ OK
+            p ∨ false ≡ (p ≡ (q ≡ (p ≡ (¬ q ≡ ¬ p))))
+        = ⟨ “Identity of ∨” ⟩
+                — CalcCheck: Found (3.30) “Identity of ∨”
+                — CalcCheck: ─ OK
+            p ≡ (p ≡ (q ≡ (p ≡ (¬ q ≡ ¬ p))))
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            (¬ p ≡ p) ≡ (¬ q ≡ q)
+        = ⟨ “Commutativity of ¬ with ≡” ⟩
+                — CalcCheck: Found (3.9) “Commutativity of ¬ with ≡”
+                — CalcCheck: ─ OK
+            ¬ (p ≡ p) ≡ ¬ (q ≡ q)
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            ¬ true ≡ ¬ true
+        = ⟨ “Definition of `false`” ⟩
+                — CalcCheck: Found (3.8) “Definition of `false`”
+                — CalcCheck: ─ OK
+            false ≡ false
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [18]
 Implication
 [19]
@@ -242,6 +575,32 @@ Proof:
   =⟨ “Identity of ≡”⟩
     p ∧ q ≡ p ∧ r
 
+Theorem (3.62): p ⇒ (q ≡ r) ≡ (p ∧ q ≡ p ∧ r)
+Proof:
+    Calculation for expected goal  `p ⇒ (q ≡ r) ≡ (p ∧ q ≡ p ∧ r)`:
+            p ⇒ (q ≡ r)
+        = ⟨ “Definition of ⇒” ⟩
+                — CalcCheck: Found (3.59) “Material implication”, (3.60) “Definition of ⇒ via ∧”, (3.57) “Definition of ⇒ via ∨”
+                — CalcCheck: ─ OK
+            ¬ p ∨ (q ≡ r)
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            ¬ p ∨ q ≡ ¬ p ∨ r
+        = ⟨ “Definition of implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”, (3.60) “Definition of ⇒ via ∧”, (3.57) “Definition of ⇒ via ∨”
+                — CalcCheck: ─ OK
+            p ⇒ q ≡ p ⇒ r
+        = ⟨ “Definition of ⇒ via ∧” ⟩
+                — CalcCheck: Found (3.60) “Definition of ⇒ via ∧”
+                — CalcCheck: ─ OK
+            p ∧ q ≡ (p ≡ (p ∧ r ≡ p))
+        = ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            p ∧ q ≡ p ∧ r    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [20]
 Theorem (3.63) “Distributivity of ⇒ over ≡”: p ⇒ (q ≡ r) ≡ p ⇒ q ≡ p ⇒ r
 Proof:
@@ -253,6 +612,24 @@ Proof:
   =⟨ “Definition of implication”⟩
     (p ⇒ q) ≡ (p ⇒ r)
 
+Theorem (3.63) “Distributivity of ⇒ over ≡”: p ⇒ (q ≡ r) ≡ (p ⇒ q ≡ p ⇒ r)
+Proof:
+    Calculation for expected goal  `p ⇒ (q ≡ r) ≡ (p ⇒ q ≡ p ⇒ r)`:
+            p ⇒ (q ≡ r)
+        = ⟨ “Definition of ⇒” ⟩
+                — CalcCheck: Found (3.59) “Material implication”, (3.60) “Definition of ⇒ via ∧”, (3.57) “Definition of ⇒ via ∨”
+                — CalcCheck: ─ OK
+            ¬ p ∨ (q ≡ r)
+        = ⟨ “Distributivity of ∨ over ≡” ⟩
+                — CalcCheck: Found (3.27) “Distributivity of ∨ over ≡”
+                — CalcCheck: ─ OK
+            ¬ p ∨ q ≡ ¬ p ∨ r
+        = ⟨ “Definition of implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”, (3.60) “Definition of ⇒ via ∧”, (3.57) “Definition of ⇒ via ∨”
+                — CalcCheck: ─ OK
+            p ⇒ q ≡ p ⇒ r    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [21]
 Theorem (3.64) “Self-distributivity of ⇒”: p ⇒ (q ⇒ r) ≡ (p ⇒ q) ⇒ (p ⇒ r)
 Proof:
@@ -273,6 +650,36 @@ Proof:
 
   
 
+Theorem (3.64) “Self-distributivity of ⇒”: p ⇒ (q ⇒ r) ≡ (p ⇒ q) ⇒ (p ⇒ r)
+Proof:
+    Calculation for expected goal  `p ⇒ (q ⇒ r) ≡ (p ⇒ q) ⇒ (p ⇒ r)`:
+            p ⇒ (q ⇒ r)
+        = ⟨ “Definition of ⇒” ⟩
+                — CalcCheck: Found (3.59) “Material implication”, (3.60) “Definition of ⇒ via ∧”, (3.57) “Definition of ⇒ via ∨”
+                — CalcCheck: ─ OK
+            ¬ p ∨ (¬ q ∨ r)
+        = ⟨ “Absorption” ⟩
+                — CalcCheck: Found (3.44c) “Absorption”, (3.44a) “Absorption”, (3.44b) “Absorption”, (3.44d) “Absorption”, (3.43b) “Absorption”, (3.43a) “Absorption”
+                — CalcCheck: ─ OK
+            ¬ p ∨ ((¬ (¬ p) ∧ ¬ q) ∨ r)
+        = ⟨ “Double negation” ⟩
+                — CalcCheck: Found (3.12) “Double negation”
+                — CalcCheck: ─ OK
+            ¬ p ∨ ((p ∧ ¬ q) ∨ r)
+        = ⟨ “De Morgan” ⟩
+                — CalcCheck: Found (3.47a) “De Morgan”, (3.47b) “De Morgan”, (3.47c) “De Morgan”, (3.47d) “De Morgan”
+                — CalcCheck: ─ OK
+            ¬ (¬ p ∨ q) ∨ (¬ p ∨ r)
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            ¬ (p ⇒ q) ∨ (p ⇒ r)
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            (p ⇒ q) ⇒ (p ⇒ r)    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [22]
 Theorem (3.65) “Shunting”: p ∧ q ⇒ r ≡ p ⇒ (q ⇒ r)
 Proof:
@@ -287,6 +694,24 @@ Proof:
 
   
 
+Theorem (3.65) “Shunting”: p ∧ q ⇒ r ≡ p ⇒ (q ⇒ r)
+Proof:
+    Calculation for expected goal  `p ∧ q ⇒ r ≡ p ⇒ (q ⇒ r)`:
+            p ⇒ (q ⇒ r)
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            (¬ p ∨ ¬ q) ∨ r
+        = ⟨ “De Morgan” ⟩
+                — CalcCheck: Found (3.47a) “De Morgan”, (3.47b) “De Morgan”, (3.47c) “De Morgan”, (3.47d) “De Morgan”
+                — CalcCheck: ─ OK
+            ¬ (p ∧ q) ∨ r
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            p ∧ q ⇒ r    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [23]
 Theorem (3.66) “Strong modus ponens”:
     p ∧ (p ⇒ q) ≡ p ∧ q
@@ -301,6 +726,28 @@ Proof:
   =⟨ “Identity of ∨”⟩
     p ∧ q
 
+Theorem (3.66) “Strong modus ponens”: p ∧ (p ⇒ q) ≡ p ∧ q
+Proof:
+    Calculation for expected goal  `p ∧ (p ⇒ q) ≡ p ∧ q`:
+            p ∧ (p ⇒ q)
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            p ∧ (¬ p ∨ q)
+        = ⟨ “Distributivity of ∧ over ∨” ⟩
+                — CalcCheck: Found (3.46) “Distributivity of ∧ over ∨”
+                — CalcCheck: ─ OK
+            (p ∧ ¬ p) ∨ (p ∧ q)
+        = ⟨ “Contradiction” ⟩
+                — CalcCheck: Found (3.42) “Contradiction”
+                — CalcCheck: ─ OK
+            false ∨ (p ∧ q)
+        = ⟨ “Identity of ∨” ⟩
+                — CalcCheck: Found (3.30) “Identity of ∨”
+                — CalcCheck: ─ OK
+            p ∧ q    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [24]
 Theorem (3.75) “ex falso quodlibet”: false ⇒ p
 Proof:
@@ -312,6 +759,24 @@ Proof:
   =⟨ “Zero of ∨”⟩
     true
 
+Theorem (3.75) “ex falso quodlibet”: false ⇒ p
+Proof:
+    Calculation for expected goal  `false ⇒ p`:
+            false ⇒ p
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            ¬ false ∨ p
+        = ⟨ “Negation of `false`” ⟩
+                — CalcCheck: Found (3.13) “Negation of `false`”
+                — CalcCheck: ─ OK
+            true ∨ p
+        = ⟨ “Zero of ∨” ⟩
+                — CalcCheck: Found (3.29) “Zero of ∨”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [25]
 Theorem (3.77) “Modus ponens”: p ∧ (p ⇒ q) ⇒ q
 Proof:
@@ -331,6 +796,41 @@ Proof:
   =⟨ “Zero of ∨”⟩
     true
 
+Theorem (3.77) “Modus ponens”: p ∧ (p ⇒ q) ⇒ q
+Proof:
+    Calculation for expected goal  `p ∧ (p ⇒ q) ⇒ q`:
+            p ∧ (p ⇒ q) ⇒ q
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            p ∧ (¬ p ∨ q) ⇒ q
+        = ⟨ “Absorption” ⟩
+                — CalcCheck: Found (3.44c) “Absorption”, (3.44a) “Absorption”, (3.44b) “Absorption”, (3.44d) “Absorption”, (3.43b) “Absorption”, (3.43a) “Absorption”
+                — CalcCheck: ─ OK
+            p ∧ q ⇒ q
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            ¬ (p ∧ q) ∨ q
+        = ⟨ “De Morgan” ⟩
+                — CalcCheck: Found (3.47a) “De Morgan”, (3.47b) “De Morgan”, (3.47c) “De Morgan”, (3.47d) “De Morgan”
+                — CalcCheck: ─ OK
+            ¬ p ∨ (¬ q ∨ q)
+        = ⟨ “Associativity of ∨” ⟩
+                — CalcCheck: Found (3.25) “Associativity of ∨”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            ¬ q ∨ (q ∨ ¬ p)
+        = ⟨ “LEM” ⟩
+                — CalcCheck: Found (3.28) “Excluded middle”
+                — CalcCheck: ─ OK
+            true ∨ ¬ p
+        = ⟨ “Zero of ∨” ⟩
+                — CalcCheck: Found (3.29) “Zero of ∨”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [26]
 Theorem (3.78) “Case analysis”: (p ⇒ r) ∧ (q ⇒ r) ≡ (p ∨ q ⇒ r)
 Proof:
@@ -344,6 +844,28 @@ Proof:
   =⟨ “Material implication”⟩
     (p ⇒ r) ∧ (q ⇒ r)
 
+Theorem (3.78) “Case analysis”: (p ⇒ r) ∧ (q ⇒ r) ≡ p ∨ q ⇒ r
+Proof:
+    Calculation for expected goal  `(p ⇒ r) ∧ (q ⇒ r) ≡ p ∨ q ⇒ r`:
+            p ∨ q ⇒ r
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            ¬ (p ∨ q) ∨ r
+        = ⟨ “De Morgan” ⟩
+                — CalcCheck: Found (3.47a) “De Morgan”, (3.47b) “De Morgan”, (3.47c) “De Morgan”, (3.47d) “De Morgan”
+                — CalcCheck: ─ OK
+            (¬ p ∧ ¬ q) ∨ r
+        = ⟨ “Distributivity of ∨ over ∧” ⟩
+                — CalcCheck: Found (3.45) “Distributivity of ∨ over ∧”
+                — CalcCheck: ─ OK
+            (¬ p ∨ r) ∧ (¬ q ∨ r)
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            (p ⇒ r) ∧ (q ⇒ r)    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [27]
 Theorem “Implication strengthening”:  p ⇒ q  ≡  p ⇒ p ∧ q
 Proof:
@@ -355,6 +877,24 @@ Proof:
   =⟨ “Material implication”⟩
     p ⇒ q
 
+Theorem “Implication strengthening”: p ⇒ q ≡ p ⇒ p ∧ q
+Proof:
+    Calculation for expected goal  `p ⇒ q ≡ p ⇒ p ∧ q`:
+            p ⇒ p ∧ q
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            ¬ p ∨ (p ∧ q)
+        = ⟨ “Absorption” ⟩
+                — CalcCheck: Found (3.44c) “Absorption”, (3.44a) “Absorption”, (3.44b) “Absorption”, (3.44d) “Absorption”, (3.43b) “Absorption”, (3.43a) “Absorption”
+                — CalcCheck: ─ OK
+            ¬ p ∨ q
+        = ⟨ “Material implication” ⟩
+                — CalcCheck: Found (3.59) “Material implication”
+                — CalcCheck: ─ OK
+            p ⇒ q    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
 [28]
 Feedback
 [29]
