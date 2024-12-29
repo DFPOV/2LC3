@@ -1,0 +1,216 @@
+— Homework 3: Correctness of Assignment Commands
+[1]
+The usual equational integer properties are preloaded and activated here, and also the following:
+
+    “Cancellation of +”: a + b = a + c  ≡  b = c
+You see how to use this in the first example below.
+
+[2]
+Commands in a Simple Imperative Programming Language
+[3]
+We use the type Cmd for commands of a simple imperative language.
+
+Assignment commands are constructed using _:=_ : t → t → Cmd, and currently have to have a single variable as first argument. An example assignment command:
+
+  x := x + 1
+Note that the assignment symbol “:=” used here consists of the two characters : and =, and is different from the “≔” used for substitutions.
+
+Sequential composition of commands is expressed using the binary sequencing operator _⍮_ : Cmd → Cmd → Cmd; type “\;_” to obtain that underlined semicolon symbol. Sequencing _⍮_ is associative, and that associativity is activated, so that parentheses in commands like “C₁ ⍮ C₂ ⍮ C₃” are not necessary.
+
+An example sequence of three assignment commands:
+
+  x := x + 1 ⍮ y := y + d ⍮ d := d + 2
+Frequently we will break lines after the sequencing operator — the same command sequence with line breaks:
+
+  x := x + 1 ⍮
+  y := y + d ⍮
+  d := d + 2
+Note that _⍮_ is a binary infix operator combining commands, unlike the semicolon in C.
+
+[4]
+Correctness Assertions
+[5]
+Correctness assertions are widely written as “Hoare triples” in the shape “❴ P ❵ C ❴ Q ❵”, including in LADM starting in section 1.6.
+
+We will use the mixfix operator _⇒⁅_⁆_ to write them as “P ⇒⁅ C ⁆ Q” in the style of dynamic logic, but this is only a different notation.
+
+Remember the meaning of such correctness assertions:
+
+“P ⇒⁅ C ⁆ Q” means that whenever command C is started in a state satisfying precondition P, it will terminate only in a state satisfying postcondition Q.
+
+[6]
+Since the simple square brackets are reserved for substitution, the brackets in the mixfix operator _⇒⁅_⁆_ have “quills”, and are obtained by typing “\[-” for “⁅” and “\]-” for “⁆”.
+
+[7]
+In this notation, the assignment axiom takes the following shape:
+
+“Assignment”: Q[x ≔ E] ⇒⁅ x := E ⁆ Q
+
+[8]
+Calculational Presentation of Correctness Proofs
+[9]
+The main advantage of the dynamic logic notation is that it blends well into the calculational style; for example, the following simple correctness proof is performed by working from the bottom to the top (as seen in the lecture) to calculate the “real” precondition from the one obtained via the “Assignment” rule:
+
+[10]
+Lemma (1): x + y = 13   ⇒⁅ x := x + 7 ⁆   x + y = 20
+Proof:
+    x + y = 13
+  ≡                ⟨ “Cancellation of +” ⟩
+    x + y + 7 = 13 + 7
+  ≡                ⟨ Fact `20 = 13 + 7` ⟩
+    x + 7 + y = 20
+  ≡                ⟨ Substitution ⟩
+    (x + y = 20)[x ≔ x + 7]
+  ⇒⁅ x := x + 7 ⁆  ⟨ “Assignment” ⟩
+    x + y = 20
+
+[11]
+(Note that there can be arbitrarily many space characters between the calculation operator and the hint start bracket “⟨”. We used this here to align all the hints in the presence of the longer calculation operator “⇒⁅ x := x + 7 ⁆”.)
+
+[12]
+Perform similar (not longer) calculations for the following commands, calculating the natural simplification of the precondition from the postcondition by proceding from the bottom up, and finally arrive at the given precondition.
+
+[13]
+Lemma (2):  n = n₀   ⇒⁅ n := n + d ⁆   n = n₀ + d
+Proof:
+    n = n₀
+  ≡⟨ “Cancellation of +” ⟩
+    n + d = n₀ + d
+  ≡⟨ Substitution ⟩
+    (n = n₀ + d)[ n ≔ n + d ]
+  ⇒⁅ n := n + d ⁆  
+    ⟨ “Assignment” ⟩
+    n = n₀ + d
+
+
+
+    
+
+[14]
+Remember to work bottom-up from the postcondition!
+
+[15]
+Lemma (3): x = x₀  ⇒⁅ y := x + d ⁆   x = x₀
+Proof:
+    x = x₀
+  ≡⟨ Substitution ⟩
+    (x = x₀) [ y ≔ x + d ]
+  ⇒⁅ y := x + d ⁆
+    ⟨ “Assignment”⟩
+    x = x₀
+
+
+    
+
+[16]
+The inference rule for command sequencing _⍮_ shown in class
+
+    `P  ⇒⁅ C₁ ⁆  Q`,  `Q  ⇒⁅ C₁ ⁆  R`
+   ⊦————————————————————————————————
+      `P  ⇒⁅ C₁ ⍮ C₂ ⁆  R`
+is activated as a transitivity property, so that it is used “behind the scenes” in calculational proofs of correctness of composed commmands, as in the following example.
+
+(This example also uses
+
+    “Cancellation of ·”: c ≠ 0 ⇒ (c · a = c · b  ≡  a = b)
+which you won’t need to use yourself yet.)
+
+[17]
+Lemma (4):       x = 5
+            ⇒⁅ y := x + 1 ⍮   ╍╍╍ First command 
+               x := y + y     ╍╍╍ Second command
+              ⁆
+                 x = 12
+Proof:
+    x = 5
+  ≡⟨ “Cancellation of +” ⟩
+    x + 1 = 5 + 1
+  ≡⟨ Fact `5 + 1 = 6` ⟩
+    x + 1 = 6
+  ≡⟨ Substitution ⟩
+    (y = 6)[y ≔ x + 1]
+  ⇒⁅ y := x + 1 ⁆   ⟨ “Assignment” ⟩      ╍╍╍ First command
+    y = 6
+  ≡⟨ “Cancellation of ·” with Fact `2 ≠ 0` ⟩
+    2 · y = 2 · 6
+  ≡⟨ Evaluation ⟩
+    (1 + 1) · y = 12
+  ≡⟨ “Distributivity of · over +” ⟩
+    1 · y + 1 · y = 12
+  ≡⟨ “Identity of ·” ⟩
+    y + y = 12
+  ≡⟨ Substitution ⟩
+    (x = 12)[x ≔ y + y]
+  ⇒⁅ x := y + y ⁆   ⟨ “Assignment” ⟩      ╍╍╍ Second command
+    x = 12
+
+[18]
+(The sequence “╍╍╍”, obtained by typing “\comment”, starts a comment that extends until the end of the line, and is ignored by CalcCheck.)
+
+Note that, as you start such calculations from the bottom, you will be dealing with the last assignment command first!
+
+Also note that in the example above, we chose to simplify the condition y + y = 12 resulting as precondition of the second command to y = 6 before we proceeded with the first command. This is a choice — we could also have proceeded with the first command earlier.
+
+[19]
+Now do one yourself (this may need about ten additional calculation steps besides the three “Assignment” steps):
+
+[20]
+Lemma (5):       p = p₀ ∧ q = q₀
+            ⇒⁅ p := p + q ⍮
+               q := p - q ⍮
+               p := p - q
+              ⁆
+                 p = q₀ ∧ q = p₀
+Proof:
+    p = p₀ ∧ q = q₀
+  ≡⟨ “Identity of +”⟩
+    p + 0 = p₀ ∧ q + 0 + 0 = q₀
+  ≡⟨ “Unary minus” ⟩
+    p + (q + (- q)) = p₀ ∧ q + (p + (- p)) + (q + (- q)) = q₀
+  ≡⟨ “Subtraction” ⟩
+    ((p + q) - q) = p₀ ∧ (p + q) + (((- p) + (- q)) + q) = q₀
+  ≡⟨ “Distributivity of unary minus over +”⟩
+    ((p + q) - q) = p₀ ∧ (p + q) + ((- (p + q)) + q) = q₀
+  ≡⟨“Self-inverse of unary minus”⟩
+    ((p + q) - q) = p₀ ∧ (p + q) + ((- (p + q)) + (- (- q))) = q₀
+  ≡⟨ “Distributivity of unary minus over +”⟩
+    ((p + q) - q) = p₀ ∧ (p + q) + - ((p + q) + (- q)) = q₀
+  ≡⟨ “Subtraction”⟩
+    ((p + q) - q) = p₀ ∧ (p + q) - ((p + q) - q) = q₀
+  ≡⟨ “Symmetry of ∧” ⟩
+    (p + q) - ((p + q) - q) = q₀ ∧ ((p + q) - q) = p₀
+  ≡⟨ Substitution ⟩
+    (p - (p - q) = q₀ ∧ (p - q) = p₀) [ p ≔ p + q ]
+  ⇒⁅ p := p + q ⁆⟨ “Assignment”⟩                  ╍╍╍ First command
+    p - (p - q) = q₀ ∧ (p - q) = p₀
+  ≡⟨ Substitution ⟩
+    (p - q = q₀ ∧ q = p₀) [ q ≔ p - q]            
+  ⇒⁅ q := p - q ⁆ ⟨“Assignment”⟩                  ╍╍╍ Second command
+    p - q = q₀ ∧ q = p₀
+  ≡⟨ Substitution ⟩
+    (p = q₀ ∧ q = p₀) [ p ≔ p - q ]
+  ⇒⁅ p := p - q ⁆ ⟨ “Assignment” ⟩                ╍╍╍ Third command
+    p = q₀ ∧ q = p₀
+
+    
+
+[21]
+Feedback
+[22]
+This was (every answer is right; “no answer” is wrong):
+
+  all very easy
+  generally easy
+  OK
+  occasionally hard
+  mostly hard
+  all very hard
+[23]
+This was (every answer is right; “no answer” is wrong):
+
+  all very boring
+  mostly boring
+  OK
+  occasionally interesting
+  mostly interesting
+  all very interesting
