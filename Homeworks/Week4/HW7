@@ -1,0 +1,366 @@
+— Homework 7: Substituting into Quantifications
+[1]
+Preloaded here is the inductive theory of natural numbers, but you will not need to mention any of its theorems:
+
+In this notebook, only performing substitutions is expected.
+
+So Substitution and “Reflexivity of =” are the only hint items you will need.
+
+[2]
+Instead of the “replace all occurrences” definition of substitution in LADM chapter 1, a definition that uses induction over the structure of expressions could have been used. Such a definition would have axioms for each expression construction principle:
+
+v[x ≔ F] = v — for any variable v different from x
+x[x ≔ F] = F
+
+true[x ≔ F] = true
+false[x ≔ F] = false
+0[x ≔ F] = 0
+… — and analogously for every constant
+
+(- E)[x ≔ F] = - (E[x ≔ F])
+(¬ E)[x ≔ F] = ¬ (E[x ≔ F])
+… — and analogously for every unary prefix operator
+
+(D + E)[x ≔ F] = D[x ≔ F] + E[x ≔ F]
+(D · E)[x ≔ F] = D[x ≔ F] · E[x ≔ F]
+… — and analogously for every binary infix operator
+
+You can validate that these are covered by the CalcCheck keyword Substitution:
+
+[3]
+Calculation:
+    (x + y)[x, y ≔ 3, 4]
+  =⟨ Substitution ⟩
+    x[x, y ≔ 3, 4] + y[x, y ≔ 3, 4]
+  =⟨ Substitution ⟩
+    3 + 4
+
+Calculation:
+        (x + y)[x, y ≔ 3, 4]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        x[x, y ≔ 3, 4] + y[x, y ≔ 3, 4]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        3 + 4
+— CalcCheck: All steps OK
+[4]
+For showing that this works with metavariables D and E standing for arbitrary expressions that may contain x it is necessary to have a theorem statement from which CalcCheck can infer these metavariable properties — note the dark blue report that confirms this:
+
+[5]
+Lemma “Substitution into +”: (D + E)[x ≔ F] = D[x ≔ F] + E[x ≔ F]
+Proof:
+    (D + E)[x ≔ F]
+  =⟨ Substitution ⟩
+    D[x ≔ F] + E[x ≔ F] 
+
+Lemma “Substitution into +”: (D + E)[x ≔ F] = D[x ≔ F] + E[x ≔ F]   
+    — CalcCheck: Metavariables: D = D〖x〗, E = E〖x〗, F = F〖〗
+Proof:
+    Calculation for expected goal  `(D + E)[x ≔ F] = D[x ≔ F] + E[x ≔ F]`:
+            (D + E)[x ≔ F]
+        = ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            D[x ≔ F] + E[x ≔ F]    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[6]
+(Note that substitution E[x ≔ F] binds the substituted variables x in E.)
+
+When not all occurrences of a metavariable are in the scope of a binder of a bound variable occurring anywhere in the theorem statement, here x, then CalcCheck infers a ¬occurs proviso for that metavariable — note the dark blue reports again:
+
+[7]
+Lemma “Boring substitution into +”: (D + E)[x ≔ F] = D + E
+Proof:
+    (D + E)[x ≔ F]
+  =⟨ Substitution ⟩
+    D + E
+
+Lemma “Boring substitution into +”: (D + E)[x ≔ F] = D + E   
+    — CalcCheck: Metavariables: D = D〖〗, E = E〖〗, F = F〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x`, `D, E`)
+Proof:
+    Calculation for expected goal  `(D + E)[x ≔ F] = D + E`:
+            (D + E)[x ≔ F]
+        = ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            D + E    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[8]
+These reports say that “Boring substitution into +” can only be used for instantiations of D and E that do not contain x — which is rather boring indeed…
+
+[9]
+The substitution axiom (8.11) for quantification extends the long axiom list from above with another case for quantification as a new expression construction principle.
+
+Here we just give the specialised version for sum quantification:
+
+Axiom (8.11) “Substitution into ∑”: Provided ¬occurs(`y`, `x, F`):
+
+   (∑ y ❙ R • E)[x ≔ F]  =  ∑ y ❙ R[x ≔ F] • E[x ≔ F]
+In CalcCheck, there is no need to refer to this explicitly, since this is covered by the keyword Substitution — you have, for example:
+
+[10]
+Calculation:
+    (∑ i : ℕ ❙ i < k • m · i)[k ≔ 4]
+  =⟨ Substitution ⟩
+    ∑ i : ℕ ❙ (i < k)[k ≔ 4] • (m · i)[k ≔ 4]
+  =⟨ Substitution ⟩
+    ∑ i : ℕ ❙ i < 4 • m · i
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • m · i )[k ≔ 4]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ (i < k)[k ≔ 4] • (m · i)[k ≔ 4] )
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ i < 4 • m · i )
+— CalcCheck: All steps OK
+[11]
+It also works in one step:
+
+[12]
+Calculation:
+    (∑ i : ℕ ❙ i < k • m · i)[k ≔ 4]
+  =⟨ Substitution ⟩
+    ∑ i : ℕ ❙ i < 4 • m · i
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • m · i )[k ≔ 4]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ i < 4 • m · i )
+— CalcCheck: All steps OK
+[13]
+And substituting for a variable that does not occur free makes no change:
+
+[14]
+Calculation:
+    (∑ i : ℕ ❙ i < k • m · i)[i ≔ 4]
+  =⟨ Substitution ⟩
+    ∑ i : ℕ ❙ i < k • m · i
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • m · i )[i ≔ 4]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ i < k • m · i )
+— CalcCheck: All steps OK
+[15]
+You try:
+
+[16]
+Calculation:
+    (∑ i : ℕ ❙ i < k • m · i)[m ≔ 5]
+  =⟨ Substitution ⟩
+    (∑ i : ℕ ❙ i < k • 5 · i)
+    
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • m · i )[m ≔ 5]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ i < k • 5 · i )
+— CalcCheck: All steps OK
+[17]
+Calculation:
+    (∑ i : ℕ ❙ i < n • k · i)[k, n ≔ 3, 7]
+  =⟨ Substitution ⟩
+    (∑ i : ℕ ❙ i < 7 • 3 · i)
+
+Calculation:
+        (∑ i : ℕ ❙ i < n • k · i )[k, n ≔ 3, 7]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ i < 7 • 3 · i )
+— CalcCheck: All steps OK
+[18]
+Calculation:
+    (∑ i : ℕ ❙ i < j • k · i)[i, j, k ≔ 9, 7, 5]
+  =⟨ Substitution ⟩
+    (∑ i : ℕ ❙ i < 7 • 5 · i)
+
+Calculation:
+        (∑ i : ℕ ❙ i < j • k · i )[i, j, k ≔ 9, 7, 5]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ i < 7 • 5 · i )
+— CalcCheck: All steps OK
+[19]
+For performing substitutions that violate the proviso of (8.11) it is necessary to rename bound variables, called “dummies” in LADM, which provides the following axiom for this purpose:
+
+Axiom (8.21) “Dummy renaming”, “α-conversion”: Provided ¬occurs(`y`, `E, R`):
+
+  (∑ x ❙ R • E) = (∑ y ❙ R[x ≔ y] • E[x ≔ y])
+(“α-conversion” is another widely-used name for renaming of bound variables; it originates in λ-calculus.)
+
+The constraint that y must not be captured by any binder inside R or E is realised by the use of substitution for R[x ≔ y] and E[x ≔ y] which brings in the constraints of (8.11).
+
+In CalcCheck, renaming bound variables is part of equality of expressions (as you can see from the “no change” messages), so renaming steps will typically be justified by “Reflexivity of =” or “Reflexivity of ≡”, depending on the calculation operator used.
+
+For example:
+
+[20]
+Calculation:
+    (∑ i : ℕ ❙ i < k • m · i)
+  =⟨ “Reflexivity of =” ⟩
+    (∑ j : ℕ ❙ j < k • m · j)
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • m · i )
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ j : ℕ ❙ j < k • m · j )
+— CalcCheck: All steps OK
+[21]
+In the following counter-example, the proviso of (8.21) “Dummy renaming” is satisfied, but the subsequent substitution is not performed correctly — this is provided to you as a counter-example, and there is no need to fix it. (But you are allowed to fix it — just don’t change the starting point of the calculation!)
+
+[22]
+Calculation:
+    (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j))
+  =⟨ “Reflexivity of =” — NOT ACCEPTED ⟩
+    (∑ j : ℕ ❙ j < k • (∑ j : ℕ ❙ j < j • m · j))
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j ) )
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: Could not justify this step!
+        (∑ j : ℕ ❙ j < k • (∑ j : ℕ ❙ j < j • m · j ) )
+— CalcCheck: 1 out of 1 steps not justified
+[23]
+If you insist on renaming the first bound variable to j, you need to rename the second bound variable j to something else, first, and not to m:
+
+[24]
+Calculation:
+    (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j))
+  =⟨ “Reflexivity of =” ⟩
+    (∑ i : ℕ ❙ i < k • (∑ k : ℕ ❙ k < i • m · k))
+  =⟨ “Reflexivity of =” ⟩
+    (∑ j : ℕ ❙ j < k • (∑ k : ℕ ❙ k < j • m · k))
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j ) )
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ i : ℕ ❙ i < k • (∑ k : ℕ ❙ k < i • m · k ) )
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ j : ℕ ❙ j < k • (∑ k : ℕ ❙ k < j • m · k ) )
+— CalcCheck: All steps OK
+[25]
+Again, this works also in a single step:
+
+[26]
+Calculation:
+    (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j))
+  =⟨ “Reflexivity of =” ⟩
+    (∑ j : ℕ ❙ j < k • (∑ k : ℕ ❙ k < j • m · k))
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j ) )
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ j : ℕ ❙ j < k • (∑ k : ℕ ❙ k < j • m · k ) )
+— CalcCheck: All steps OK
+[27]
+Note that the final expression there contains two different variables called k: The first occurrence of k is to the same free variable as in the starting expression, while the remaining occurrences of k are locally bound.
+
+It is generally safer to choose a fresh variable name for such renamings…
+
+[28]
+For performing substitutions E[x ≔ F] where free variables in F would be captured by local binders in E it is necessary to first rename those binders.
+
+For example:
+
+[29]
+Calculation:
+    (∑ i : ℕ ❙ i < k • m · i)[m ≔ i + 2]
+  =⟨ “Reflexivity of =” ⟩
+    (∑ j : ℕ ❙ j < k • m · j)[m ≔ i + 2]
+  =⟨ Substitution ⟩
+    (∑ j : ℕ ❙ j < k • (i + 2) · j)
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • m · i )[m ≔ i + 2]
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ j : ℕ ❙ j < k • m · j )[m ≔ i + 2]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ j : ℕ ❙ j < k • (i + 2) · j )
+— CalcCheck: All steps OK
+[30]
+You try — only fully perform the substitutions. (No need to evaluate any sums or simplify any arithmetic expressions in this notebook.)
+
+Situations like this can occur any time, and you need to be able to confidently handle them correctly:
+
+[31]
+Calculation:
+    (∑ i : ℕ ❙ i < k • m · i)[k ≔ 2 · i]
+  =⟨ “Reflexivity of =” ⟩
+    (∑ j : ℕ ❙ j < k • m · j)[k ≔ 2 · i]
+  =⟨  Substitution ⟩
+    (∑ j : ℕ ❙ j < (2 · i) • m · j)
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • m · i )[k ≔ 2 · i]
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ j : ℕ ❙ j < k • m · j )[k ≔ 2 · i]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ j : ℕ ❙ j < 2 · i • m · j )
+— CalcCheck: All steps OK
+[32]
+Calculation:
+    (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • k · j))[k ≔ i + 3]
+  =⟨ “Reflexivity of =”⟩
+    (∑ m : ℕ ❙ m < k • (∑ j : ℕ ❙ j < m • k · j))[k ≔ i + 3]
+  =⟨ Substitution ⟩
+    (∑ m : ℕ ❙ m < (i + 3) • (∑ j : ℕ ❙ j < m • (i + 3) · j))
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • k · j ) )[k ≔ i + 3]
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ m : ℕ ❙ m < k • (∑ j : ℕ ❙ j < m • k · j ) )[k ≔ i + 3]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ m : ℕ ❙ m < i + 3 • (∑ j : ℕ ❙ j < m • (i + 3) · j ) )
+— CalcCheck: All steps OK
+[33]
+Calculation:
+    (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j))[m ≔ i · j + k]
+  =⟨ “Reflexivity of =” ⟩
+    (∑ p : ℕ ❙ p < k • (∑ q : ℕ ❙ q < p • m · q))[m ≔ i · j + k]
+  =⟨ Substitution ⟩
+    (∑ p : ℕ ❙ p < k • (∑ q : ℕ ❙ q < p • (i · j + k) · q))[m ≔ i · j + k] 
+ 
+
+Calculation:
+        (∑ i : ℕ ❙ i < k • (∑ j : ℕ ❙ j < i • m · j ) )[m ≔ i · j + k]
+    = ⟨ “Reflexivity of =” ⟩
+            — CalcCheck: Found (1.2) “Reflexivity of =”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        (∑ p : ℕ ❙ p < k • (∑ q : ℕ ❙ q < p • m · q ) )[m ≔ i · j + k]
+    = ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (∑ p : ℕ ❙ p < k • (∑ q : ℕ ❙ q < p • (i · j + k) · q ) )[m ≔ i · j + k]
+— CalcCheck: All steps OK

@@ -1,0 +1,416 @@
+— Homework 8 Notebook 2: Practice with Universal and Existential Quantification
+[1]
+Preloaded here is integer material up to and including Exercise 4.7 “Order on Integers”, and universal and existential quantification.
+
+Evaluation is disabled, but Facts can be used.
+
+You are allowed to use up to four hint items per hint.
+
+As usual, “?₁” needs to be replaced with a single hint item, and no other changes are allowed to proofs in such `fill-in-the-?₁`” questions.
+
+[2]
+Warnings of the following shapes
+
+⟪ The calculation start expression cannot be proven by a _⇒_-calculation! ⟫
+⟪ The 10 steps (“proof length”: 13) up to here attempt to prove (...) ⇒ true, which could be shown by “Right-zero of ⇒” in a single step! ⟫
+are enabled here, but won’t be enabled normally, and in particular will not be enabled on midterms and final exam.
+
+[3]
+Very Simple ∀ with ∃ Theorems
+[4]
+Example 1: Multiplication on the Natural Numbers has a Zero
+[5]
+Universal quantifications can frequently be shown using the “For any” construct, but this is not necessariy the only practical way.
+
+Frequently, straight calculations are possible, too — an important tool for finishing many of these is the theorem “True ∀ body”:
+
+  ∀ x ❙ R • true
+We will demonstate the different styles on the following example theorem:
+
+  ∃ y : ℤ • ∀ x : ℤ • x · y = y
+(Unlike LADM, CalcCheck does not insist on parentheses around quantifications, but follows the currently pre-dominant principle for such variable binders that their scope extends “as far as syntactically possible”.)
+
+[6]
+Existential quantifications are frequently proved via:
+
+  (9.28) “∃-Introduction”:  P[x ≔ E]  ⇒  (∃ x • P)
+This is an implication; to present (and develop) the proof in a natural way, we use the “consequence” or “follows from” operator ⇐ (type \follows); CalcCheck is currently usually set up to implicitly convert ⇐ via:
+
+  Axiom (3.58) “Definition of ⇐” “Consequence”: p ⇐ q ≡ q ⇒ p
+[7]
+Theorem (H8.2.a): 
+    ∃ y : ℤ • ∀ x : ℤ • x · y = y
+Proof:
+    ∃ y : ℤ • ∀ x : ℤ • x · y = y
+  ⇐⟨ “∃-Introduction” ⟩
+    (∀ x : ℤ • x · y = y)[y ≔ 0]
+  ≡⟨ Substitution ⟩
+    ∀ x : ℤ • x · 0 = 0
+  ≡⟨ “Zero of ·” ⟩
+    ∀ x : ℤ • true  — This is “True ∀ body”
+
+Theorem (H8.2.a): (∃ y : ℤ • (∀ x : ℤ • x · y = y ) )
+Proof:
+    Calculation for expected goal  `(∃ y : ℤ • (∀ x : ℤ • x · y = y ) )`:
+            (∃ y : ℤ • (∀ x : ℤ • x · y = y ) )
+        ⇐ ⟨ “∃-Introduction” ⟩
+                — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • x · y = y )[y ≔ 0]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • x · 0 = 0 )
+        ≡ ⟨ “Zero of ·” ⟩
+                — CalcCheck: Found (15.9) “Zero of ·”
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • true )     — This is “True ∀ body”    
+    — CalcCheck: Found (9.8) “True ∀ body”   
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[8]
+Universal quantifications can frequently be proven more concisely using the For any proof construct; in the situation here, one option is to wrap that into a Subproof:
+
+[9]
+Theorem (H8.2.b):
+    ∃ y : ℤ • ∀ x : ℤ • x · y = y
+Proof:
+    ∃ y : ℤ • ∀ x : ℤ • x · y = y
+  ⇐⟨ “∃-Introduction” ⟩
+    (∀ x : ℤ • x · y = y)[y ≔ 0]
+  ≡⟨ Substitution ⟩
+    ∀ x : ℤ • x · 0 = 0
+  ≡⟨ Subproof:
+      For any `x : ℤ`:
+        x · 0 = 0  — This is “Zero of ·”
+    ⟩
+    true
+
+Theorem (H8.2.b): (∃ y : ℤ • (∀ x : ℤ • x · y = y ) )
+Proof:
+    Calculation for expected goal  `(∃ y : ℤ • (∀ x : ℤ • x · y = y ) )`:
+            (∃ y : ℤ • (∀ x : ℤ • x · y = y ) )
+        ⇐ ⟨ “∃-Introduction” ⟩
+                — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • x · y = y )[y ≔ 0]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • x · 0 = 0 )
+        ≡ ⟨ Subproof for expected goal `(∀ x : ℤ • x · 0 = 0 )`:
+            For any ` x : ℤ`:
+                Calculation for expected goal  `x · 0 = 0`:
+                        x · 0 = 0     — This is “Zero of ·”
+               
+                — CalcCheck: Found (15.9) “Zero of ·”               
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK
+            ⟩
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[10]
+(The body of the “For any” here is a zero-step calculation proving x · 0 = 0 via the attached “This is ...”.)
+
+[11]
+The same proof as above can also be presented more nicely using the “Proof for this:” structure — note that additional indentation is required for the calculation part preceding the “Proof for this:” line (and be aware of the block indentation key combination Alt-i (on Linux and MSWindows) or Alt-Space (on Linux) respectively Option-Space (on MacOS-X)):
+
+[12]
+Theorem (H8.2.c):
+    ∃ y : ℤ • ∀ x : ℤ • x · y = y
+Proof:
+      ∃ y : ℤ • ∀ x : ℤ • x · y = y    
+    ⇐⟨ “∃-Introduction” ⟩
+      (∀ x : ℤ • x · y = y)[y ≔ 0]     
+    ≡⟨ Substitution ⟩
+      ∀ x : ℤ • x · 0 = 0
+  Proof for this:
+    For any `x : ℤ`:
+      x · 0 = 0  — This is “Zero of ·”
+
+Theorem (H8.2.c): (∃ y : ℤ • (∀ x : ℤ • x · y = y ) )
+Proof:
+        Calculation for expected goal  `(∃ y : ℤ • (∀ x : ℤ • x · y = y ) )`:
+                (∃ y : ℤ • (∀ x : ℤ • x · y = y ) )
+            ⇐ ⟨ “∃-Introduction” ⟩
+                    — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                    — CalcCheck: ─ OK
+                (∀ x : ℤ • x · y = y )[y ≔ 0]
+            ≡ ⟨ Substitution ⟩
+                    — CalcCheck: ─ OK
+                (∀ x : ℤ • x · 0 = 0 )        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+    Proof for this:
+        For any ` x : ℤ`:
+            Calculation for expected goal  `x · 0 = 0`:
+                    x · 0 = 0     — This is “Zero of ·”
+           
+            — CalcCheck: Found (15.9) “Zero of ·”           
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+[13]
+Example 2: The Integers are Unbounded
+[14]
+In the first proof approach for “Unboundedness of ℤ”, we demonstrate that applying the implication “∃-Introduction” in the context of a universal quantification requires the use of the corresponding monotonicity property:
+
+  (9.12) “Monotonicity of ∀” “Body monotonicity of ∀”:
+      (∀ x ❙ R • Q ⇒ P) ⇒ ((∀ x ❙ R • Q) ⇒ (∀ x ❙ R • P))
+The ⟪with⟫ in the following proof skeleton needs to establish the appropriate instance of the antecedent of “Monotonicity of ∀”, namely:
+
+    ∀ x  ❙  true
+         •  (n < m)[m ≔ suc n]  ⇒  (∃ m : ℤ • n < m)
+For discharging such a universally quantified antecedent (with range predicate true), CalcCheck also attempts the body of that quantification; here, that is:
+
+    (n < m)[m ≔ suc n]  ⇒  (∃ m : ℤ • n < m)
+So if you find a hint item to prove that, you do not need to worry about that universal quantification.
+
+[15]
+Theorem “Unboundedness of ℤ”: ∀ n : ℤ • ∃ m : ℤ • n < m
+Proof:
+    ∀ n : ℤ • ∃ m : ℤ • n < m
+  ⇐⟨ “Monotonicity of ∀” with “∃-Introduction” ⟩
+    ∀ n : ℤ • (n < m)[m ≔ n + 42]
+  ≡⟨ Substitution ⟩
+    ∀ n : ℤ • n < n + 42
+  ≡⟨ “Identity of +” ⟩
+    ∀ n : ℤ • n + 0 < n + 42
+  ≡⟨ “<-Isotonicity of +” ⟩
+    ∀ n : ℤ • 0 < 42
+  ≡⟨ Fact `0 < 42` ⟩
+    ∀ n : ℤ • true        — This is “True ∀ body”
+
+Theorem “Unboundedness of ℤ”: (∀ n : ℤ • (∃ m : ℤ • n < m ) )
+Proof:
+    Calculation for expected goal  `(∀ n : ℤ • (∃ m : ℤ • n < m ) )`:
+            (∀ n : ℤ • (∃ m : ℤ • n < m ) )
+        ⇐ ⟨ “Monotonicity of ∀” with “∃-Introduction” ⟩
+                — CalcCheck: Found (9.12) “Monotonicity of ∀”
+                — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                — CalcCheck: ─ OK
+            (∀ n : ℤ • (n < m)[m ≔ n + 42] )
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∀ n : ℤ • n < n + 42 )
+        ≡ ⟨ “Identity of +” ⟩
+                — CalcCheck: Found (15.3) “Additive identity”
+                — CalcCheck: ─ OK
+            (∀ n : ℤ • n + 0 < n + 42 )
+        ≡ ⟨ “<-Isotonicity of +” ⟩
+                — CalcCheck: Found (15.42) “<-Isotonicity of +”
+                — CalcCheck: ─ OK
+            (∀ n : ℤ • 0 < 42 )
+        ≡ ⟨ Fact `0 < 42` ⟩
+                — CalcCheck: ─ OK
+            (∀ n : ℤ • true )     — This is “True ∀ body”    
+    — CalcCheck: Found (9.8) “True ∀ body”   
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[16]
+Using For any to unwrap that universal quantification once and for all produces a proof with “less noise”:
+
+[17]
+Theorem “Unboundedness₂ of ℤ”: ∀ n : ℤ • ∃ m : ℤ • n < m
+Proof:
+  For any `n : ℤ`:
+      ∃ m : ℤ • n < m
+    ⇐⟨ “∃-Introduction” ⟩
+      (n < m)[m ≔ n + 42]
+    ≡⟨ Substitution ⟩
+      n < n + 42
+    ≡⟨ “Identity of +” ⟩
+      n + 0 < n + 42
+    ≡⟨ “<-Isotonicity of +” ⟩
+      0 < 42
+    — This is Fact `0 < 42`
+
+Theorem “Unboundedness₂ of ℤ”: (∀ n : ℤ • (∃ m : ℤ • n < m ) )
+Proof:
+    For any ` n : ℤ`:
+        Calculation for expected goal  `(∃ m : ℤ • n < m )`:
+                (∃ m : ℤ • n < m )
+            ⇐ ⟨ “∃-Introduction” ⟩
+                    — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                    — CalcCheck: ─ OK
+                (n < m)[m ≔ n + 42]
+            ≡ ⟨ Substitution ⟩
+                    — CalcCheck: ─ OK
+                n < n + 42
+            ≡ ⟨ “Identity of +” ⟩
+                    — CalcCheck: Found (15.3) “Additive identity”
+                    — CalcCheck: ─ OK
+                n + 0 < n + 42
+            ≡ ⟨ “<-Isotonicity of +” ⟩
+                    — CalcCheck: Found (15.42) “<-Isotonicity of +”
+                    — CalcCheck: ─ OK
+                0 < 42     — This is Fact `0 < 42`        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[18]
+Example 3: Something Very Simple
+[19]
+Theorem (H8.2.d):
+    ∀ y : ℤ • ∃ x : ℤ • 1 · x = y
+Proof:
+  For any `y : ℤ`:
+      ∃ x : ℤ • 1 · x = y
+    ⇐⟨ “∃-Introduction”⟩
+      (1 · x = y) [x ≔ y]
+    ≡⟨ Substitution ⟩
+      (1 · y = y) 
+    ≡⟨ “Identity of ·”⟩ 
+      (y = y) — This is Fact `true`
+
+Theorem (H8.2.d): (∀ y : ℤ • (∃ x : ℤ • 1 · x = y ) )
+Proof:
+    For any ` y : ℤ`:
+        Calculation for expected goal  `(∃ x : ℤ • 1 · x = y )`:
+                (∃ x : ℤ • 1 · x = y )
+            ⇐ ⟨ “∃-Introduction” ⟩
+                    — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                    — CalcCheck: ─ OK
+                (1 · x = y)[x ≔ y]
+            ≡ ⟨ Substitution ⟩
+                    — CalcCheck: ─ OK
+                1 · y = y
+            ≡ ⟨ “Identity of ·” ⟩
+                    — CalcCheck: Found (15.4) “Multiplicative identity”
+                    — CalcCheck: ─ OK
+                y = y     — This is Fact `true`                       
+                        — CalcCheck: OK (no change)
+                       
+        — CalcCheck: Final “This is”: OK (no change)       
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[20]
+Example 4: Solving a Simple Equation
+[21]
+(You are allowed up to four hint items per hint.)
+
+[22]
+Theorem (H8.2.e):
+    ∀ x : ℤ • ∃ y : ℤ • x + y = 10 · x
+Proof:
+  For any `x : ℤ`:
+        ∃ y : ℤ • x + y = 10 · x
+      ⇐⟨ “∃-Introduction”⟩
+        (x + y = 10 · x) [y ≔ 9 · x] 
+      ≡⟨ Substitution ⟩
+        x + 9 · x = 10 · x 
+      ≡⟨ “Identity of ·” ⟩
+        1 · x + 9 · x = 10 · x
+      ≡⟨ “Distributivity of · over +”⟩
+        (1 + 9) · x = 10 · x
+      ≡⟨ Fact `1 + 9 = 10`⟩   
+        10 · x = 10 · x — This is Fact `true`
+      
+
+Theorem (H8.2.e): (∀ x : ℤ • (∃ y : ℤ • x + y = 10 · x ) )
+Proof:
+    For any ` x : ℤ`:
+        Calculation for expected goal  `(∃ y : ℤ • x + y = 10 · x )`:
+                (∃ y : ℤ • x + y = 10 · x )
+            ⇐ ⟨ “∃-Introduction” ⟩
+                    — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                    — CalcCheck: ─ OK
+                (x + y = 10 · x)[y ≔ 9 · x]
+            ≡ ⟨ Substitution ⟩
+                    — CalcCheck: ─ OK
+                x + 9 · x = 10 · x
+            ≡ ⟨ “Identity of ·” ⟩
+                    — CalcCheck: Found (15.4) “Multiplicative identity”
+                    — CalcCheck: ─ OK
+                1 · x + 9 · x = 10 · x
+            ≡ ⟨ “Distributivity of · over +” ⟩
+                    — CalcCheck: Found (15.5) “Distributivity of · over +”
+                    — CalcCheck: ─ OK
+                (1 + 9) · x = 10 · x
+            ≡ ⟨ Fact `1 + 9 = 10` ⟩
+                    — CalcCheck: ─ OK
+                10 · x = 10 · x     — This is Fact `true`                       
+                        — CalcCheck: OK (no change)
+                       
+        — CalcCheck: Final “This is”: OK (no change)       
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[23]
+Example 5: Proof by Counter-example
+[24]
+Providing counter-examples for disproving universal quantifications is also done using “∃-Introduction” — the general way to prove such theorems is to identify a state for the involved variables (jere k, m, and n) in which the body expression, here
+
+    k - (m + n) = (k - m) + n
+evaluates to false, and then use “∃-Introduction” with witnesses chosen according to that state.
+
+[25]
+Theorem “Subtraction does not associate mutually with addition”:
+  ¬ (∀ k : ℤ • ∀ m : ℤ • ∀ n : ℤ • k - (m + n) = (k - m) + n)
+Proof:
+    ¬ (∀ k : ℤ • ∀ m : ℤ • ∀ n : ℤ • (k - (m + n) = (k - m) + n))
+  ≡⟨“Generalised De Morgan”⟩
+    ∃ k : ℤ • ∃ m : ℤ • ∃ n : ℤ • ¬ (k - (m + n) = (k - m) + n)
+  ⇐⟨ “∃-Introduction”⟩
+    (∃ m : ℤ • ∃ n : ℤ • ¬ (k - (m + n) = (k - m) + n)) [k ≔ 3]
+  ≡⟨ Substitution ⟩
+    (∃ m : ℤ • ∃ n : ℤ • ¬ (3 - (m + n) = (3 - m) + n))
+  ⇐⟨ “∃-Introduction”⟩
+    (∃ n : ℤ • ¬ (3 - (m + n) = (3 - m) + n)) [m ≔ 2]
+  ≡⟨ Substitution ⟩
+    (∃ n : ℤ • ¬ (3 - (2 + n) = (3 - 2) + n))
+  ⇐⟨ “∃-Introduction”⟩
+    (¬ (3 - (2 + n) = (3 - 2) + n)) [n ≔ 1]
+  ≡⟨ Substitution ⟩
+    (¬ (3 - (2 + 1) = (3 - 2) + 1))
+  ≡⟨ Fact `3 - (2 + 1) = 0`, Fact `(3 - 2) + 1 = 2`⟩
+    (¬ (0 = 2))
+  ≡⟨ Fact `0 = 2 ≡ false`⟩ 
+    ¬ false 
+  ≡⟨ “Definition of `false`”⟩
+    ¬ ¬ true
+  ≡⟨ “Double negation”⟩
+    true 
+
+Theorem “Subtraction does not associate mutually with addition”: ¬ (∀ k : ℤ • (∀ m : ℤ • (∀ n : ℤ • k - (m + n) = (k - m) + n ) ) )
+Proof:
+    Calculation for expected goal  `¬ (∀ k : ℤ • (∀ m : ℤ • (∀ n : ℤ • k - (m + n) = (k - m) + n ) ) )`:
+            ¬ (∀ k : ℤ • (∀ m : ℤ • (∀ n : ℤ • k - (m + n) = (k - m) + n ) ) )
+        ≡ ⟨ “Generalised De Morgan” ⟩
+                — CalcCheck: Found (9.18b) “Generalised De Morgan”, (9.18a) “Generalised De Morgan”, (9.18c) “Generalised De Morgan”, (9.17) “Generalised De Morgan”
+                — CalcCheck: ─ OK
+            (∃ k : ℤ • (∃ m : ℤ • (∃ n : ℤ • ¬ (k - (m + n) = (k - m) + n) ) ) )
+        ⇐ ⟨ “∃-Introduction” ⟩
+                — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                — CalcCheck: ─ OK
+            (∃ m : ℤ • (∃ n : ℤ • ¬ (k - (m + n) = (k - m) + n) ) )[k ≔ 3]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∃ m : ℤ • (∃ n : ℤ • ¬ (3 - (m + n) = (3 - m) + n) ) )
+        ⇐ ⟨ “∃-Introduction” ⟩
+                — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                — CalcCheck: ─ OK
+            (∃ n : ℤ • ¬ (3 - (m + n) = (3 - m) + n) )[m ≔ 2]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∃ n : ℤ • ¬ (3 - (2 + n) = (3 - 2) + n) )
+        ⇐ ⟨ “∃-Introduction” ⟩
+                — CalcCheck: Found (9.28) “∃-Introduction”, (9.28.1) “∃-Introduction”
+                — CalcCheck: ─ OK
+            (¬ (3 - (2 + n) = (3 - 2) + n))[n ≔ 1]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            ¬ (3 - (2 + 1) = (3 - 2) + 1)
+        ≡ ⟨ Fact `3 - (2 + 1) = 0`, Fact `(3 - 2) + 1 = 2` ⟩
+                — CalcCheck: ─ OK
+            ¬ (0 = 2)
+        ≡ ⟨ Fact `0 = 2 ≡ false` ⟩
+                — CalcCheck: ─ OK
+            ¬ false
+        ≡ ⟨ “Definition of `false`” ⟩
+                — CalcCheck: Found (3.8) “Definition of `false`”
+                — CalcCheck: ─ OK
+            ¬ (¬ true)
+        ≡ ⟨ “Double negation” ⟩
+                — CalcCheck: Found (3.12) “Double negation”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK

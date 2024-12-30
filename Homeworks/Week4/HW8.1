@@ -1,0 +1,469 @@
+— Homework 8 Notebook 1: Introduction to Instantiation
+[1]
+Preloaded here are all propositional logic, universal quantification, and integer material including ordering.
+
+Evaluation is disabled, but Facts can be used.
+
+You are allowed to use up to four hint items per hint.
+
+As usual, “?₁” needs to be replaced with a single (possibly structured, for example with with) hint item, and no other changes are allowed to proofs involving these.
+
+Complete all proofs below.
+
+[2]
+Theorem (9.13) “Instantiation”:
+
+       (∀ x • P)  ⇒  P[x ≔ E]
+is one of the key properties of universal quantification: Having (∀ x • P) implies having any x-instance of P you choose, with arbitrary expression E of the same type as x.
+
+Since CalcCheck does not perform second-order matching, the substitution needs to be made explicit in the consequent expression for most explicit applications of “Instantiation”.
+
+[3]
+For our examples here, we assume that f is some fixed function on the integers:
+
+[4]
+Declaration: f : ℤ → ℤ
+
+Declaration: f : ℤ → ℤ
+[5]
+Theorem (9.13) “Instantiation”: (∀ x • P) ⇒ P[x ≔ E] can be used directly in implication steps. For this, CalcCheck typically needs the substitution made explicit in the consequent expression; this then usually requires a subsequent separate Substitution step:
+
+[6]
+Theorem (1a): (∀ x : ℤ • 3 < f x ) ⇒ 8 < f 2 + 5
+Proof:
+    (∀ x : ℤ • 3 < f x)
+  ⇒⟨ “Instantiation” ⟩
+    (3 < f x)[x ≔ 2]
+  ≡⟨ Substitution ⟩
+    3 < f 2
+  ⇒⟨ “<-Monotonicity of +” ⟩
+    3 + 5 < f 2 + 5
+  ≡⟨ Fact `3 + 5 = 8`  ⟩
+    8 < f 2 + 5
+
+Theorem (1a): (∀ x : ℤ • 3 < f x ) ⇒ 8 < f 2 + 5
+Proof:
+    Calculation for expected goal  `(∀ x : ℤ • 3 < f x ) ⇒ 8 < f 2 + 5`:
+            (∀ x : ℤ • 3 < f x )
+        ⇒ ⟨ “Instantiation” ⟩
+                — CalcCheck: Found (9.13) “Instantiation”, (9.13.2) “Instantiation”, (9.13.1) “Instantiation”
+                — CalcCheck: ─ OK
+            (3 < f x)[x ≔ 2]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            3 < f 2
+        ⇒ ⟨ “<-Monotonicity of +” ⟩
+                — CalcCheck: Found “<-Monotonicity of +”
+                — CalcCheck: ─ OK
+            3 + 5 < f 2 + 5
+        ≡ ⟨ Fact `3 + 5 = 8` ⟩
+                — CalcCheck: ─ OK
+            8 < f 2 + 5    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[7]
+This kind of proof can also be organised quite differently:
+
+[8]
+Theorem (1b): (∀ x : ℤ • 2 < f x) ⇒ 7 < f 3 + 5
+Proof:
+  Assuming `(∀ x : ℤ • 2 < f x)`:
+      f 3 + 5
+    >⟨ “<-Monotonicity of +” with Subproof:
+          (∀ x : ℤ • 2 < f x)  — This is an assumption
+        ⇒⟨ “Instantiation” ⟩
+          (2 < f x)[x ≔ 3]
+        ≡⟨ Substitution ⟩
+          2 < f 3
+      ⟩
+      2 + 5
+    =⟨ Fact `2 + 5 = 7` ⟩
+      7
+
+Theorem (1b): (∀ x : ℤ • 2 < f x ) ⇒ 7 < f 3 + 5
+Proof:
+    Assuming `(∀ x : ℤ • 2 < f x )`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `7 < f 3 + 5`:
+                f 3 + 5
+            > ⟨ “<-Monotonicity of +” with Subproof establishing `2 < f 3`:
+                        (∀ x : ℤ • 2 < f x )     — This is Assumption `(∀ x : ℤ • 2 < f x )`
+                    ⇒ ⟨ “Instantiation” ⟩
+                            — CalcCheck: Found (9.13) “Instantiation”, (9.13.2) “Instantiation”, (9.13.1) “Instantiation”
+                            — CalcCheck: ─ OK
+                        (2 < f x)[x ≔ 3]
+                    ≡ ⟨ Substitution ⟩
+                            — CalcCheck: ─ OK
+                        2 < f 3                
+                — CalcCheck: Found assumption `(∀ x : ℤ • 2 < f x )`               
+                — CalcCheck: All steps OK
+                ⟩
+                    — CalcCheck: Found “<-Monotonicity of +”
+                    — CalcCheck: ─ OK
+                2 + 5
+            = ⟨ Fact `2 + 5 = 7` ⟩
+                    — CalcCheck: ─ OK
+                7        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[9]
+Under the name “<-Monotonicity of +”, the following three theorems are available here:
+
+    a < b  ⇒            a + d < b + d
+    a < b  ⇒  c < d  ⇒  a + c < b + d
+    a < b  ∧  c < d  ⇒  a + c < b + d
+If we need to use “Instantiation” twice for the same universal quantification, we can use different approaches:
+
+[10]
+Theorem (1c): (∀ x : ℤ • 3 < f x) ⇒ 5 < f 2 + f 6
+Proof:
+    (∀ x : ℤ • 3 < f x)
+  ≡⟨ “Idempotency of ∧” ⟩
+    (∀ x : ℤ • 3 < f x) ∧
+    (∀ x : ℤ • 3 < f x)
+  ⇒⟨ “Monotonicity of ∧” with “Instantiation” ⟩
+    (3 < f x)[x ≔ 2] ∧
+    (3 < f x)[x ≔ 6]
+  ≡⟨ Substitution ⟩
+    3 < f 2 ∧ 3 < f 6
+  ⇒⟨ “<-Monotonicity of +” ⟩
+    3 + 3 < f 2 + f 6
+  ≡⟨ “Identity of ∧” ⟩
+    true ∧ 3 + 3 < f 2 + f 6
+  ≡⟨ Fact `5 < 3 + 3` ⟩
+    5 < 3 + 3  ∧  3 + 3 < f 2 + f 6
+  ⇒⟨ “Transitivity of <” ⟩
+    5 < f 2 + f 6
+
+Theorem (1c): (∀ x : ℤ • 3 < f x ) ⇒ 5 < f 2 + f 6
+Proof:
+    Calculation for expected goal  `(∀ x : ℤ • 3 < f x ) ⇒ 5 < f 2 + f 6`:
+            (∀ x : ℤ • 3 < f x )
+        ≡ ⟨ “Idempotency of ∧” ⟩
+                — CalcCheck: Found (3.38) “Idempotency of ∧”
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • 3 < f x ) ∧ (∀ x : ℤ • 3 < f x )
+        ⇒ ⟨ “Monotonicity of ∧” with “Instantiation” ⟩
+                — CalcCheck: Found “Monotonicity of ∧”, (4.3) “Left-monotonicity of ∧”
+                — CalcCheck: Found (9.13) “Instantiation”, (9.13.2) “Instantiation”, (9.13.1) “Instantiation”
+                — CalcCheck: ─ OK
+            (3 < f x)[x ≔ 2] ∧ (3 < f x)[x ≔ 6]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            3 < f 2 ∧ 3 < f 6
+        ⇒ ⟨ “<-Monotonicity of +” ⟩
+                — CalcCheck: Found “<-Monotonicity of +”
+                — CalcCheck: ─ OK
+            3 + 3 < f 2 + f 6
+        ≡ ⟨ “Identity of ∧” ⟩
+                — CalcCheck: Found (3.39) “Identity of ∧”
+                — CalcCheck: ─ OK
+            true ∧ 3 + 3 < f 2 + f 6
+        ≡ ⟨ Fact `5 < 3 + 3` ⟩
+                — CalcCheck: ─ OK
+            5 < 3 + 3 ∧ 3 + 3 < f 2 + f 6
+        ⇒ ⟨ “Transitivity of <” ⟩
+                — CalcCheck: Found (15.41a) “Transitivity”
+                — CalcCheck: ─ OK
+            5 < f 2 + f 6    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[11]
+Note that having only one “Monotonicity of ∧” with “Instantiation” step, as in the second step above, is only possible since we have also the following two-sided monotonicity theorem for conjunction, see H6.4:
+
+      “Monotonicity of ∧”:    (p ⇒ p') ⇒ (q ⇒ q') ⇒ ((p ∧ q) ⇒ (p' ∧ q'))
+CalcCheck does not yet consider the chaining of implications that would arise with two consecutive uses of the one-sided variant:
+
+      “Monotonicity of ∧”:    (p ⇒ q) ⇒ ((p ∧ r) ⇒ (q ∧ r))
+(Since symmetry of conjunction is activated, this one-sided variant can be used not only as left-monotonicity, but also as right-monotonicity of conjunction.)
+
+[12]
+Theorem (1d): (∀ x : ℤ • 5 < f x) ⇒ 7 < f 8 + f 9
+Proof:
+    (∀ x : ℤ • 5 < f x)
+  ≡⟨ “Instantiation” with “Implication via ∧” (3.60=) ⟩
+    (∀ x : ℤ • 5 < f x) ∧
+    (5 < f x)[x ≔ 9]
+  ⇒⟨ “Monotonicity of ∧” with “Instantiation” ⟩
+    (5 < f x)[x ≔ 8] ∧
+    (5 < f x)[x ≔ 9]
+  ≡⟨ Substitution ⟩
+    5 < f 8  ∧  5 < f 9
+  ⇒⟨ “<-Monotonicity of +” ⟩
+    5 + 5  <  f 8 + f 9
+  ≡⟨ “Identity of ∧” ⟩
+    true  ∧  5 + 5  <  f 8 + f 9
+  ≡⟨ Fact `7 < 5 + 5` ⟩
+    7  <  5 + 5  ∧  5 + 5  <  f 8 + f 9
+  ⇒⟨ “Transitivity of <” ⟩
+    7  <  f 8 + f 9
+
+Theorem (1d): (∀ x : ℤ • 5 < f x ) ⇒ 7 < f 8 + f 9
+Proof:
+    Calculation for expected goal  `(∀ x : ℤ • 5 < f x ) ⇒ 7 < f 8 + f 9`:
+            (∀ x : ℤ • 5 < f x )
+        ≡ ⟨ “Instantiation” with “Implication via ∧” (3.60=) ⟩
+                — CalcCheck: Found (9.13) “Instantiation”, (9.13.2) “Instantiation”, (9.13.1) “Instantiation”
+                — CalcCheck: Found (3.60=) “Implication via ∧”
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • 5 < f x ) ∧ (5 < f x)[x ≔ 9]
+        ⇒ ⟨ “Monotonicity of ∧” with “Instantiation” ⟩
+                — CalcCheck: Found “Monotonicity of ∧”, (4.3) “Left-monotonicity of ∧”
+                — CalcCheck: Found (9.13) “Instantiation”, (9.13.2) “Instantiation”, (9.13.1) “Instantiation”
+                — CalcCheck: ─ OK
+            (5 < f x)[x ≔ 8] ∧ (5 < f x)[x ≔ 9]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            5 < f 8 ∧ 5 < f 9
+        ⇒ ⟨ “<-Monotonicity of +” ⟩
+                — CalcCheck: Found “<-Monotonicity of +”
+                — CalcCheck: ─ OK
+            5 + 5 < f 8 + f 9
+        ≡ ⟨ “Identity of ∧” ⟩
+                — CalcCheck: Found (3.39) “Identity of ∧”
+                — CalcCheck: ─ OK
+            true ∧ 5 + 5 < f 8 + f 9
+        ≡ ⟨ Fact `7 < 5 + 5` ⟩
+                — CalcCheck: ─ OK
+            7 < 5 + 5 ∧ 5 + 5 < f 8 + f 9
+        ⇒ ⟨ “Transitivity of <” ⟩
+                — CalcCheck: Found (15.41a) “Transitivity”
+                — CalcCheck: ─ OK
+            7 < f 8 + f 9    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[13]
+Instantiation can also be applied implicitly by referring to an assumption or theorem that is a universally quantified expression:
+
+[14]
+Theorem (1e): (∀ x : ℤ • f x < 4) ⇒ f 0 < 7
+Proof:
+  Assuming `(∀ x : ℤ • f x < 4)`:
+      f 0
+    <⟨ Assumption `(∀ x : ℤ • f x < 4)` ⟩
+      4
+    <⟨ Fact `4 < 7`  ⟩
+      7
+
+Theorem (1e): (∀ x : ℤ • f x < 4 ) ⇒ f 0 < 7
+Proof:
+    Assuming `(∀ x : ℤ • f x < 4 )`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `f 0 < 7`:
+                f 0
+            < ⟨ Assumption `(∀ x : ℤ • f x < 4 )` ⟩
+                    — CalcCheck: Found assumption `(∀ x : ℤ • f x < 4 )`
+                    — CalcCheck: ─ OK
+                4
+            < ⟨ Fact `4 < 7` ⟩
+                    — CalcCheck: ─ OK
+                7        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[15]
+Theorem (1f): (∀ x : ℤ • f x < 4) ⇒ f 0 + 3 < 9
+Proof:
+  Assuming `(∀ x : ℤ • f x < 4)`:
+      f 0 + 3
+    <⟨ “<-Monotonicity of +”  with assumption `(∀ x : ℤ • f x < 4)` ⟩
+      4 + 3
+    <⟨ Fact `4 + 3 < 9` ⟩
+      9
+
+Theorem (1f): (∀ x : ℤ • f x < 4 ) ⇒ f 0 + 3 < 9
+Proof:
+    Assuming `(∀ x : ℤ • f x < 4 )`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `f 0 + 3 < 9`:
+                f 0 + 3
+            < ⟨ “<-Monotonicity of +” with Assumption `(∀ x : ℤ • f x < 4 )` ⟩
+                    — CalcCheck: Found “<-Monotonicity of +”
+                    — CalcCheck: Found assumption `(∀ x : ℤ • f x < 4 )`
+                    — CalcCheck: ─ OK
+                4 + 3
+            < ⟨ Fact `4 + 3 < 9` ⟩
+                    — CalcCheck: ─ OK
+                9        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[16]
+By the way, assumptions can be named:
+
+[17]
+Theorem (1g): (∀ x : ℤ • f x < 2) ⇒ f 2 + 2 < 4
+Proof:
+  Assuming “A” `(∀ x : ℤ • f x < 2)`:
+      f 2 + 2
+    <⟨ “<-Monotonicity of +” with assumption “A” ⟩
+      2 + 2
+    =⟨ Fact `2 + 2 = 4` ⟩
+      4
+
+Theorem (1g): (∀ x : ℤ • f x < 2 ) ⇒ f 2 + 2 < 4
+Proof:
+    Assuming “A” `(∀ x : ℤ • f x < 2 )`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `f 2 + 2 < 4`:
+                f 2 + 2
+            < ⟨ “<-Monotonicity of +” with Assumption “A” ⟩
+                    — CalcCheck: Found “<-Monotonicity of +”
+                    — CalcCheck: Found assumption “A”
+                    — CalcCheck: ─ OK
+                2 + 2
+            = ⟨ Fact `2 + 2 = 4` ⟩
+                    — CalcCheck: ─ OK
+                4        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[18]
+Prove Theorem (2a) by “Instantiation” used twice, and preserved in the first step by “with “Implication via ∧” (3.60=)” as in the instantiation example shown above. (Can you find a proof for (2a) that uses only one Fact hint item?)
+
+(As usual, “⇒⟨ ? ⟩” may need to be replaced with arbitrarily many steps, some of them possibly equivalence steps.)
+
+[19]
+Theorem (2a): (∀ x : ℤ • f x = f (x + 3)) ⇒ f 2 = f 8
+Proof:
+    ∀ x : ℤ • f x = f (x + 3)
+  ≡⟨ “Instantiation” with “Implication via ∧” (3.60=) ⟩
+    (∀ x : ℤ • f x = f (x + 3)) ∧
+    (f x = f (x + 3)) [x ≔ 5]
+  ⇒⟨ “Monotonicity of ∧” with “Instantiation”⟩
+    (f x = f (x + 3)) [x ≔ 2] ∧
+    (f x = f (x + 3)) [x ≔ 5]
+  ≡⟨ Substitution ⟩
+    f 2 = f (2 + 3) ∧ f 5 = f (3 + 5)
+  ≡⟨ Fact `2 + 3 = 5`, Fact `3 + 5 = 8`⟩ 
+    f 2 = f 5 ∧ f 5 = f 8
+  ⇒⟨ “Transitivity of =”⟩
+    f 2 = f 8 
+    
+  
+
+Theorem (2a): (∀ x : ℤ • f x = f (x + 3) ) ⇒ f 2 = f 8
+Proof:
+    Calculation for expected goal  `(∀ x : ℤ • f x = f (x + 3) ) ⇒ f 2 = f 8`:
+            (∀ x : ℤ • f x = f (x + 3) )
+        ≡ ⟨ “Instantiation” with “Implication via ∧” (3.60=) ⟩
+                — CalcCheck: Found (9.13) “Instantiation”, (9.13.2) “Instantiation”, (9.13.1) “Instantiation”
+                — CalcCheck: Found (3.60=) “Implication via ∧”
+                — CalcCheck: ─ OK
+            (∀ x : ℤ • f x = f (x + 3) ) ∧ (f x = f (x + 3))[x ≔ 5]
+        ⇒ ⟨ “Monotonicity of ∧” with “Instantiation” ⟩
+                — CalcCheck: Found “Monotonicity of ∧”, (4.3) “Left-monotonicity of ∧”
+                — CalcCheck: Found (9.13) “Instantiation”, (9.13.2) “Instantiation”, (9.13.1) “Instantiation”
+                — CalcCheck: ─ OK
+            (f x = f (x + 3))[x ≔ 2] ∧ (f x = f (x + 3))[x ≔ 5]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            f 2 = f (2 + 3) ∧ f 5 = f (3 + 5)
+        ≡ ⟨ Fact `2 + 3 = 5`, Fact `3 + 5 = 8` ⟩
+                — CalcCheck: ─ OK
+            f 2 = f 5 ∧ f 5 = f 8
+        ⇒ ⟨ “Transitivity of =” ⟩
+                — CalcCheck: Found “Transitivity of =”
+                — CalcCheck: ─ OK
+            f 2 = f 8    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[20]
+Prove a similar theorem by assuming the antecedent:
+
+[21]
+Theorem (2b): (∀ x : ℤ • f x = f (x + 2)) ⇒ f 3 = f 7
+Proof:
+  Assuming `∀ x : ℤ • f x = f (x + 2)`:
+      f 3
+    =⟨ Assumption `∀ x : ℤ • f x = f (x + 2)`⟩ 
+      f (3 + 2)
+    =⟨ Fact `3 + 2 = 5`⟩ 
+      f 5
+    =⟨ Assumption `∀ x : ℤ • f x = f (x + 2)`⟩
+      f (5 + 2)
+    =⟨ Fact `5 + 2 = 7`⟩
+      f 7  
+
+Theorem (2b): (∀ x : ℤ • f x = f (x + 2) ) ⇒ f 3 = f 7
+Proof:
+    Assuming `(∀ x : ℤ • f x = f (x + 2) )`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `f 3 = f 7`:
+                f 3
+            = ⟨ Assumption `(∀ x : ℤ • f x = f (x + 2) )` ⟩
+                    — CalcCheck: Found assumption `(∀ x : ℤ • f x = f (x + 2) )`
+                    — CalcCheck: ─ OK
+                f (3 + 2)
+            = ⟨ Fact `3 + 2 = 5` ⟩
+                    — CalcCheck: ─ OK
+                f 5
+            = ⟨ Assumption `(∀ x : ℤ • f x = f (x + 2) )` ⟩
+                    — CalcCheck: Found assumption `(∀ x : ℤ • f x = f (x + 2) )`
+                    — CalcCheck: ─ OK
+                f (5 + 2)
+            = ⟨ Fact `5 + 2 = 7` ⟩
+                    — CalcCheck: ─ OK
+                f 7        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[22]
+While so far, variables in axioms and theorems usually were “implicitly universally-quantified”, it is also possible to make this universal quantification explicit:
+
+[23]
+Axiom (3): (∀ x : ℤ • f x = f (x + 3))
+
+Axiom (3): (∀ x : ℤ • f x = f (x + 3) )
+[24]
+As already mentioned above, CalcCheck allows silent instantiation of universally-quantified theorems (and assumptions etc.), such as this Axiom (3):
+
+[25]
+Theorem (4a): f 1 = f 7
+Proof:
+      f 1
+    =⟨ (3) ⟩
+      f (1 + 3)
+    =⟨ (3) ⟩
+      f (1 + 3 + 3)
+    =⟨ Fact `1 + 3 + 3 = 7` ⟩
+      f 7
+
+Theorem (4a): f 1 = f 7
+Proof:
+    Calculation for expected goal  `f 1 = f 7`:
+            f 1
+        = ⟨ (3) ⟩
+                — CalcCheck: Found (3) `(∀ x : ℤ • f x = f (x + 3) )`
+                — CalcCheck: ─ OK
+            f (1 + 3)
+        = ⟨ (3) ⟩
+                — CalcCheck: Found (3) `(∀ x : ℤ • f x = f (x + 3) )`
+                — CalcCheck: ─ OK
+            f ((1 + 3) + 3)
+        = ⟨ Fact `(1 + 3) + 3 = 7` ⟩
+                — CalcCheck: ─ OK
+            f 7    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[26]
+This even works with different instances where the universally-quantified theorem is used several times in the same step:
+
+[27]
+Theorem (4b): f 30 = f 42
+Proof:
+      f 30
+    =⟨ (3) ⟩
+      f (30 + 3 + 3 + 3 + 3)
+    =⟨ Fact `30 + 3 + 3 + 3 + 3 = 42`⟩
+      f 42
+
+Theorem (4b): f 30 = f 42
+Proof:
+    Calculation for expected goal  `f 30 = f 42`:
+            f 30
+        = ⟨ (3) ⟩
+                — CalcCheck: Found (3) `(∀ x : ℤ • f x = f (x + 3) )`
+                — CalcCheck: ─ OK
+            f ((((30 + 3) + 3) + 3) + 3)
+        = ⟨ Fact `(((30 + 3) + 3) + 3) + 3 = 42` ⟩
+                — CalcCheck: ─ OK
+            f 42    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
