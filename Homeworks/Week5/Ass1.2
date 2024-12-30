@@ -1,0 +1,504 @@
+— Assignment 1 Notebook 2: Correctness of `while` Loops
+[1]
+Preloaded here is:
+
+All propositional logic, including monotonicity laws, and Leibniz as axiom and substitution laws
+Integers up to Ex5.1, Ex5.4, and 5.5
+Two hint items per hint are allowed here; Evaluation is disabled, but Facts are allowed.
+
+[2]
+We continue with command correctness as started in H3 and Ex3.4, and add a new kind of commands: while loops, constructed using the following command constructor:
+
+      while_do_od : 𝔹 → Cmd → Cmd
+[3]
+We reason about while loops using the following inference rule:
+
+    Primitive inference rule “While”:
+                 `B ∧ Q  ⇒⁅ C ⁆  Q`
+        ⊦—————————————————————————————————————
+          `Q  ⇒⁅ while B do C od ⁆  ¬ B ∧ Q`
+[4]
+For simple example programs that consist of a while loop preceded by some initialisation command (sequences) INIT and followed by some finalisation command (sequence) FINAL, a correctness proof with respect to precondition Pre and postcondition Post can be presented as follows:
+
+[5]
+Theorem “While-example”:
+      Pre
+    ⇒⁅  INIT ⍮
+        while B
+          do
+            C
+          od ⍮
+        FINAL
+      ⁆
+      Post
+Proof:
+    Pre    ╍╍╍  Precondition
+  ⇒⁅ INIT ⁆  ⟨ ? ⟩
+    Q      ╍╍╍  Invariant
+  ⇒⁅ while B do
+        C
+      od ⁆   ⟨ “While” with subproof:
+          B ∧ Q     ╍╍╍  Loop condition and invariant
+        ⇒⁅ C ⁆  ⟨ ? ⟩
+          Q         ╍╍╍  Invariant
+    ⟩
+    ¬ B ∧ Q   ╍╍╍ Negated loop condition, and invariant
+  ⇒⁅ FINAL ⁆  ⟨ ? ⟩
+    Post      ╍╍╍  Postcondition
+[6]
+For the variables of the “While” rule, note that B and C are parts of the program that is subject to the proof.
+
+The invariant Q however needs to be provided
+
+ideally as part of the program development process;
+in any case at the time of proof.
+That means: If the program developer did not document the intended invariant, you have to invent an appropriate invariant yourself.
+
+The invariant will need to hold
+
+immediately before the loop starts,
+after each execution of the loop body,
+and therefore also after the loop ends.
+In general, invariant generation cannot be automated.
+
+In praxis, an appropriate invariant often can be obtained by generalising the loop postcondition, keeping in mind that the invariant will typically mention all variables that are changed by the loop, and will explain how they are related.
+
+[7]
+As an example for how to use this “While” rule, the code cell contains a proof skeleton for a simple loop correctness property.
+
+As usual, simple “?” steps may need to be replaced with arbitrarily many calculation steps; where the calculation operator given for the “?” is an implication, having some or all of the replacing calculation steps being equivalence steps is no problem.
+
+For integrating the Substitution invocation into the assignment step, “Assignment” now refers also to the following inference rule:
+
+    Derived inference rule “Assignment”:
+        /\ x •     `Φ ≡ Ψ[x ≔ E]`
+                ⊦———————————————————
+                  `Φ ⇒⁅ x := E ⁆ Ψ`
+This has to be combined with the keyword hint item Substitution by with, not by comma. For example:
+
+        0 ≤ i + 1
+      ⇒⁅ i := i + 1 ⁆ ⟨ “Assignment” with substitution ⟩
+        0 ≤ i
+(As in H3 and Ex3.4, you continue to work bottom-up for these calculations!)
+
+Fill the “Squaring” proof below, and try to do this without copying, but as if you had started this yourself from scratch, working upwards as appropriate.
+
+[8]
+Theorem “Squaring”:
+      true
+    ⇒⁅  i := 0 ⍮
+        s := 0 ⍮
+        d := 1 ⍮
+        while i ≠ n
+          do
+            s := s + d ⍮
+            d := d + 2 ⍮
+            i := i + 1
+          od
+       ⁆ s = n · n
+Proof:
+    true   ╍╍╍  Precondition
+  ≡⟨ “Idempotency of ∧”⟩
+    true ∧ true 
+  ≡⟨ Fact `1 = 0 + 0 + 1`, Fact `0 = 0 · 0` ⟩
+    1 = 0 + 0 + 1 ∧ 0 = 0 · 0
+  ⇒⁅ i := 0 ⁆⟨ “Assignment” with substitution ⟩
+    1 = i + i + 1 ∧ 0 = i · i
+  ⇒⁅ s := 0 ⁆⟨ “Assignment” with substitution ⟩
+    1 = i + i + 1 ∧ s = i · i
+  ⇒⁅ d := 1 ⁆⟨ “Assignment” with substitution ⟩
+    d = i + i + 1 ∧ s = i · i      ╍╍╍  Invariant
+  ⇒⁅ while i ≠ n do
+        s := s + d ⍮
+        d := d + 2 ⍮
+        i := i + 1
+      od ⁆⟨ “While” with subproof:
+          i ≠ n ∧ d = i + i + 1 ∧ s = i · i  ╍╍╍  Loop condition and invariant
+        ⇒⟨ “Weakening” ⟩
+          d = i + i + 1 ∧ s = i · i
+        ≡⟨ “Cancellation of +”⟩
+          d = i + i + 1 ∧ s + d = i · i + d 
+        ≡⟨ Substitution ⟩
+          d = i + i + 1 ∧ (s + d = i · i + z) [z ≔ d]
+        ≡⟨ “Replacement”⟩ 
+          d = i + i + 1 ∧ (s + d = i · i + z)[z ≔ i + i + 1]
+        ⇒⁅ s := s + d ⁆⟨ “Assignment” with substitution ⟩
+          d = i + i + 1 ∧ s = i · i + i + i + 1
+        ≡⟨ “Cancellation of +” ⟩
+          d + 2 = i + i + 1 + 2 ∧ s = i · i + i + i + 1
+        ⇒⁅ d := d + 2 ⁆⟨ “Assignment” with substitution ⟩
+          d = i + i + 1 + 2 ∧ s = i · i + i + i + 1
+        ≡⟨ “Identity of ·”, “Distributivity of · over +” ⟩
+          d = i + i + 1 + 2 ∧ s = i · i + 1 · i + 1 · (i + 1)
+        ≡⟨ “Distributivity of · over +”⟩ 
+          d = i + i + 1 + 2 ∧ s = (i + 1) · (i + 1)
+        ⇒⁅ i := i + 1 ⁆⟨ “Assignment” with substitution
+                         and Fact `1 + 1 = 2` ⟩
+          d = i + i + 1 ∧ s = i · i   ╍╍╍  Invariant
+    ⟩
+    ¬ (i ≠ n) ∧ d = i + i + 1 ∧ s = i · i  ╍╍╍ Negated loop condition, and invariant
+  ⇒⟨ “Weakening”⟩
+    ¬ (i ≠ n) ∧ s = i · i
+  ≡⟨ “Definition of ≠”, “Double negation” ⟩
+    (i = n) ∧ s = i · i
+  ≡⟨ Substitution ⟩
+    (i = n) ∧ (s = z · z) [z ≔ i]
+  ≡⟨ “Replacement”, Substitution ⟩
+    (i = n) ∧ s = n · n
+  ⇒⟨ “Weakening”⟩   
+    s = n · n    ╍╍╍  Postcondition
+
+Theorem “Squaring”: true ⇒⁅ (i := 0 ⍮ (s := 0 ⍮ (d := 1 ⍮ while (i ≠ n) do (s := s + d ⍮ (d := d + 2 ⍮ i := i + 1)) od))) ⁆ s = n · n
+Proof:
+    Calculation for expected goal  `true ⇒⁅ (i := 0 ⍮ (s := 0 ⍮ (d := 1 ⍮ while (i ≠ n) do (s := s + d ⍮ (d := d + 2 ⍮ i := i + 1)) od))) ⁆ s = n · n`:
+            true
+        ≡ ⟨ “Idempotency of ∧” ⟩
+                — CalcCheck: Found (3.38) “Idempotency of ∧”
+                — CalcCheck: ─ OK
+            true ∧ true
+        ≡ ⟨ Fact `1 = (0 + 0) + 1`, Fact `0 = 0 · 0` ⟩
+                — CalcCheck: ─ OK
+            1 = (0 + 0) + 1 ∧ 0 = 0 · 0
+        ⇒⁅ i := 0 ⁆ ⟨ “Assignment” with Substitution ⟩
+                — CalcCheck: Found “Assignment”, “Assignment”
+                — CalcCheck: ─ OK
+            1 = (i + i) + 1 ∧ 0 = i · i
+        ⇒⁅ s := 0 ⁆ ⟨ “Assignment” with Substitution ⟩
+                — CalcCheck: Found “Assignment”, “Assignment”
+                — CalcCheck: ─ OK
+            1 = (i + i) + 1 ∧ s = i · i
+        ⇒⁅ d := 1 ⁆ ⟨ “Assignment” with Substitution ⟩
+                — CalcCheck: Found “Assignment”, “Assignment”
+                — CalcCheck: ─ OK
+            d = (i + i) + 1 ∧ s = i · i
+        ⇒⁅ while (i ≠ n) do (s := s + d ⍮ (d := d + 2 ⍮ i := i + 1)) od ⁆ ⟨ “While” with Subproof establishing `i ≠ n ∧ (d = (i + i) + 1 ∧ s = i · i) ⇒⁅ ((s := s + d ⍮ d := d + 2) ⍮ i := i + 1) ⁆ d = (i + i) + 1 ∧ s = i · i`:
+                    i ≠ n ∧ (d = (i + i) + 1 ∧ s = i · i)
+                ⇒ ⟨ “Weakening” ⟩
+                        — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                        — CalcCheck: ─ OK
+                    d = (i + i) + 1 ∧ s = i · i
+                ≡ ⟨ “Cancellation of +” ⟩
+                        — CalcCheck: Found (15.8) “Cancellation of +”
+                        — CalcCheck: ─ OK
+                    d = (i + i) + 1 ∧ s + d = i · i + d
+                ≡ ⟨ Substitution ⟩
+                        — CalcCheck: ─ OK
+                    d = (i + i) + 1 ∧ (s + d = i · i + z)[z ≔ d]
+                ≡ ⟨ “Replacement” ⟩
+                        — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                        — CalcCheck: ─ OK
+                    d = (i + i) + 1 ∧ (s + d = i · i + z)[z ≔ (i + i) + 1]
+                ⇒⁅ s := s + d ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    d = (i + i) + 1 ∧ s = ((i · i + i) + i) + 1
+                ≡ ⟨ “Cancellation of +” ⟩
+                        — CalcCheck: Found (15.8) “Cancellation of +”
+                        — CalcCheck: ─ OK
+                    d + 2 = ((i + i) + 1) + 2 ∧ s = ((i · i + i) + i) + 1
+                ⇒⁅ d := d + 2 ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    d = ((i + i) + 1) + 2 ∧ s = ((i · i + i) + i) + 1
+                ≡ ⟨ “Identity of ·”, “Distributivity of · over +” ⟩
+                        — CalcCheck: Found (15.4) “Multiplicative identity”
+                        — CalcCheck: Found (15.5) “Distributivity of · over +”
+                        — CalcCheck: ─ OK
+                    d = ((i + i) + 1) + 2 ∧ s = (i · i + 1 · i) + 1 · (i + 1)
+                ≡ ⟨ “Distributivity of · over +” ⟩
+                        — CalcCheck: Found (15.5) “Distributivity of · over +”
+                        — CalcCheck: ─ OK
+                    d = ((i + i) + 1) + 2 ∧ s = (i + 1) · (i + 1)
+                ⇒⁅ i := i + 1 ⁆ ⟨ “Assignment” with Substitution and Fact `1 + 1 = 2` ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    d = (i + i) + 1 ∧ s = i · i            
+            — CalcCheck: All steps OK
+            ⟩
+                — CalcCheck: Found “While”
+                — CalcCheck: ─ OK
+            ¬ (i ≠ n) ∧ (d = (i + i) + 1 ∧ s = i · i)
+        ⇒ ⟨ “Weakening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            ¬ (i ≠ n) ∧ s = i · i
+        ≡ ⟨ “Definition of ≠”, “Double negation” ⟩
+                — CalcCheck: Found “Definition of ≠”, “Definition of ≠”
+                — CalcCheck: Found (3.12) “Double negation”
+                — CalcCheck: ─ OK
+            i = n ∧ s = i · i
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            i = n ∧ (s = z · z)[z ≔ i]
+        ≡ ⟨ “Replacement”, Substitution ⟩
+                — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                — CalcCheck: ─ OK
+            i = n ∧ s = n · n
+        ⇒ ⟨ “Weakening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            s = n · n    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[9]
+It has been mentioned that “quantification is somewhat like loops”.
+
+To give this a more precise meaning, the following shows how a loop can be used to calculate a sum quantification with a simple range.
+
+To prove the correctness of this theorem, you will in particular need sum quantification material from Ex5.5.
+
+The proof of the following theorem will otherwise follow the same approach as the proof above.
+
+The program here applies the function f : ℤ → ℤ to the different values of the loop variable i, and adds up the results.
+
+You are allowed to use
+
+    s = ∑ j : ℤ ❙ 0 ≤ j < i • f j
+as invariant — with that, you will be able to finish the proof except that you will be unable to discharge the antecedent of a “Split off ∑-term …” theorem. You are allowed to leave the resulting
+
+   “Split off ∑-term ...” with ?
+unresolved. (And read on below.)
+
+[10]
+Theorem “Summing up”:
+      true
+    ⇒⁅  s := 0 ⍮
+        i := 0 ⍮
+        while i ≠ n
+          do
+            s := s + f i ⍮
+            i := i + 1
+          od
+      ⁆
+      s = ∑ j : ℤ ❙ 0 ≤ j < n • f j
+Proof: 
+    true   ╍╍╍  Precondition
+  ≡⟨ “Reflexivity of =”⟩
+    0 = 0
+  ≡⟨ “Empty range for ∑”⟩
+    0 = ∑ j : ℤ ❙ false • f j
+  ≡⟨ 
+    Subproof for `false ≡ 0 ≤ j ∧ j < 0`:
+      Using “Mutual implication”:
+        Subproof: 
+            false ⇒ 0 ≤ j ∧ j < 0
+          ≡⟨ “ex falso quodlibet” ⟩ 
+            true
+        Subproof:
+            0 ≤ j ∧ j < 0
+          ⇒⟨ “Transitivity of ≤ with <”⟩ 
+            0 < 0
+          ≡⟨ “Irreflexivity of <”⟩ 
+            false
+    ⟩ 
+    0 = ∑ j : ℤ ❙ (0 ≤ j ∧ j < 0) • f j 
+  ≡⟨ “Reflexivity of =”⟩ 
+    0 = ∑ j : ℤ ❙ 0 ≤ j < 0 • f j
+  ⇒⁅ s := 0 ⁆ ⟨ “Assignment” with substitution ⟩
+    s = ∑ j : ℤ ❙ 0 ≤ j < 0 • f j
+  ⇒⁅ i := 0 ⁆ ⟨ “Assignment” with substitution ⟩
+    s = ∑ j : ℤ ❙ 0 ≤ j < i • f j ╍╍╍  Invariant
+  ⇒⁅ while i ≠ n do
+       s := s + f i ⍮
+       i := i + 1
+     od ⁆  ⟨ “While” with subproof:
+        (i ≠ 0) ∧ s = ∑ j : ℤ ❙ 0 ≤ j < i • f j  ╍╍╍  Loop condition and invariant
+      ⇒⟨ “Weakening” ⟩
+        s = ∑ j : ℤ ❙ 0 ≤ j < i • f j
+      ≡⟨ “Cancellation of +” ⟩
+        s + f i = (∑ j : ℤ ❙ 0 ≤ j < i • f j) + f i
+      ≡⟨ “Split off ∑-term from top of ≤-<-suc range”
+          with ? ⟩ ╍╍╍ Leave this open!
+        s + f i = ∑ j : ℤ ❙ 0 ≤ j < (i + 1) • f j
+      ⇒⁅ s := s + f i ⁆ ⟨ “Assignment” with substitution ⟩
+        s = ∑ j : ℤ ❙ 0 ≤ j < (i + 1) • f j
+      ⇒⁅ i := i + 1 ⁆ ⟨ “Assignment” with substitution ⟩
+        s = ∑ j : ℤ ❙ 0 ≤ j < i • f j   ╍╍╍  Invariant
+    ⟩
+    ¬ (i ≠ n) ∧ s = ∑ j : ℤ ❙ 0 ≤ j < i • f j  ╍╍╍ Negated loop condition, and invariant
+  ≡⟨ “Definition of ≠”, “Double negation” ⟩
+    (i = n) ∧ s = ∑ j : ℤ ❙ 0 ≤ j < i • f j
+  ≡⟨ Substitution ⟩
+    (i = n) ∧ (s = ∑ j : ℤ ❙ 0 ≤ j < z • f j) [z ≔ i]
+  ≡⟨ “Replacement”, Substitution⟩
+    (i = n) ∧ (s = ∑ j : ℤ ❙ 0 ≤ j < n • f j)
+  ⇒⟨ “Weakening”⟩ 
+    s = ∑ j : ℤ ❙ 0 ≤ j < n • f j    ╍╍╍  Postcondition
+
+Theorem “Summing up”: true ⇒⁅ (s := 0 ⍮ (i := 0 ⍮ while (i ≠ n) do (s := s + f i ⍮ i := i + 1) od)) ⁆ s = (∑ j : ℤ ❙ 0 ≤ j < n • f j )
+Proof:
+    Calculation for expected goal  `true ⇒⁅ (s := 0 ⍮ (i := 0 ⍮ while (i ≠ n) do (s := s + f i ⍮ i := i + 1) od)) ⁆ s = (∑ j : ℤ ❙ 0 ≤ j < n • f j )`:
+            true
+        ≡ ⟨ “Reflexivity of =” ⟩
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: ─ OK
+            0 = 0
+        ≡ ⟨ “Empty range for ∑” ⟩
+                — CalcCheck: Found “Empty range for ∑”
+                — CalcCheck: ─ OK
+            0 = (∑ j : ℤ ❙ false • f j )
+        ≡ ⟨ Subproof for `false ≡ 0 ≤ j ∧ j < 0`:
+            Using “Mutual implication”:               
+                — CalcCheck: Found (3.80) “Mutual implication”
+                Subproof establishing `false ⇒ 0 ≤ j ∧ j < 0`:
+                            false ⇒ 0 ≤ j ∧ j < 0
+                        ≡ ⟨ “ex falso quodlibet” ⟩
+                                — CalcCheck: Found (3.75) “ex falso quodlibet”
+                                — CalcCheck: ─ OK
+                            true                    
+                    — CalcCheck: All steps OK
+                Subproof establishing `0 ≤ j ∧ j < 0 ⇒ false`:
+                            0 ≤ j ∧ j < 0
+                        ⇒ ⟨ “Transitivity of ≤ with <” ⟩
+                                — CalcCheck: Found (15.41b) “Transitivity”
+                                — CalcCheck: ─ OK
+                            0 < 0
+                        ≡ ⟨ “Irreflexivity of <” ⟩
+                                — CalcCheck: Found “Irreflexivity of <”
+                                — CalcCheck: ─ OK
+                            false                    
+                    — CalcCheck: All steps OK
+            ⟩
+                — CalcCheck: ─ OK
+            0 = (∑ j : ℤ ❙ 0 ≤ j ∧ j < 0 • f j )
+        ≡ ⟨ “Reflexivity of =” ⟩
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            0 = (∑ j : ℤ ❙ 0 ≤ j < 0 • f j )
+        ⇒⁅ s := 0 ⁆ ⟨ “Assignment” with Substitution ⟩
+                — CalcCheck: Found “Assignment”, “Assignment”
+                — CalcCheck: ─ OK
+            s = (∑ j : ℤ ❙ 0 ≤ j < 0 • f j )
+        ⇒⁅ i := 0 ⁆ ⟨ “Assignment” with Substitution ⟩
+                — CalcCheck: Found “Assignment”, “Assignment”
+                — CalcCheck: ─ OK
+            s = (∑ j : ℤ ❙ 0 ≤ j < i • f j )
+        ⇒⁅ while (i ≠ n) do (s := s + f i ⍮ i := i + 1) od ⁆ ⟨ “While” with Subproof establishing `i ≠ 0 ∧ s = (∑ j : ℤ ❙ 0 ≤ j < i • f j ) ⇒⁅ (s := s + f i ⍮ i := i + 1) ⁆ s = (∑ j : ℤ ❙ 0 ≤ j < i • f j )`:
+                    i ≠ 0 ∧ s = (∑ j : ℤ ❙ 0 ≤ j < i • f j )
+                ⇒ ⟨ “Weakening” ⟩
+                        — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                        — CalcCheck: ─ OK
+                    s = (∑ j : ℤ ❙ 0 ≤ j < i • f j )
+                ≡ ⟨ “Cancellation of +” ⟩
+                        — CalcCheck: Found (15.8) “Cancellation of +”
+                        — CalcCheck: ─ OK
+                    s + f i = (∑ j : ℤ ❙ 0 ≤ j < i • f j ) + f i
+                ≡ ⟨ “Split off ∑-term from top of ≤-<-suc range” with ? ⟩
+                        — CalcCheck: Found “Split off ∑-term from top of ≤-<-suc range”
+                        — CalcCheck: “?” does not prove anything!
+                        — CalcCheck: Could not justify this step!
+                    s + f i = (∑ j : ℤ ❙ 0 ≤ j < i + 1 • f j )
+                ⇒⁅ s := s + f i ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    s = (∑ j : ℤ ❙ 0 ≤ j < i + 1 • f j )
+                ⇒⁅ i := i + 1 ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    s = (∑ j : ℤ ❙ 0 ≤ j < i • f j )            
+            — CalcCheck: 1 out of 5 steps not justified
+            ⟩
+                — CalcCheck: Found “While”
+                — CalcCheck: Could not justify this step!
+            ¬ (i ≠ n) ∧ s = (∑ j : ℤ ❙ 0 ≤ j < i • f j )
+        ≡ ⟨ “Definition of ≠”, “Double negation” ⟩
+                — CalcCheck: Found “Definition of ≠”, “Definition of ≠”
+                — CalcCheck: Found (3.12) “Double negation”
+                — CalcCheck: ─ OK
+            i = n ∧ s = (∑ j : ℤ ❙ 0 ≤ j < i • f j )
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            i = n ∧ (s = (∑ j : ℤ ❙ 0 ≤ j < z • f j ))[z ≔ i]
+        ≡ ⟨ “Replacement”, Substitution ⟩
+                — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                — CalcCheck: ─ OK
+            i = n ∧ s = (∑ j : ℤ ❙ 0 ≤ j < n • f j )
+        ⇒ ⟨ “Weakening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            s = (∑ j : ℤ ❙ 0 ≤ j < n • f j )    
+    — CalcCheck: 1 out of 11 steps not justified   
+    — CalcCheck: Calculation matches goal ─ OK
+[11]
+What you would need in place of that “?” is a proof for 0 ≤ i — it is actually easy to show that the above while-loop preserves positivity of i, using 0 ≤ i as invariant to prove the following:
+
+[12]
+Theorem “Keeping `i` positive while summing up”:
+      0 ≤ i
+    ⇒⁅  while i ≠ n
+          do
+            s := s + f i ⍮
+            i := i + 1
+          od
+      ⁆
+      0 ≤ i 
+Proof:
+    0 ≤ i   ╍╍╍  Invariant
+  ⇒⁅ while i ≠ n do
+       s := s + f i ⍮
+       i := i + 1
+     od ⁆  ⟨ “While” with subproof:
+        i ≠ n ∧ 0 ≤ i
+      ⇒⟨ “Weakening” ⟩
+        0 ≤ i
+      ≡⟨ “Identity of ∧”⟩
+        0 ≤ i ∧ (true)
+      ≡⟨ Fact `0 ≤ 1`⟩
+        0 ≤ i ∧ 0 ≤ 1
+      ⇒⟨ “≤-Monotonicity of +”, Fact `0 + 0 = 0`⟩    
+        0 ≤ i + 1
+      ⇒⁅ s := s + f i ⁆ ⟨ “Assignment” with substitution ⟩ 
+        0 ≤ i + 1
+      ⇒⁅ i := i + 1 ⁆ ⟨ “Assignment” with substitution ⟩ 
+        0 ≤ i  
+    ⟩
+    ¬ (i ≠ n) ∧ 0 ≤ i  ╍╍╍ Negated loop condition, and invariant
+  ⇒⟨ “Weakening” ⟩
+    0 ≤ i   ╍╍╍  Postcondition
+
+Theorem “Keeping `i` positive while summing up”: 0 ≤ i ⇒⁅ while (i ≠ n) do (s := s + f i ⍮ i := i + 1) od ⁆ 0 ≤ i
+Proof:
+    Calculation for expected goal  `0 ≤ i ⇒⁅ while (i ≠ n) do (s := s + f i ⍮ i := i + 1) od ⁆ 0 ≤ i`:
+            0 ≤ i
+        ⇒⁅ while (i ≠ n) do (s := s + f i ⍮ i := i + 1) od ⁆ ⟨ “While” with Subproof establishing `i ≠ n ∧ 0 ≤ i ⇒⁅ (s := s + f i ⍮ i := i + 1) ⁆ 0 ≤ i`:
+                    i ≠ n ∧ 0 ≤ i
+                ⇒ ⟨ “Weakening” ⟩
+                        — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                        — CalcCheck: ─ OK
+                    0 ≤ i
+                ≡ ⟨ “Identity of ∧” ⟩
+                        — CalcCheck: Found (3.39) “Identity of ∧”
+                        — CalcCheck: ─ OK
+                    0 ≤ i ∧ true
+                ≡ ⟨ Fact `0 ≤ 1` ⟩
+                        — CalcCheck: ─ OK
+                    0 ≤ i ∧ 0 ≤ 1
+                ⇒ ⟨ “≤-Monotonicity of +”, Fact `0 + 0 = 0` ⟩
+                        — CalcCheck: Found “Two-sided ≤-Monotonicity of +”, “≤-Monotonicity of +”
+                        — CalcCheck: ─ OK
+                    0 ≤ i + 1
+                ⇒⁅ s := s + f i ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    0 ≤ i + 1
+                ⇒⁅ i := i + 1 ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    0 ≤ i            
+            — CalcCheck: All steps OK
+            ⟩
+                — CalcCheck: Found “While”
+                — CalcCheck: ─ OK
+            ¬ (i ≠ n) ∧ 0 ≤ i
+        ⇒ ⟨ “Weakening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            0 ≤ i    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[13]
+This invites re-doing the proof of “Summing up” with the following invariant:
+
+    0 ≤ i  ∧  s = ∑ j : ℤ ❙ 0 ≤ j < i • f j
+This is not expected as part of the current homework! (But allowed.)

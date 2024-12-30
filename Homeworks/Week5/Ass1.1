@@ -1,0 +1,778 @@
+— Assignment 1 Notebook 1: Conditional Commands
+[1]
+Integer material up to Ex4.7 is preloaded here; while working through this notebook, be aware of what is available in Ex4.7.
+
+Four hint items per hint are allowed here; Evaluation is disabled, but Facts are allowed.
+
+[2]
+Strive to remember the keystrokes for all symbols you need! Read “Getting Started with CalcCheckWeb” again, and as last resort, type \⟪TAB⟫ and scroll through the whole long symbol menu!
+
+[3]
+The following two-sided variant of
+
+Theorem “≤-Monotonicity of +”:
+   a ≤ b  ⇒  a + d ≤ b + d
+(from Ex. 4.7) may also come in handy (apply “≤-Monotonicity of +” twice):
+
+[4]
+Theorem “Two-sided ≤-Monotonicity of +”:
+   a ≤ b  ∧  c ≤ d  ⇒  a + c ≤ b + d
+Proof:
+  Assuming `a ≤ b`, `c ≤ d`:
+      a + c
+    ≤⟨ “≤-Monotonicity of +” with Assumption `a ≤ b`⟩
+      b + c
+    ≤⟨ “≤-Monotonicity of +” with Assumption `c ≤ d`⟩
+      b + d 
+
+Theorem “Two-sided ≤-Monotonicity of +”: a ≤ b ∧ c ≤ d ⇒ a + c ≤ b + d
+Proof:
+    Assuming `a ≤ b` , `c ≤ d`:
+    — CalcCheck: Assumptions match goal
+        Calculation for expected goal  `a + c ≤ b + d`:
+                a + c
+            ≤ ⟨ “≤-Monotonicity of +” with Assumption `a ≤ b` ⟩
+                    — CalcCheck: Found “≤-Monotonicity of +”
+                    — CalcCheck: Found assumption `a ≤ b`
+                    — CalcCheck: ─ OK
+                b + c
+            ≤ ⟨ “≤-Monotonicity of +” with Assumption `c ≤ d` ⟩
+                    — CalcCheck: Found “≤-Monotonicity of +”
+                    — CalcCheck: Found assumption `c ≤ d`
+                    — CalcCheck: ─ OK
+                b + d        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[5]
+A safe pattern for applying transitivity laws is the following (using constants and Fact only to make it work in isolation):
+
+[6]
+Calculation:
+    a ≤ 5
+  ≡⟨ “Identity of ∧”, Fact `5 ≤ 7` ⟩
+    a ≤ 5  ∧  5 ≤ 7
+  ⇒⟨ “Transitivity” ⟩
+    a ≤ 7
+
+Calculation:
+        a ≤ 5
+    ≡ ⟨ “Identity of ∧”, Fact `5 ≤ 7` ⟩
+            — CalcCheck: Found (3.39) “Identity of ∧”
+            — CalcCheck: ─ OK
+        a ≤ 5 ∧ 5 ≤ 7
+    ⇒ ⟨ “Transitivity” ⟩
+            — CalcCheck: Found (15.41d) “Transitivity”, (15.41c) “Transitivity”, (15.41b) “Transitivity”, (15.41a) “Transitivity”, “Transitivity”
+            — CalcCheck: ─ OK
+        a ≤ 7
+— CalcCheck: All steps OK
+[7]
+Doing something like this in a single step only works with the first antecedent of “Transitivity of ≤” a ≤ b ⇒ b ≤ c ⇒ a ≤ c:
+
+[8]
+Calculation:
+    7 ≤ b
+  ⇒⟨ “Transitivity of ≤” with Fact `5 ≤ 7` ⟩
+    5 ≤ b
+
+Calculation:
+        7 ≤ b
+    ⇒ ⟨ “Transitivity of ≤” with Fact `5 ≤ 7` ⟩
+            — CalcCheck: Found (15.41d) “Transitivity”, “Transitivity of ≤”
+            — CalcCheck: ─ OK
+        5 ≤ b
+— CalcCheck: All steps OK
+[9]
+Perhaps surprisingly, the following is not accepted:
+
+Calculation:
+    a ≤ 5
+  ⇒⟨ “Transitivity of ≤” with Fact `5 ≤ 7` ⟩
+    a ≤ 7
+The reason is that only the first antecedent of “Transitivity of ≤” a ≤ b ⇒ b ≤ c ⇒ a ≤ c is matched against 5 ≤ 7.
+
+Therefore the following variant of the transitivity law makes a difference:
+
+[10]
+Corollary “Flipped transitivity of ≤”:  b ≤ c  ⇒  a ≤ b  ⇒  a ≤ c
+Proof:
+    Assuming `b ≤ c`:
+        a ≤ b
+      ≡⟨ “Identity of ∧”, Assumption `b ≤ c`⟩
+        a ≤ b ∧ b ≤ c 
+      ⇒⟨ “Two-sided ≤-Monotonicity of +”⟩
+        a + b ≤ b + c  
+      ⇒⟨ “≤-Monotonicity of -”⟩
+        a + b - b ≤ b + c - b 
+      ≡⟨ “Subtraction”, “Unary minus”, “Identity of +”⟩
+        a ≤ c  
+
+Corollary “Flipped transitivity of ≤”: b ≤ c ⇒ (a ≤ b ⇒ a ≤ c)
+Proof:
+    Assuming `b ≤ c`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `a ≤ b ⇒ a ≤ c`:
+                a ≤ b
+            ≡ ⟨ “Identity of ∧”, Assumption `b ≤ c` ⟩
+                    — CalcCheck: Found (3.39) “Identity of ∧”
+                    — CalcCheck: Found assumption `b ≤ c`
+                    — CalcCheck: ─ OK
+                a ≤ b ∧ b ≤ c
+            ⇒ ⟨ “Two-sided ≤-Monotonicity of +” ⟩
+                    — CalcCheck: Found “Two-sided ≤-Monotonicity of +”
+                    — CalcCheck: ─ OK
+                a + b ≤ b + c
+            ⇒ ⟨ “≤-Monotonicity of -” ⟩
+                    — CalcCheck: Found “Monotonicity of -”
+                    — CalcCheck: ─ OK
+                (a + b) - b ≤ (b + c) - b
+            ≡ ⟨ “Subtraction”, “Unary minus”, “Identity of +” ⟩
+                    — CalcCheck: Found (15.14) “Subtraction”
+                    — CalcCheck: Found (15.13) “Unary minus”
+                    — CalcCheck: Found (15.3) “Additive identity”
+                    — CalcCheck: ─ OK
+                a ≤ c        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[11]
+Now the other example is also accepted in a single step:
+
+[12]
+Calculation:
+    a ≤ 5
+  ⇒⟨ “Flipped transitivity of ≤” with Fact `5 ≤ 7` ⟩
+    a ≤ 7
+
+Calculation:
+        a ≤ 5
+    ⇒ ⟨ “Flipped transitivity of ≤” with Fact `5 ≤ 7` ⟩
+            — CalcCheck: Found “Flipped transitivity of ≤”
+            — CalcCheck: ─ OK
+        a ≤ 7
+— CalcCheck: All steps OK
+[13]
+You actually have seen this theorem with a different name in Ex5.4:
+
+[14]
+Calculation:
+    a ≤ 5
+  ⇒⟨ “Right-monotonicity of ≤” with Fact `5 ≤ 7` ⟩
+    a ≤ 7
+
+Calculation:
+        a ≤ 5
+    ⇒ ⟨ “Right-monotonicity of ≤” with Fact `5 ≤ 7` ⟩
+            — CalcCheck: Found “Right-monotonicity of ≤”
+            — CalcCheck: ─ OK
+        a ≤ 7
+— CalcCheck: All steps OK
+[15]
+We continue with command correctness as started in H3. In the set-up here (and in the future), “Assignment” can still be used separately as before:
+
+[16]
+Calculation:          ╍╍╍ bottom-up
+    7 > 5
+  ≡⟨ Substitution ⟩
+    (a > 5)[a ≔ 7]
+  ⇒⁅ a := 7 ⁆ ⟨ “Assignment” ⟩
+    a > 5
+
+Calculation:
+        7 > 5
+    ≡ ⟨ Substitution ⟩
+            — CalcCheck: ─ OK
+        (a > 5)[a ≔ 7]
+    ⇒⁅ a := 7 ⁆ ⟨ “Assignment” ⟩
+            — CalcCheck: Found “Assignment”, “Assignment”
+            — CalcCheck: ─ OK
+        a > 5
+— CalcCheck: All steps OK
+[17]
+But now it can also be combined “with substitution” into one step:
+
+[18]
+Calculation:          ╍╍╍ bottom-up
+    7 > 5
+  ⇒⁅ a := 7 ⁆ ⟨ “Assignment” with substitution ⟩
+    a > 5
+
+Calculation:
+        7 > 5
+    ⇒⁅ a := 7 ⁆ ⟨ “Assignment” with Substitution ⟩
+            — CalcCheck: Found “Assignment”, “Assignment”
+            — CalcCheck: ─ OK
+        a > 5
+— CalcCheck: All steps OK
+[19]
+We now add two new kinds of commands: Conditionals and skip.
+
+[20]
+For conditional commands, we use an if_then_else_fi mixfix syntax. Here is the correctness rule “Conditional” for conditional commands:
+
+      `B ∧ P ⇒⁅ C₁ ⁆ Q`,   `¬ B ∧ P ⇒⁅ C₂ ⁆ Q`
+    ⊦————————————————————————————————————————————
+        `P ⇒⁅ if B then C₁ else C₂ fi ⁆ Q`
+This is most easily applied via Using with two subproofs, see below.
+
+[21]
+For the most boring command, we use the name skip — this does nothing, that is, it terminates immediately without changing the state.
+
+Under the name “skip”, you have the theorem
+
+    P ⇒⁅ skip ⁆ P
+and the following inference rule:
+
+            `P ⇒ Q`
+    ⊦———————————————————————
+        `P ⇒⁅ skip ⁆ Q`
+[22]
+While the rules are formulated in terms of the mixfix operator _⇒⁅_⁆_ seen in H3.1 and A1.3, the preferred approach to correctness proof presentation remains the “backwards presentation” based on the converse mixfix operator _⁅_⁆⇐_ introduced in H8.
+
+Finish the proof of the following correctness statement:
+
+[23]
+Fact (CondCorr1):
+      true              ╍╍╍ Precondition
+    ⇒⁅
+        if m ≤ 10
+        then skip
+        else m := 0
+        fi
+      ⁆
+      m ≤ 10           ╍╍╍ Postcondition
+Proof:
+    true               ╍╍╍ Precondition
+  ⇒⁅ if m ≤ 10 then skip else m := 0 fi ⁆ ⟨ Subproof:
+      Using “Conditional”:
+        Subproof:  ╍╍╍ (subproof goal is obvious from calculation)
+            true ∧ m ≤ 10           ╍╍╍ Precondition for `then`
+          ≡  ⟨ “Identity of ∧” ⟩
+            m ≤ 10
+          ⇒⁅ skip ⁆  ⟨ “skip” ⟩
+            m ≤ 10                  ╍╍╍ Postcondition
+        Subproof:  ╍╍╍ (subproof goal is obvious from calculation)
+            true ∧ ¬ (m ≤ 10)       ╍╍╍ Precondition for `else`
+          ⇒  ⟨ “Weakening” ⟩
+            true
+          ≡  ⟨ Fact `0 ≤ 10` ⟩
+            0 ≤ 10
+          ⇒⁅ m := 0 ⁆  ⟨ “Assignment” with substitution ⟩
+            m ≤ 10                  ╍╍╍ Postcondition
+    ⟩
+    m ≤ 10             ╍╍╍ Postcondition
+
+Fact (CondCorr1): true ⇒⁅ if (m ≤ 10) then skip else (m := 0) fi ⁆ m ≤ 10
+Proof:
+    Calculation for expected goal  `true ⇒⁅ if (m ≤ 10) then skip else (m := 0) fi ⁆ m ≤ 10`:
+            true
+        ⇒⁅ if (m ≤ 10) then skip else (m := 0) fi ⁆ ⟨ Subproof for expected goal `true ⇒⁅ if (m ≤ 10) then skip else (m := 0) fi ⁆ m ≤ 10`:
+            Using “Conditional”:               
+                — CalcCheck: Found “Conditional”
+                Subproof establishing `true ∧ m ≤ 10 ⇒⁅ skip ⁆ m ≤ 10`:
+                            true ∧ m ≤ 10
+                        ≡ ⟨ “Identity of ∧” ⟩
+                                — CalcCheck: Found (3.39) “Identity of ∧”
+                                — CalcCheck: ─ OK
+                            m ≤ 10
+                        ⇒⁅ skip ⁆ ⟨ “skip” ⟩
+                                — CalcCheck: Found “skip”, “skip”
+                                — CalcCheck: ─ OK
+                            m ≤ 10                    
+                    — CalcCheck: All steps OK
+                Subproof establishing `true ∧ ¬ (m ≤ 10) ⇒⁅ (m := 0) ⁆ m ≤ 10`:
+                            true ∧ ¬ (m ≤ 10)
+                        ⇒ ⟨ “Weakening” ⟩
+                                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                                — CalcCheck: ─ OK
+                            true
+                        ≡ ⟨ Fact `0 ≤ 10` ⟩
+                                — CalcCheck: ─ OK
+                            0 ≤ 10
+                        ⇒⁅ m := 0 ⁆ ⟨ “Assignment” with Substitution ⟩
+                                — CalcCheck: Found “Assignment”, “Assignment”
+                                — CalcCheck: ─ OK
+                            m ≤ 10                    
+                    — CalcCheck: All steps OK
+            ⟩
+                — CalcCheck: ─ OK
+            m ≤ 10    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[24]
+Instead of cramming everything into a single proof, one could also prove the pieces as lemmas:
+
+[25]
+Fact (CondCorr1a-Then):
+    true ∧ m ≤ 20 ⇒⁅ skip ⁆ m ≤ 20
+Proof:
+    true ∧ m ≤ 20           ╍╍╍ Precondition for `then`
+  ≡  ⟨ “Identity of ∧” ⟩
+    m ≤ 20
+  ⇒⁅ skip ⁆  ⟨ “skip” ⟩
+    m ≤ 20                  ╍╍╍ Postcondition
+
+Fact (CondCorr1a-Then): true ∧ m ≤ 20 ⇒⁅ skip ⁆ m ≤ 20
+Proof:
+    Calculation for expected goal  `true ∧ m ≤ 20 ⇒⁅ skip ⁆ m ≤ 20`:
+            true ∧ m ≤ 20
+        ≡ ⟨ “Identity of ∧” ⟩
+                — CalcCheck: Found (3.39) “Identity of ∧”
+                — CalcCheck: ─ OK
+            m ≤ 20
+        ⇒⁅ skip ⁆ ⟨ “skip” ⟩
+                — CalcCheck: Found “skip”, “skip”
+                — CalcCheck: ─ OK
+            m ≤ 20    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[26]
+Fact (CondCorr1a-Else):
+     true ∧ ¬ (m ≤ 20) ⇒⁅ m := 0 ⁆ m ≤ 20
+Proof:
+    true ∧ ¬ (m ≤ 20)       ╍╍╍ Precondition for `else`
+  ⇒  ⟨ “Weakening” ⟩
+    true
+  ≡⟨ Fact `0 ≤ 20`⟩ 
+    0 ≤ 20
+  ⇒⁅ m := 0 ⁆  ⟨ “Assignment” with substitution ⟩
+    m ≤ 20                  ╍╍╍ Postcondition
+
+Fact (CondCorr1a-Else): true ∧ ¬ (m ≤ 20) ⇒⁅ (m := 0) ⁆ m ≤ 20
+Proof:
+    Calculation for expected goal  `true ∧ ¬ (m ≤ 20) ⇒⁅ (m := 0) ⁆ m ≤ 20`:
+            true ∧ ¬ (m ≤ 20)
+        ⇒ ⟨ “Weakening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            true
+        ≡ ⟨ Fact `0 ≤ 20` ⟩
+                — CalcCheck: ─ OK
+            0 ≤ 20
+        ⇒⁅ m := 0 ⁆ ⟨ “Assignment” with Substitution ⟩
+                — CalcCheck: Found “Assignment”, “Assignment”
+                — CalcCheck: ─ OK
+            m ≤ 20    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[27]
+Fact (CondCorr1a):
+      true              ╍╍╍ Precondition
+    ⇒⁅
+        if m ≤ 20
+        then skip
+        else m := 0
+        fi
+      ⁆
+      m ≤ 20           ╍╍╍ Postcondition
+Proof:
+      true               ╍╍╍ Precondition
+    ⇒⁅ if m ≤ 20 then skip else m := 0 fi ⁆
+        ⟨ “Conditional” with (CondCorr1a-Then) and (CondCorr1a-Else) ⟩
+      m ≤ 20             ╍╍╍ Postcondition
+
+Fact (CondCorr1a): true ⇒⁅ if (m ≤ 20) then skip else (m := 0) fi ⁆ m ≤ 20
+Proof:
+    Calculation for expected goal  `true ⇒⁅ if (m ≤ 20) then skip else (m := 0) fi ⁆ m ≤ 20`:
+            true
+        ⇒⁅ if (m ≤ 20) then skip else (m := 0) fi ⁆ ⟨ “Conditional” with (CondCorr1a-Then) and (CondCorr1a-Else) ⟩
+                — CalcCheck: Found “Conditional”
+                — CalcCheck: Found (CondCorr1a-Then) `true ∧ m ≤ 20 ⇒⁅ skip ⁆ m ≤ 20`
+                — CalcCheck: Found (CondCorr1a-Else) `true ∧ ¬ (m ≤ 20) ⇒⁅ (m := 0) ⁆ m ≤ 20`
+                — CalcCheck: ─ OK
+            m ≤ 20    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[28]
+Or one could use “Side proof … Continuing:” construct to obtain “local properties” (see also the draft CalcCheck manual) — such local properties are more flexible than top-level lemmas, since side proofs may also depend on local assumptions. (They are just another proof structure in CalcCheck, and can go wherever any proof can go.)
+
+[29]
+Fact (CondCorr1b):
+      true              ╍╍╍ Precondition
+    ⇒⁅
+        if m ≤ 30
+        then skip
+        else m := 0
+        fi
+      ⁆
+      m ≤ 30           ╍╍╍ Postcondition
+Proof:
+  Side proof for (T) `true ∧ m ≤ 30  ⇒⁅ skip ⁆  m ≤ 30`:
+            true ∧ m ≤ 30           ╍╍╍ Precondition for `then`
+          ⇒  ⟨ “Weakening” ⟩
+            m ≤ 30
+          ⇒⁅ skip ⁆  ⟨ “skip” ⟩
+            m ≤ 30                  ╍╍╍ Postcondition
+  Side proof for (E) `true ∧ ¬ (m ≤ 30)  ⇒⁅ m := 0 ⁆  m ≤ 30`:
+            true ∧ ¬ (m ≤ 30)       ╍╍╍ Precondition for `else`
+          ⇒  ⟨ “Weakening” ⟩
+            true
+          ≡⟨ Fact `0 ≤ 30`⟩ 
+            0 ≤ 30 
+          ⇒⁅ m := 0 ⁆  ⟨ “Assignment” with substitution ⟩
+            m ≤ 30                  ╍╍╍ Postcondition
+  Continuing:
+      true               ╍╍╍ Precondition
+    ⇒⁅ if m ≤ 30 then skip else m := 0 fi ⁆
+        ⟨ “Conditional” with local properties (T) and (E) ⟩
+      m ≤ 30             ╍╍╍ Postcondition
+
+Fact (CondCorr1b): true ⇒⁅ if (m ≤ 30) then skip else (m := 0) fi ⁆ m ≤ 30
+Proof:
+    Side proof for (T) `true ∧ m ≤ 30 ⇒⁅ skip ⁆ m ≤ 30`:
+                true ∧ m ≤ 30
+            ⇒ ⟨ “Weakening” ⟩
+                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                    — CalcCheck: ─ OK
+                m ≤ 30
+            ⇒⁅ skip ⁆ ⟨ “skip” ⟩
+                    — CalcCheck: Found “skip”, “skip”
+                    — CalcCheck: ─ OK
+                m ≤ 30        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+    Side proof for (E) `true ∧ ¬ (m ≤ 30) ⇒⁅ (m := 0) ⁆ m ≤ 30`:
+                true ∧ ¬ (m ≤ 30)
+            ⇒ ⟨ “Weakening” ⟩
+                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                    — CalcCheck: ─ OK
+                true
+            ≡ ⟨ Fact `0 ≤ 30` ⟩
+                    — CalcCheck: ─ OK
+                0 ≤ 30
+            ⇒⁅ m := 0 ⁆ ⟨ “Assignment” with Substitution ⟩
+                    — CalcCheck: Found “Assignment”, “Assignment”
+                    — CalcCheck: ─ OK
+                m ≤ 30        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+    Continuing:
+        Calculation for expected goal  `true ⇒⁅ if (m ≤ 30) then skip else (m := 0) fi ⁆ m ≤ 30`:
+                true
+            ⇒⁅ if (m ≤ 30) then skip else (m := 0) fi ⁆ ⟨ “Conditional” with Local property (T) and Local property (E) ⟩
+                    — CalcCheck: Found “Conditional”
+                    — CalcCheck: Found local property (T)
+                    — CalcCheck: Found local property (E)
+                    — CalcCheck: ─ OK
+                m ≤ 30        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[30]
+Prove also the following correctness statement in a similar fashion as one of the (CondCorr1*) proofs, probably using some of the order-related material introduced at the top of this notebook. (Each of the two subproofs can be shown with less than ten steps.)
+
+Do not change the “theorem number” (CondCorr2), nor its theorem statement!
+
+But if you want, you can have several different proofs of this.
+
+[31]
+Fact (CondCorr2):
+       n ≥ 3              ╍╍╍ Precondition
+     ⇒⁅
+         if n ≥ 6
+         then n := n + n
+         else n := n + 10
+         fi
+       ⁆
+       n ≥ 12              ╍╍╍ Postcondition
+Proof:
+  Side proof for (T) `n ≥ 3 ∧ n ≥ 6  ⇒⁅ n := n + n ⁆ n ≥ 12`:
+            n ≥ 3 ∧ n ≥ 6
+          ⇒ ⟨ “Weakening”⟩
+            n ≥ 6    
+          ⇒⟨ Subproof for `n ≥ 6 ⇒ n + n ≥ 12`:
+              Assuming `n ≥ 6`:
+                  true
+                ≡⟨ “Identity of ∧”⟩
+                  true ∧ true 
+                ≡⟨ Assumption `n ≥ 6`⟩
+                  n ≥ 6 ∧ n ≥ 6
+                ⇒⟨ “Two-sided ≤-Monotonicity of +”, Fact `6 + 6 = 12`⟩ 
+                  n + n ≥ 12
+            ⟩ 
+            n + n ≥ 12
+          ⇒⁅ n := n + n ⁆  ⟨“Assignment” with substitution ⟩
+            n ≥ 12
+  Side proof for (E) `n ≥ 3 ∧ ¬ (n ≥ 6) ⇒⁅ n := n + 10 ⁆ n ≥ 12`:
+            n ≥ 3 ∧ ¬ (n ≥ 6)
+          ⇒⟨ “Weakening” ⟩
+            n ≥ 3
+          ≡⟨ “Identity of ∧”⟩
+            (n ≥ 3 ∧ true)
+          ≡⟨ Fact `1 ≥ 0`⟩
+            n ≥ 3 ∧ 1 ≥ 0
+          ⇒⟨ “Two-sided ≤-Monotonicity of +”⟩ 
+            n + 1 ≥ 3 + 0
+          ≡⟨ “Identity of +”⟩
+            n + 1 ≥ 3  
+          ≡⟨ “≤-Isotonicity of +”, Fact `1 + 9 = 10`, Fact `3 + 9 = 12`⟩
+            n + 10 ≥ 12
+          ⇒⁅ n := n + 10 ⁆ ⟨ “Assignment” with substitution ⟩
+            n ≥ 12
+  Continuing:
+      n ≥ 3               ╍╍╍ Precondition
+    ⇒⁅ if n ≥ 6 then n := n + n else n := n + 10 fi ⁆
+        ⟨ “Conditional” with local properties (T) and (E) ⟩
+      n ≥ 12             ╍╍╍ Postcondition
+    
+
+Fact (CondCorr2): n ≥ 3 ⇒⁅ if (n ≥ 6) then (n := n + n) else (n := n + 10) fi ⁆ n ≥ 12
+Proof:
+    Side proof for (T) `n ≥ 3 ∧ n ≥ 6 ⇒⁅ (n := n + n) ⁆ n ≥ 12`:
+                n ≥ 3 ∧ n ≥ 6
+            ⇒ ⟨ “Weakening” ⟩
+                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                    — CalcCheck: ─ OK
+                n ≥ 6
+            ⇒ ⟨ Subproof for `n ≥ 6 ⇒ n + n ≥ 12`:
+                Assuming `n ≥ 6`:
+                — CalcCheck: Assumption matches goal
+                    Calculation for expected goal  `n + n ≥ 12`:
+                            true
+                        ≡ ⟨ “Identity of ∧” ⟩
+                                — CalcCheck: Found (3.39) “Identity of ∧”
+                                — CalcCheck: ─ OK
+                            true ∧ true
+                        ≡ ⟨ Assumption `n ≥ 6` ⟩
+                                — CalcCheck: Found assumption `n ≥ 6`
+                                — CalcCheck: ─ OK
+                            n ≥ 6 ∧ n ≥ 6
+                        ⇒ ⟨ “Two-sided ≤-Monotonicity of +”, Fact `6 + 6 = 12` ⟩
+                                — CalcCheck: Found “Two-sided ≤-Monotonicity of +”
+                                — CalcCheck: ─ OK
+                            n + n ≥ 12                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK
+                ⟩
+                    — CalcCheck: ─ OK
+                n + n ≥ 12
+            ⇒⁅ n := n + n ⁆ ⟨ “Assignment” with Substitution ⟩
+                    — CalcCheck: Found “Assignment”, “Assignment”
+                    — CalcCheck: ─ OK
+                n ≥ 12        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+    Side proof for (E) `n ≥ 3 ∧ ¬ (n ≥ 6) ⇒⁅ (n := n + 10) ⁆ n ≥ 12`:
+                n ≥ 3 ∧ ¬ (n ≥ 6)
+            ⇒ ⟨ “Weakening” ⟩
+                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                    — CalcCheck: ─ OK
+                n ≥ 3
+            ≡ ⟨ “Identity of ∧” ⟩
+                    — CalcCheck: Found (3.39) “Identity of ∧”
+                    — CalcCheck: ─ OK
+                n ≥ 3 ∧ true
+            ≡ ⟨ Fact `1 ≥ 0` ⟩
+                    — CalcCheck: ─ OK
+                n ≥ 3 ∧ 1 ≥ 0
+            ⇒ ⟨ “Two-sided ≤-Monotonicity of +” ⟩
+                    — CalcCheck: Found “Two-sided ≤-Monotonicity of +”
+                    — CalcCheck: ─ OK
+                n + 1 ≥ 3 + 0
+            ≡ ⟨ “Identity of +” ⟩
+                    — CalcCheck: Found (15.3) “Additive identity”
+                    — CalcCheck: ─ OK
+                n + 1 ≥ 3
+            ≡ ⟨ “≤-Isotonicity of +”, Fact `1 + 9 = 10`, Fact `3 + 9 = 12` ⟩
+                    — CalcCheck: Found “≤-Isotonicity of +”
+                    — CalcCheck: ─ OK
+                n + 10 ≥ 12
+            ⇒⁅ n := n + 10 ⁆ ⟨ “Assignment” with Substitution ⟩
+                    — CalcCheck: Found “Assignment”, “Assignment”
+                    — CalcCheck: ─ OK
+                n ≥ 12        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+    Continuing:
+        Calculation for expected goal  `n ≥ 3 ⇒⁅ if (n ≥ 6) then (n := n + n) else (n := n + 10) fi ⁆ n ≥ 12`:
+                n ≥ 3
+            ⇒⁅ if (n ≥ 6) then (n := n + n) else (n := n + 10) fi ⁆ ⟨ “Conditional” with Local property (T) and Local property (E) ⟩
+                    — CalcCheck: Found “Conditional”
+                    — CalcCheck: Found local property (T)
+                    — CalcCheck: Found local property (E)
+                    — CalcCheck: ─ OK
+                n ≥ 12        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[32]
+The following lemma “Linear order ≤” can be useful for proving the Completeness part of proofs started with:
+
+      By cases: `a ≤ b`, `b ≤ a`
+        Completeness: By “Linear order ≤”
+[33]
+Lemma “Linear order ≤”:  a ≤ b  ∨  b ≤ a
+Proof:
+    a ≤ b  ∨  b ≤ a
+  ≡⟨ “Definition of ≤”⟩
+    (a < b ∨ a = b) ∨ (b < a ∨ b = a)
+  ≡⟨ “Symmetry of ∨”, “Reflexivity of =”, “Idempotency of ∨”⟩
+    a < b ∨ a = b ∨ b < a — This is “Trichotomy”
+
+Lemma “Linear order ≤”: a ≤ b ∨ b ≤ a
+Proof:
+    Calculation for expected goal  `a ≤ b ∨ b ≤ a`:
+            a ≤ b ∨ b ≤ a
+        ≡ ⟨ “Definition of ≤” ⟩
+                — CalcCheck: Found (15.38) “At most”
+                — CalcCheck: ─ OK
+            (a < b ∨ a = b) ∨ (b < a ∨ b = a)
+        ≡ ⟨ “Symmetry of ∨”, “Reflexivity of =”, “Idempotency of ∨” ⟩
+                — CalcCheck: Found (3.24) “Symmetry of ∨”
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: Found (3.26) “Idempotency of ∨”
+                — CalcCheck: ─ OK
+            a < b ∨ (a = b ∨ b < a)     — This is “Trichotomy”    
+    — CalcCheck: Found “Trichotomy”, (15.44) “Trichotomy”   
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[34]
+Prove also the following correctness statement in a similar fashion as one of the (CondCorr1*) proofs. (Each of the two subproofs can be shown with less than fifteen steps.)
+
+[35]
+Fact (CondCorr3):
+      true
+    ⇒⁅
+        if m ≤ p
+        then skip
+        else n := m
+        fi
+      ⁆
+      m ≤ n ∨ n ≤ p
+
+Proof:
+  Side proof for (T) `true ∧ m ≤ p ⇒⁅ skip ⁆ m ≤ n ∨ n ≤ p`:
+            true ∧ m ≤ p
+          ≡⟨ “Identity of ∧” ⟩
+            m ≤ p
+          ⇒⟨ Subproof for `(m ≤ p) ⇒ (m ≤ n ∨ n ≤ p)`:
+              By cases: `n ≥ p`, `n ≤ p`
+                Completeness: By “Linear order ≤”
+                Case `n ≥ p`:
+                    m ≤ p
+                  ≡⟨ “Identity of ∧”⟩
+                    m ≤ p ∧ true
+                  ≡⟨ Assumption `n ≥ p`, “Converse of ≤”⟩
+                    m ≤ p ∧ p ≤ n
+                  ⇒⟨ “Transitivity of ≤”⟩
+                    m ≤ n
+                  ⇒⟨ “Strengthening”⟩
+                    m ≤ n ∨ n ≤ p
+                Case `n ≤ p`:
+                    m ≤ p
+                  ≡⟨ “Identity of ∧”, Assumption `n ≤ p`⟩
+                    m ≤ p ∧ n ≤ p
+                  ⇒⟨ “Weakening”⟩
+                    n ≤ p  
+                  ⇒⟨ “Strengthening”⟩
+                    m ≤ n ∨ n ≤ p 
+            ⟩   
+            m ≤ n ∨ n ≤ p
+          ⇒⁅ skip ⁆ ⟨ “skip” ⟩ 
+            m ≤ n ∨ n ≤ p
+  Side proof for (E) `true ∧ ¬(m ≤ p) ⇒⁅ n := m ⁆ m ≤ n ∨ n ≤ p`:
+            true ∧ ¬(m ≤ p)
+          ⇒⟨ “Weakening”⟩
+            true 
+          ≡⟨ “Reflexivity of ≤” ⟩
+            m ≤ m
+          ⇒⟨ “Strengthening”⟩  
+            m ≤ m ∨ m ≤ p
+          ⇒⁅ n := m ⁆ ⟨ “Assignment” with substitution ⟩ 
+            m ≤ n ∨ n ≤ p
+  Continuing:
+      true               ╍╍╍ Precondition
+    ⇒⁅ if m ≤ p then skip else n := m fi ⁆
+        ⟨ “Conditional” with local properties (T) and (E) ⟩
+      m ≤ n ∨ n ≤ p             ╍╍╍ Postcondition 
+
+Fact (CondCorr3): true ⇒⁅ if (m ≤ p) then skip else (n := m) fi ⁆ m ≤ n ∨ n ≤ p
+Proof:
+    Side proof for (T) `true ∧ m ≤ p ⇒⁅ skip ⁆ m ≤ n ∨ n ≤ p`:
+                true ∧ m ≤ p
+            ≡ ⟨ “Identity of ∧” ⟩
+                    — CalcCheck: Found (3.39) “Identity of ∧”
+                    — CalcCheck: ─ OK
+                m ≤ p
+            ⇒ ⟨ Subproof for `m ≤ p ⇒ m ≤ n ∨ n ≤ p`:
+                By cases: `n ≥ p`, `n ≤ p`
+                    Completeness:
+                        By “Linear order ≤”                           
+                            — CalcCheck: Found “Linear order ≤”
+                    Case `n ≥ p`:
+                        Calculation for expected goal  `m ≤ p ⇒ m ≤ n ∨ n ≤ p`:
+                                m ≤ p
+                            ≡ ⟨ “Identity of ∧” ⟩
+                                    — CalcCheck: Found (3.39) “Identity of ∧”
+                                    — CalcCheck: ─ OK
+                                m ≤ p ∧ true
+                            ≡ ⟨ Assumption `n ≥ p`, “Converse of ≤” ⟩
+                                    — CalcCheck: Found assumption `n ≥ p`
+                                    — CalcCheck: Found “Converse of ≤”
+                                    — CalcCheck: ─ OK
+                                m ≤ p ∧ p ≤ n
+                            ⇒ ⟨ “Transitivity of ≤” ⟩
+                                    — CalcCheck: Found (15.41d) “Transitivity”, “Transitivity of ≤”
+                                    — CalcCheck: ─ OK
+                                m ≤ n
+                            ⇒ ⟨ “Strengthening” ⟩
+                                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                                    — CalcCheck: ─ OK
+                                m ≤ n ∨ n ≤ p                        
+                        — CalcCheck: All steps OK                       
+                        — CalcCheck: Calculation matches goal ─ OK
+                    Case `n ≤ p`:
+                        Calculation for expected goal  `m ≤ p ⇒ m ≤ n ∨ n ≤ p`:
+                                m ≤ p
+                            ≡ ⟨ “Identity of ∧”, Assumption `n ≤ p` ⟩
+                                    — CalcCheck: Found (3.39) “Identity of ∧”
+                                    — CalcCheck: Found assumption `n ≤ p`
+                                    — CalcCheck: ─ OK
+                                m ≤ p ∧ n ≤ p
+                            ⇒ ⟨ “Weakening” ⟩
+                                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                                    — CalcCheck: ─ OK
+                                n ≤ p
+                            ⇒ ⟨ “Strengthening” ⟩
+                                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                                    — CalcCheck: ─ OK
+                                m ≤ n ∨ n ≤ p                        
+                        — CalcCheck: All steps OK                       
+                        — CalcCheck: Calculation matches goal ─ OK                
+                — CalcCheck: All cases covered.
+                ⟩
+                    — CalcCheck: ─ OK
+                m ≤ n ∨ n ≤ p
+            ⇒⁅ skip ⁆ ⟨ “skip” ⟩
+                    — CalcCheck: Found “skip”, “skip”
+                    — CalcCheck: ─ OK
+                m ≤ n ∨ n ≤ p        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+    Side proof for (E) `true ∧ ¬ (m ≤ p) ⇒⁅ (n := m) ⁆ m ≤ n ∨ n ≤ p`:
+                true ∧ ¬ (m ≤ p)
+            ⇒ ⟨ “Weakening” ⟩
+                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                    — CalcCheck: ─ OK
+                true
+            ≡ ⟨ “Reflexivity of ≤” ⟩
+                    — CalcCheck: Found (15.46) “Reflexivity of ≤”
+                    — CalcCheck: ─ OK
+                m ≤ m
+            ⇒ ⟨ “Strengthening” ⟩
+                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                    — CalcCheck: ─ OK
+                m ≤ m ∨ m ≤ p
+            ⇒⁅ n := m ⁆ ⟨ “Assignment” with Substitution ⟩
+                    — CalcCheck: Found “Assignment”, “Assignment”
+                    — CalcCheck: ─ OK
+                m ≤ n ∨ n ≤ p        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+    Continuing:
+        Calculation for expected goal  `true ⇒⁅ if (m ≤ p) then skip else (n := m) fi ⁆ m ≤ n ∨ n ≤ p`:
+                true
+            ⇒⁅ if (m ≤ p) then skip else (n := m) fi ⁆ ⟨ “Conditional” with Local property (T) and Local property (E) ⟩
+                    — CalcCheck: Found “Conditional”
+                    — CalcCheck: Found local property (T)
+                    — CalcCheck: Found local property (E)
+                    — CalcCheck: ─ OK
+                m ≤ n ∨ n ≤ p        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
