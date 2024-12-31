@@ -1,0 +1,849 @@
+— Homework 10 Notebook 3: Relations via Set Theory: Definitions
+[1]
+Preloaded here is all set theory from Ref6.1, and also the pairs and Cartesian product material from H10.1 and H10.2, in particular:
+
+Axiom   (14.2) “Pair equality”:       ⟨ b, c ⟩ = ⟨ b', c' ⟩  ≡  b = b' ∧ c = c'
+Theorem (14.4) “Membership in ×”:     ⟨ x, y ⟩ ∈ S × T       ≡  x ∈ S  ∧ y ∈ T
+[2]
+Relationship
+[3]
+A binary relation is a set of pairs.
+
+Thereforem, the type “t₁ ↔ t₂” of all binary relations from t₁ to t₂ is the type of all possible sets of pairs with first constituent of type t₁ and second constituent of type t₂:
+
+    “Definition of ↔”:  t₁ ↔ t₂  =  set ❰ t₁ , t₂ ❱
+[4]
+For infix relationship we use the following notation:
+
+`a ⦗ R ⦘ b`
+This means that a is related with b via relation R.
+
+The brackets in this notation are called “tortoise shell brackets” by Unicode. Type \lrel or \(( for ⦗, and \rrel or \)) for ⦘.
+
+[5]
+Precedence 50 for:  _⦗_⦘_
+Conjunctional:  _⦗_⦘_
+
+Precedence 50 for: _⦗_⦘_
+Conjunctional: _⦗_⦘_
+[6]
+Declaration: _⦗_⦘_ : t → (t ↔ u) → u → 𝔹
+
+Declaration: _⦗_⦘_ : t → (t ↔ u → (u → 𝔹))   
+    — CalcCheck: Operator _⦗_⦘_: Conjunctional; precedence 50
+[7]
+We made infix relationship conjunctional, so you have:
+
+[8]
+Calculation:
+    a ⦗ R ⦘ b ⦗ S ⦘ c
+  ≡⟨ “Reflexivity of ≡” ⟩
+    a ⦗ R ⦘ b   ∧  b ⦗ S ⦘ c 
+
+Calculation:
+        a ⦗ R ⦘ b ⦗ S ⦘ c
+    ≡ ⟨ “Reflexivity of ≡” ⟩
+            — CalcCheck: Found (3.5) “Reflexivity of ≡”
+            — CalcCheck: OK (no change)
+            — CalcCheck: ─ OK
+        a ⦗ R ⦘ b ∧ b ⦗ S ⦘ c
+— CalcCheck: All steps OK
+— CalcCheck: Metavariables: R = R〖〗, S = S〖〗
+[9]
+Axiom “Infix relationship” “Definition of `_⦗_⦘_`”:
+    a ⦗ R ⦘ b  ≡  ⟨ a , b ⟩ ∈ R
+
+Axiom “Infix relationship” “Definition of `_⦗_⦘_`”: a ⦗ R ⦘ b ≡ ⟨a, b⟩ ∈ R   
+    — CalcCheck: Metavariables: R = R〖〗
+[10]
+Relationship turns a relation R : A ↔ B into a binary infix predicate _⦗ R ⦘_ (this “mixed underscore” notation is not yet supported by CalcCheck).
+
+The axiom “Infix relationship” is the connection between the infix relationship notation a ⦗ R ⦘ b and the set membership of pairs ⟨ a , b ⟩ ∈ R, and will therefore be needed for justifying basic relationship properties via set theory.
+
+[11]
+“Relation extensionality” and “Relation inclusion” are the main bridge between properties formulated at the level of relations (and their operations) and predicate-logic formulations.
+
+[12]
+Theorem “Relation inclusion”:
+    R ⊆ S  ≡  (∀ x • ∀ y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y)
+Proof:
+  Using “Mutual implication”:
+    Subproof for `R ⊆ S ⇒ (∀ x • ∀ y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y)`:
+      Assuming `R ⊆ S`:    
+        For any `x`, `y`:
+            x ⦗ R ⦘ y
+          ≡⟨ “Definition of `_⦗_⦘_`”⟩
+            ⟨ x , y ⟩ ∈ R
+          ⇒⟨ “Casting”with Assumption `R ⊆ S`⟩
+            ⟨ x , y ⟩ ∈ S 
+          ≡⟨ “Definition of `_⦗_⦘_`” ⟩
+            x ⦗ S ⦘ y 
+               
+    Subproof for `(∀ x • ∀ y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y) ⇒ R ⊆ S`:
+      Assuming “A” `(∀ x • ∀ y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y)`:
+        Using “Definition of ⊆”:
+          For any `e`:
+              e ∈ R
+            ≡⟨ “Pair extensionality”⟩
+              ⟨ fst e , snd e ⟩ ∈ R
+            ≡⟨ “Definition of `_⦗_⦘_`”⟩
+              fst e ⦗ R ⦘ snd e
+            ⇒⟨ Assumption “A” ⟩
+              fst e ⦗ S ⦘ snd e 
+            ≡⟨ “Definition of `_⦗_⦘_`”⟩
+              ⟨ fst e , snd e ⟩ ∈ S
+            ≡⟨ “Pair extensionality”⟩
+              e ∈ S   
+          
+        
+           
+    
+
+Theorem “Relation inclusion”: R ⊆ S ≡ (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) )   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x, y`, `R, S`)
+Proof:
+    Using “Mutual implication”:       
+        — CalcCheck: Found (3.80) “Mutual implication”
+        Subproof for `R ⊆ S ⇒ (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) )`:
+            Assuming `R ⊆ S`:
+            — CalcCheck: Assumption matches goal
+                For any ` x`:
+                    For any ` y`:
+                        Calculation for expected goal  `x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y`:
+                                x ⦗ R ⦘ y
+                            ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                                    — CalcCheck: Found “Infix relationship”
+                                    — CalcCheck: ─ OK
+                                ⟨x, y⟩ ∈ R
+                            ⇒ ⟨ “Casting” with Assumption `R ⊆ S` ⟩
+                                    — CalcCheck: Found (11.13c) “Subset membership”
+                                    — CalcCheck: Found assumption `R ⊆ S`
+                                    — CalcCheck: ─ OK
+                                ⟨x, y⟩ ∈ S
+                            ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                                    — CalcCheck: Found “Infix relationship”
+                                    — CalcCheck: ─ OK
+                                x ⦗ S ⦘ y                        
+                        — CalcCheck: All steps OK                       
+                        — CalcCheck: Calculation matches goal ─ OK
+        Subproof for `(∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) ) ⇒ R ⊆ S`:
+            Assuming “A” `(∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) )`:
+            — CalcCheck: Assumption matches goal
+                Using “Definition of ⊆”:                   
+                    — CalcCheck: Found (11.13b) “Set inclusion”, (11.13) “Set inclusion”
+                    Subproof establishing `(∀ e • e ∈ R ⇒ e ∈ S )`:
+                        For any ` e`:
+                            Calculation establishing  `e ∈ R ⇒ e ∈ S`:
+                                    e ∈ R
+                                ≡ ⟨ “Pair extensionality” ⟩
+                                        — CalcCheck: Found “Pair extensionality”
+                                        — CalcCheck: ─ OK
+                                    ⟨fst e, snd e⟩ ∈ R
+                                ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                                        — CalcCheck: Found “Infix relationship”
+                                        — CalcCheck: ─ OK
+                                    fst e ⦗ R ⦘ snd e
+                                ⇒ ⟨ Assumption “A” ⟩
+                                        — CalcCheck: Found assumption “A”
+                                        — CalcCheck: ─ OK
+                                    fst e ⦗ S ⦘ snd e
+                                ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                                        — CalcCheck: Found “Infix relationship”
+                                        — CalcCheck: ─ OK
+                                    ⟨fst e, snd e⟩ ∈ S
+                                ≡ ⟨ “Pair extensionality” ⟩
+                                        — CalcCheck: Found “Pair extensionality”
+                                        — CalcCheck: ─ OK
+                                    e ∈ S                            
+                            — CalcCheck: All steps OK
+[13]
+Theorem “Relation extensionality”:
+    R = S  ≡  (∀ x • ∀ y • x ⦗ R ⦘ y  ≡  x ⦗ S ⦘ y)
+Proof:
+    R = S
+  ≡⟨ “Mutual inclusion” ⟩
+    R ⊆ S  ∧  S ⊆ R
+  ≡⟨ “Relation inclusion” ⟩
+    (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y )) ∧ (∀ x • (∀ y • x ⦗ S ⦘ y ⇒ x ⦗ R ⦘ y )) 
+  ≡⟨ “Distributivity of ∀ over ∧”⟩ 
+    (∀ x • ((∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y) ∧ (∀ y • x ⦗ S ⦘ y ⇒ x ⦗ R ⦘ y)))
+  ≡⟨ “Distributivity of ∀ over ∧”⟩
+    (∀ x • (∀ y • ((x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y) ∧ (x ⦗ S ⦘ y ⇒ x ⦗ R ⦘ y))))
+  ≡⟨ “Mutual implication”⟩ 
+    ∀ x • ∀ y • x ⦗ R ⦘ y  ≡  x ⦗ S ⦘ y
+
+Theorem “Relation extensionality”: R = S ≡ (∀ x • (∀ y • x ⦗ R ⦘ y ≡ x ⦗ S ⦘ y ) )   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x, y`, `R, S`)
+Proof:
+    Calculation for expected goal  `R = S ≡ (∀ x • (∀ y • x ⦗ R ⦘ y ≡ x ⦗ S ⦘ y ) )`:
+            R = S
+        ≡ ⟨ “Mutual inclusion” ⟩
+                — CalcCheck: Found (11.57) “Mutual inclusion”
+                — CalcCheck: ─ OK
+            R ⊆ S ∧ S ⊆ R
+        ≡ ⟨ “Relation inclusion” ⟩
+                — CalcCheck: Found “Relation inclusion”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) ) ∧ (∀ x • (∀ y • x ⦗ S ⦘ y ⇒ x ⦗ R ⦘ y ) )
+        ≡ ⟨ “Distributivity of ∀ over ∧” ⟩
+                — CalcCheck: Found (8.15) “Distributivity of ∀ over ∧”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) ∧ (∀ y • x ⦗ S ⦘ y ⇒ x ⦗ R ⦘ y ) )
+        ≡ ⟨ “Distributivity of ∀ over ∧” ⟩
+                — CalcCheck: Found (8.15) “Distributivity of ∀ over ∧”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • (x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y) ∧ (x ⦗ S ⦘ y ⇒ x ⦗ R ⦘ y) ) )
+        ≡ ⟨ “Mutual implication” ⟩
+                — CalcCheck: Found (3.80) “Mutual implication”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • x ⦗ R ⦘ y ≡ x ⦗ S ⦘ y ) )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[14]
+Different presentations of these will frequently come in handy:
+
+[15]
+Corollary “Relation extensionality”:
+    R = S  ≡  (∀ x, y • x ⦗ R ⦘ y  ≡  x ⦗ S ⦘ y)
+Proof:
+    (∀ x, y • x ⦗ R ⦘ y  ≡  x ⦗ S ⦘ y) 
+  ≡⟨ “Nesting for ∀”⟩
+    (∀ x • ∀ y • x ⦗ R ⦘ y  ≡  x ⦗ S ⦘ y)
+  ≡⟨ “Relation extensionality”⟩
+    R = S
+ 
+
+Corollary “Relation extensionality”: R = S ≡ (∀ x, y • x ⦗ R ⦘ y ≡ x ⦗ S ⦘ y )   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x, y`, `R, S`)
+Proof:
+    Calculation for expected goal  `R = S ≡ (∀ x, y • x ⦗ R ⦘ y ≡ x ⦗ S ⦘ y )`:
+            (∀ x, y • x ⦗ R ⦘ y ≡ x ⦗ S ⦘ y )
+        ≡ ⟨ “Nesting for ∀” ⟩
+                — CalcCheck: Found (8.20.2) “Nesting for ∀”, (8.20.1) “Nesting for ∀”, (8.20) “Nesting for ∀”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • x ⦗ R ⦘ y ≡ x ⦗ S ⦘ y ) )
+        ≡ ⟨ “Relation extensionality” ⟩
+                — CalcCheck: Found “Relation extensionality”
+                — CalcCheck: ─ OK
+            R = S    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[16]
+Corollary “Relation inclusion”:
+    R ⊆ S  ≡  (∀ x • ∀ y ❙ x ⦗ R ⦘ y  •  x ⦗ S ⦘ y)
+Proof:
+    R ⊆ S
+  ≡⟨ “Relation inclusion”⟩
+    (∀ x • ∀ y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y)
+  ≡⟨ “Trading for ∀”⟩
+    (∀ x • ∀ y ❙ x ⦗ R ⦘ y  •  x ⦗ S ⦘ y)
+     
+
+Corollary “Relation inclusion”: R ⊆ S ≡ (∀ x • (∀ y ❙ x ⦗ R ⦘ y • x ⦗ S ⦘ y ) )   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x, y`, `R, S`)
+Proof:
+    Calculation for expected goal  `R ⊆ S ≡ (∀ x • (∀ y ❙ x ⦗ R ⦘ y • x ⦗ S ⦘ y ) )`:
+            R ⊆ S
+        ≡ ⟨ “Relation inclusion” ⟩
+                — CalcCheck: Found “Relation inclusion”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) )
+        ≡ ⟨ “Trading for ∀” ⟩
+                — CalcCheck: Found (9.3a) “Trading for ∀”, (9.3b) “Trading for ∀”, (9.3c) “Trading for ∀”, (9.4a) “Trading for ∀”, (9.4b) “Trading for ∀”, (9.4c) “Trading for ∀”, (9.4d) “Trading for ∀”, (9.2) “Trading for ∀”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y ❙ x ⦗ R ⦘ y • x ⦗ S ⦘ y ) )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[17]
+Corollary “Relation inclusion”:
+    R ⊆ S  ≡  (∀ x, y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y)
+Proof:
+    R ⊆ S
+  ≡⟨ “Relation inclusion”⟩
+    (∀ x • ∀ y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y) 
+  ≡⟨ “Nesting for ∀”⟩
+    (∀ x, y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y) 
+    
+
+Corollary “Relation inclusion”: R ⊆ S ≡ (∀ x, y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y )   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x, y`, `R, S`)
+Proof:
+    Calculation for expected goal  `R ⊆ S ≡ (∀ x, y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y )`:
+            R ⊆ S
+        ≡ ⟨ “Relation inclusion” ⟩
+                — CalcCheck: Found “Relation inclusion”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) )
+        ≡ ⟨ “Nesting for ∀” ⟩
+                — CalcCheck: Found (8.20.2) “Nesting for ∀”, (8.20.1) “Nesting for ∀”, (8.20) “Nesting for ∀”
+                — CalcCheck: ─ OK
+            (∀ x, y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[18]
+Corollary “Relation inclusion”:
+    R ⊆ S  ≡  (∀ x, y ❙ x ⦗ R ⦘ y  •  x ⦗ S ⦘ y)
+Proof:
+    R ⊆ S
+  ≡⟨ “Relation inclusion”⟩
+    (∀ x • ∀ y • x ⦗ R ⦘ y  ⇒  x ⦗ S ⦘ y ) 
+  ≡⟨ “Trading for ∀”⟩
+    (∀ x • ∀ y ❙ x ⦗ R ⦘ y  •  x ⦗ S ⦘ y ) 
+  ≡⟨ “Nesting for ∀”⟩
+    (∀ x, y ❙ x ⦗ R ⦘ y  •  x ⦗ S ⦘ y )  
+
+Corollary “Relation inclusion”: R ⊆ S ≡ (∀ x, y ❙ x ⦗ R ⦘ y • x ⦗ S ⦘ y )   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x, y`, `R, S`)
+Proof:
+    Calculation for expected goal  `R ⊆ S ≡ (∀ x, y ❙ x ⦗ R ⦘ y • x ⦗ S ⦘ y )`:
+            R ⊆ S
+        ≡ ⟨ “Relation inclusion” ⟩
+                — CalcCheck: Found “Relation inclusion”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y • x ⦗ R ⦘ y ⇒ x ⦗ S ⦘ y ) )
+        ≡ ⟨ “Trading for ∀” ⟩
+                — CalcCheck: Found (9.3a) “Trading for ∀”, (9.3b) “Trading for ∀”, (9.3c) “Trading for ∀”, (9.4a) “Trading for ∀”, (9.4b) “Trading for ∀”, (9.4c) “Trading for ∀”, (9.4d) “Trading for ∀”, (9.2) “Trading for ∀”
+                — CalcCheck: ─ OK
+            (∀ x • (∀ y ❙ x ⦗ R ⦘ y • x ⦗ S ⦘ y ) )
+        ≡ ⟨ “Nesting for ∀” ⟩
+                — CalcCheck: Found (8.20.2) “Nesting for ∀”, (8.20.1) “Nesting for ∀”, (8.20) “Nesting for ∀”
+                — CalcCheck: ─ OK
+            (∀ x, y ❙ x ⦗ R ⦘ y • x ⦗ S ⦘ y )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[19]
+Note:
+
+“(∀ x, y • P)” can be shown by “For any `x, y`: …”;
+“(∀ x, y ❙ R • P)” can be shown by “For any `x, y` satisfying `R`: …”;
+“(∀ x • ∀ y • P)” can be shown by “For any `x`, `y`: …”, and
+“(∀ x • ∀ y ❙ R • P)” can be shown by “For any `x`, `y` satisfying `R`: …”.
+[20]
+Relationship turns a relation R : A ↔ B into a binary infix predicate _⦗ R ⦘_ (notation not yet supported by CalcCheck); we introduce ⌜_⌝ for the inverse operation:
+
+[21]
+Declaration:  ⌜_⌝ : (A → B → 𝔹) → (A ↔ B)
+
+Declaration: ⌜_⌝ : (A → (B → 𝔹)) → A ↔ B
+[22]
+Axiom “Relationship via ⌜_⌝”:
+    a ⦗ ⌜ f ⌝ ⦘ b  ≡  f a b
+
+Axiom “Relationship via ⌜_⌝”: a ⦗ ⌜ f ⌝ ⦘ b ≡ (f a) b
+[23]
+Set Operations used as Relation Operations
+[24]
+When set operations are used as relation operations, direct characterisations in terms of relationship _⦗_⦘_ (instead of membership _∈_) are useful.
+
+These characterisatins are easily proved via the definition of _⦗_⦘_ and the corresponding set properties.
+
+[25]
+Theorem “Relation union”:
+    a ⦗ R ∪ S ⦘ b  ≡  a ⦗ R ⦘ b ∨ a ⦗ S ⦘ b
+Proof:
+    a ⦗ R ∪ S ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a , b ⟩ ∈ R ∪ S
+  ≡⟨ “Set union”⟩
+    ⟨ a , b ⟩ ∈ R ∨ ⟨ a , b ⟩ ∈ S
+  ≡⟨ “Definition of `_⦗_⦘_`” ⟩
+    a ⦗ R ⦘ b ∨ a ⦗ S ⦘ b
+
+Theorem “Relation union”: a ⦗ R ∪ S ⦘ b ≡ a ⦗ R ⦘ b ∨ a ⦗ S ⦘ b   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗
+Proof:
+    Calculation for expected goal  `a ⦗ R ∪ S ⦘ b ≡ a ⦗ R ⦘ b ∨ a ⦗ S ⦘ b`:
+            a ⦗ R ∪ S ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R ∪ S
+        ≡ ⟨ “Set union” ⟩
+                — CalcCheck: Found (11.20) “Set union”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R ∨ ⟨a, b⟩ ∈ S
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            a ⦗ R ⦘ b ∨ a ⦗ S ⦘ b    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[26]
+Theorem “Relation intersection”:
+    a ⦗ R ∩ S ⦘ b  ≡  a ⦗ R ⦘ b ∧ a ⦗ S ⦘ b
+Proof:
+    a ⦗ R ∩ S ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a , b ⟩ ∈ R ∩ S
+  ≡⟨ “Set intersection” ⟩
+    ⟨ a , b ⟩ ∈ R ∧ ⟨ a , b ⟩ ∈ S
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩ 
+    a ⦗ R ⦘ b ∧ a ⦗ S ⦘ b
+
+Theorem “Relation intersection”: a ⦗ R ∩ S ⦘ b ≡ a ⦗ R ⦘ b ∧ a ⦗ S ⦘ b   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗
+Proof:
+    Calculation for expected goal  `a ⦗ R ∩ S ⦘ b ≡ a ⦗ R ⦘ b ∧ a ⦗ S ⦘ b`:
+            a ⦗ R ∩ S ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R ∩ S
+        ≡ ⟨ “Set intersection” ⟩
+                — CalcCheck: Found (11.21) “Set intersection”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R ∧ ⟨a, b⟩ ∈ S
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            a ⦗ R ⦘ b ∧ a ⦗ S ⦘ b    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[27]
+Theorem “Relation difference”:
+    a ⦗ R - S ⦘ b  ≡  a ⦗ R ⦘ b ∧ ¬ (a ⦗ S ⦘ b)
+Proof:
+    a ⦗ R - S ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a , b ⟩ ∈ R - S
+  ≡⟨ “Set difference”⟩
+    ⟨ a , b ⟩ ∈ R ∧ ¬ ( ⟨ a , b ⟩ ∈ S)
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    a ⦗ R ⦘ b ∧ ¬ (a ⦗ S ⦘ b)
+
+Theorem “Relation difference”: a ⦗ R - S ⦘ b ≡ a ⦗ R ⦘ b ∧ ¬ (a ⦗ S ⦘ b)   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗
+Proof:
+    Calculation for expected goal  `a ⦗ R - S ⦘ b ≡ a ⦗ R ⦘ b ∧ ¬ (a ⦗ S ⦘ b)`:
+            a ⦗ R - S ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R - S
+        ≡ ⟨ “Set difference” ⟩
+                — CalcCheck: Found (11.22) “Set difference”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R ∧ ¬ (⟨a, b⟩ ∈ S)
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            a ⦗ R ⦘ b ∧ ¬ (a ⦗ S ⦘ b)    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[28]
+Theorem “Relation pseudocomplement”:
+    a ⦗ R ➩ S ⦘ b  ≡  a ⦗ R ⦘ b  ⇒  a ⦗ S ⦘ b
+Proof:
+    a ⦗ R ➩ S ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`” ⟩
+    ⟨ a , b ⟩ ∈ R ➩ S
+  ≡⟨ “Membership in ➩”⟩  
+    ⟨ a , b ⟩ ∈ R ⇒ ⟨ a , b ⟩ ∈ S
+  ≡⟨ “Definition of `_⦗_⦘_`” ⟩
+    a ⦗ R ⦘ b  ⇒  a ⦗ S ⦘ b
+
+Theorem “Relation pseudocomplement”: a ⦗ R ➩ S ⦘ b ≡ a ⦗ R ⦘ b ⇒ a ⦗ S ⦘ b   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗
+Proof:
+    Calculation for expected goal  `a ⦗ R ➩ S ⦘ b ≡ a ⦗ R ⦘ b ⇒ a ⦗ S ⦘ b`:
+            a ⦗ R ➩ S ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R ➩ S
+        ≡ ⟨ “Membership in ➩” ⟩
+                — CalcCheck: Found (11.112) “Membership in ➩”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R ⇒ ⟨a, b⟩ ∈ S
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            a ⦗ R ⦘ b ⇒ a ⦗ S ⦘ b    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[29]
+Theorem “Relation complement”:
+    a ⦗ ~ R ⦘ b  ≡  ¬ (a ⦗ R ⦘ b)
+Proof:
+    a ⦗ ~ R ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a , b ⟩ ∈ ~ R
+  ≡⟨ “Set complement”⟩
+    ¬ (⟨ a , b ⟩ ∈ R)
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ¬ (a ⦗ R ⦘ b)
+
+Theorem “Relation complement”: a ⦗ ~ R ⦘ b ≡ ¬ (a ⦗ R ⦘ b)   
+    — CalcCheck: Metavariables: R = R〖〗
+Proof:
+    Calculation for expected goal  `a ⦗ ~ R ⦘ b ≡ ¬ (a ⦗ R ⦘ b)`:
+            a ⦗ ~ R ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ ~ R
+        ≡ ⟨ “Set complement” ⟩
+                — CalcCheck: Found (11.18) “Set complement”
+                — CalcCheck: ─ OK
+            ¬ (⟨a, b⟩ ∈ R)
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ¬ (a ⦗ R ⦘ b)    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[30]
+Empty, Universal, and Singleton Relations
+[31]
+Theorem “Empty relation”:  a ⦗ {} ⦘ b  ≡ false
+Proof:
+    a ⦗ {} ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a , b ⟩ ∈ {}
+  ≡⟨ “Empty set”⟩
+    false 
+
+Theorem “Empty relation”: a ⦗ {} ⦘ b ≡ false
+Proof:
+    Calculation for expected goal  `a ⦗ {} ⦘ b ≡ false`:
+            a ⦗ {} ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ {}
+        ≡ ⟨ “Empty set” ⟩
+                — CalcCheck: Found “Empty set”
+                — CalcCheck: ─ OK
+            false    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[32]
+Theorem “Universal relation” “Relationship via `𝐔`”: a ⦗ 𝐔 ⦘ b
+Proof:
+    a ⦗ 𝐔 ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a , b ⟩ ∈ 𝐔 — This is “Universal set” 
+
+Theorem “Universal relation” “Relationship via `𝐔`”: a ⦗ 𝐔 ⦘ b
+Proof:
+    Calculation for expected goal  `a ⦗ 𝐔 ⦘ b`:
+            a ⦗ 𝐔 ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ 𝐔     — This is “Universal set”    
+    — CalcCheck: Found “Universal set”, “Universal set”   
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[33]
+Universal relations are Cartesion products of universal sets:
+
+[34]
+Theorem “Relationship via ×”: a ⦗ Y × Z ⦘ b  ≡  a ∈ Y ∧ b ∈ Z
+Proof:
+    a ⦗ Y × Z ⦘ b
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a , b ⟩ ∈ Y × Z
+  ≡⟨ “Membership in ×”⟩
+    a ∈ Y ∧ b ∈ Z   
+
+Theorem “Relationship via ×”: a ⦗ Y × Z ⦘ b ≡ a ∈ Y ∧ b ∈ Z   
+    — CalcCheck: Metavariables: Y = Y〖〗, Z = Z〖〗
+Proof:
+    Calculation for expected goal  `a ⦗ Y × Z ⦘ b ≡ a ∈ Y ∧ b ∈ Z`:
+            a ⦗ Y × Z ⦘ b
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ Y × Z
+        ≡ ⟨ “Membership in ×” ⟩
+                — CalcCheck: Found (14.4) “Membership in ×”, “Membership in ×”
+                — CalcCheck: ─ OK
+            a ∈ Y ∧ b ∈ Z    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[35]
+Theorem “Relationship via `𝐔 × 𝐔`”: a ⦗ 𝐔 × 𝐔 ⦘ b
+Proof:
+    a ⦗ 𝐔 × 𝐔 ⦘ b
+  ≡⟨ “Relationship via ×”⟩
+    a ∈ 𝐔 ∧ b ∈ 𝐔
+  ≡⟨ “Universal set”⟩
+    true ∧ true
+  ≡⟨ “Idempotency of ∧”⟩
+    true  
+
+Theorem “Relationship via `𝐔 × 𝐔`”: a ⦗ 𝐔 × 𝐔 ⦘ b
+Proof:
+    Calculation for expected goal  `a ⦗ 𝐔 × 𝐔 ⦘ b`:
+            a ⦗ 𝐔 × 𝐔 ⦘ b
+        ≡ ⟨ “Relationship via ×” ⟩
+                — CalcCheck: Found “Relationship via ×”
+                — CalcCheck: ─ OK
+            a ∈ 𝐔 ∧ b ∈ 𝐔
+        ≡ ⟨ “Universal set” ⟩
+                — CalcCheck: Found “Universal set”, “Universal set”
+                — CalcCheck: ─ OK
+            true ∧ true
+        ≡ ⟨ “Idempotency of ∧” ⟩
+                — CalcCheck: Found (3.38) “Idempotency of ∧”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[36]
+Theorem “Cartesian product of universal sets”: 𝐔 × 𝐔 = 𝐔
+Proof:
+    Using “Set extensionality”:
+        ∀ e • e ∈ 𝐔 × 𝐔 ≡ e ∈ 𝐔
+      ≡⟨“Membership in ×” ⟩
+        ∀ e • fst e ∈ 𝐔 ∧ snd e ∈ 𝐔 ≡ e ∈ 𝐔
+      ≡⟨ “Universal set”⟩
+        ∀ e • true ∧ true ≡ true
+      ≡⟨ “Idempotency of ∧”⟩
+        ∀ e • true ≡ true
+      ≡⟨ “Reflexivity of ≡”⟩
+        ∀ e • true
+      ≡⟨ “True ∀ body”⟩
+        true  
+
+Theorem “Cartesian product of universal sets”: 𝐔 × 𝐔 = 𝐔
+Proof:
+    Using “Set extensionality”:       
+        — CalcCheck: Found (11.4) “Set extensionality”
+        Subproof establishing `(∀ e • e ∈ 𝐔 × 𝐔 ≡ e ∈ 𝐔 )`:
+                    (∀ e • e ∈ 𝐔 × 𝐔 ≡ e ∈ 𝐔 )
+                ≡ ⟨ “Membership in ×” ⟩
+                        — CalcCheck: Found (14.4) “Membership in ×”, “Membership in ×”
+                        — CalcCheck: ─ OK
+                    (∀ e • fst e ∈ 𝐔 ∧ snd e ∈ 𝐔 ≡ e ∈ 𝐔 )
+                ≡ ⟨ “Universal set” ⟩
+                        — CalcCheck: Found “Universal set”, “Universal set”
+                        — CalcCheck: ─ OK
+                    (∀ e • true ∧ true ≡ true )
+                ≡ ⟨ “Idempotency of ∧” ⟩
+                        — CalcCheck: Found (3.38) “Idempotency of ∧”
+                        — CalcCheck: ─ OK
+                    (∀ e • true ≡ true )
+                ≡ ⟨ “Reflexivity of ≡” ⟩
+                        — CalcCheck: Found (3.5) “Reflexivity of ≡”
+                        — CalcCheck: ─ OK
+                    (∀ e • true )
+                ≡ ⟨ “True ∀ body” ⟩
+                        — CalcCheck: Found (9.8) “True ∀ body”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK
+[37]
+Just like a set containing exactly one element is called a singleton set, a relation containing exactly one pair is called a singleton relation:
+
+[38]
+Lemma “Singleton relation”:
+    a₁ ⦗ { ⟨ a₂ , b₂ ⟩ } ⦘ b₁  ≡  a₁ = a₂ ∧ b₁ = b₂
+Proof:
+    a₁ ⦗ { ⟨ a₂ , b₂ ⟩ } ⦘ b₁
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    ⟨ a₁ , b₁ ⟩ ∈ { ⟨ a₂ , b₂ ⟩ }
+  ≡⟨ “Singleton set membership” ⟩
+    ⟨ a₁ , b₁ ⟩ = ⟨ a₂ , b₂ ⟩
+  ≡⟨ “Pair equality”⟩
+    a₁ = a₂ ∧ b₁ = b₂ 
+
+Lemma “Singleton relation”: a₁ ⦗ { ⟨a₂, b₂⟩ } ⦘ b₁ ≡ a₁ = a₂ ∧ b₁ = b₂
+Proof:
+    Calculation for expected goal  `a₁ ⦗ { ⟨a₂, b₂⟩ } ⦘ b₁ ≡ a₁ = a₂ ∧ b₁ = b₂`:
+            a₁ ⦗ { ⟨a₂, b₂⟩ } ⦘ b₁
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            ⟨a₁, b₁⟩ ∈ { ⟨a₂, b₂⟩ }
+        ≡ ⟨ “Singleton set membership” ⟩
+                — CalcCheck: Found (11.101) “Singleton set membership”
+                — CalcCheck: ─ OK
+            ⟨a₁, b₁⟩ = ⟨a₂, b₂⟩
+        ≡ ⟨ “Pair equality” ⟩
+                — CalcCheck: Found “Pair equality”, “Pair equality”, (14.2) “Pair equality”
+                — CalcCheck: ─ OK
+            a₁ = a₂ ∧ b₁ = b₂    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[39]
+Lemma “Singleton relation inclusion”:
+    { ⟨ a , b ⟩ } ⊆ R  ≡  a ⦗ R ⦘ b
+Proof:
+    { ⟨ a , b ⟩ } ⊆ R
+  ≡⟨ “Singleton set inclusion”⟩
+    ⟨ a , b ⟩ ∈ R
+  ≡⟨ “Definition of `_⦗_⦘_`”⟩
+    a ⦗ R ⦘ b   
+     
+
+Lemma “Singleton relation inclusion”: { ⟨a, b⟩ } ⊆ R ≡ a ⦗ R ⦘ b   
+    — CalcCheck: Metavariables: R = R〖〗
+Proof:
+    Calculation for expected goal  `{ ⟨a, b⟩ } ⊆ R ≡ a ⦗ R ⦘ b`:
+            { ⟨a, b⟩ } ⊆ R
+        ≡ ⟨ “Singleton set inclusion” ⟩
+                — CalcCheck: Found (11.102) “Singleton set inclusion”
+                — CalcCheck: ─ OK
+            ⟨a, b⟩ ∈ R
+        ≡ ⟨ “Definition of `_⦗_⦘_`” ⟩
+                — CalcCheck: Found “Infix relationship”
+                — CalcCheck: ─ OK
+            a ⦗ R ⦘ b    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[40]
+Relation Converse
+[41]
+Declaration: _˘ : (A ↔ B) → (B ↔ A)
+
+Declaration: _˘ : A ↔ B → B ↔ A   
+    — CalcCheck: Operator _˘: Non-associating; precedence 140
+[42]
+Axiom “Relation converse” “Relationship via ˘”:
+    y ⦗ R ˘ ⦘ x  ≡  x ⦗ R ⦘ y
+
+Axiom “Relation converse” “Relationship via ˘”: y ⦗ R ˘ ⦘ x ≡ x ⦗ R ⦘ y   
+    — CalcCheck: Metavariables: R = R〖〗
+[43]
+Relation Composition
+[44]
+Declaration: _⨾_ : (A ↔ B) → (B ↔ C) → (A ↔ C)
+
+Declaration: _⨾_ : A ↔ B → (B ↔ C → A ↔ C)   
+    — CalcCheck: Operator _⨾_: Associating to the right; precedence 105
+[45]
+Axiom “Relation composition”:
+    a ⦗ R ⨾ S ⦘ c  ≡  ∃ b • a ⦗ R ⦘ b ∧ b ⦗ S ⦘ c
+
+Axiom “Relation composition”: a ⦗ R ⨾ S ⦘ c ≡ (∃ b • a ⦗ R ⦘ b ∧ b ⦗ S ⦘ c )   
+    — CalcCheck: Metavariables: R = R〖〗, S = S〖〗   
+    — CalcCheck: Proviso: ¬occurs(`b`, `R, S`)
+[46]
+Identity Relations
+[47]
+Declaration: id_ : set A → (A ↔ A)
+
+Declaration: id_ : set A → A ↔ A   
+    — CalcCheck: Operator id_: Non-associating; precedence 130
+[48]
+Axiom “Relationship via `id`”:  x ⦗ id S ⦘ y  ≡  x = y ∈ S
+
+Axiom “Relationship via `id`”: x ⦗ id S ⦘ y ≡ x = y ∈ S   
+    — CalcCheck: Metavariables: S = S〖〗
+[49]
+Corollary “Relationship via `id`”:  x ⦗ id S ⦘ y  ≡  y = x ∈ S
+Proof:
+    x ⦗ id S ⦘ y
+  ≡⟨ “Relationship via `id`”⟩
+    x = y ∈ S
+  ≡⟨ “Symmetry of =” ⟩
+    x = y ∧ y ∈ S
+  ≡⟨ Substitution ⟩
+    x = y ∧ (z ∈ S)[z ≔ y]
+  ≡⟨ “Replacement”⟩
+    x = y ∧ (z ∈ S)[z ≔ x] 
+  ≡⟨ Substitution ⟩
+    x = y ∧ x ∈ S 
+  
+
+Corollary “Relationship via `id`”: x ⦗ id S ⦘ y ≡ y = x ∈ S   
+    — CalcCheck: Metavariables: S = S〖〗
+Proof:
+    Calculation for expected goal  `x ⦗ id S ⦘ y ≡ y = x ∈ S`:
+            x ⦗ id S ⦘ y
+        ≡ ⟨ “Relationship via `id`” ⟩
+                — CalcCheck: Found “Relationship via `id`”
+                — CalcCheck: ─ OK
+            x = y ∈ S
+        ≡ ⟨ “Symmetry of =” ⟩
+                — CalcCheck: Found (1.3) “Symmetry of =”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            x = y ∧ y ∈ S
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            x = y ∧ (z ∈ S)[z ≔ y]
+        ≡ ⟨ “Replacement” ⟩
+                — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                — CalcCheck: ─ OK
+            x = y ∧ (z ∈ S)[z ≔ x]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            x = y ∧ x ∈ S    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[50]
+Declaration: 𝕀 : A ↔ A
+
+Declaration: 𝕀 : A ↔ A
+[51]
+Axiom “Definition of 𝕀 via `id`”:
+    𝕀 = id 𝐔
+
+Axiom “Definition of 𝕀 via `id`”: 𝕀 = id 𝐔
+[52]
+Theorem “Relationship via 𝕀” “Identity relation”:
+    x ⦗ 𝕀 ⦘ y  ≡  x = y
+Proof:
+    x ⦗ 𝕀 ⦘ y
+  =⟨ “Definition of 𝕀 via `id`”⟩ 
+    x ⦗ id 𝐔 ⦘ y
+  =⟨ “Relationship via `id`”⟩
+    x = y ∈ 𝐔
+  =⟨ “Universal set”⟩
+    x = y ∧ true
+  ≡⟨“Identity of ∧”⟩
+    x = y
+
+Theorem “Relationship via 𝕀” “Identity relation”: x ⦗ 𝕀 ⦘ y ≡ x = y
+Proof:
+    Calculation for expected goal  `x ⦗ 𝕀 ⦘ y ≡ x = y`:
+            x ⦗ 𝕀 ⦘ y
+        = ⟨ “Definition of 𝕀 via `id`” ⟩
+                — CalcCheck: Found “Definition of 𝕀 via `id`”
+                — CalcCheck: ─ OK
+            x ⦗ id 𝐔 ⦘ y
+        = ⟨ “Relationship via `id`” ⟩
+                — CalcCheck: Found “Relationship via `id`”, “Relationship via `id`”
+                — CalcCheck: ─ OK
+            x = y ∈ 𝐔
+        = ⟨ “Universal set” ⟩
+                — CalcCheck: Found “Universal set”, “Universal set”
+                — CalcCheck: ─ OK
+            x = y ∧ true
+        ≡ ⟨ “Identity of ∧” ⟩
+                — CalcCheck: Found (3.39) “Identity of ∧”
+                — CalcCheck: ─ OK
+            x = y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[53]
+Domain and Range
+[54]
+Declaration:  Dom : (A ↔ B) → set A
+Declaration:  Ran : (A ↔ B) → set B
+
+Declaration: Dom : A ↔ B → set A
+Declaration: Ran : A ↔ B → set B
+[55]
+Axiom “Membership in `Dom`”:
+  x ∈ Dom R  ≡  ∃ y • x ⦗ R ⦘ y
+
+Axiom “Membership in `Dom`”: x ∈ Dom R ≡ (∃ y • x ⦗ R ⦘ y )   
+    — CalcCheck: Metavariables: R = R〖〗   
+    — CalcCheck: Proviso: ¬occurs(`y`, `R`)
+[56]
+Axiom “Membership in `Ran`”:
+  y ∈ Ran R  ≡  ∃ x • x ⦗ R ⦘ y
+
+Axiom “Membership in `Ran`”: y ∈ Ran R ≡ (∃ x • x ⦗ R ⦘ y )   
+    — CalcCheck: Metavariables: R = R〖〗   
+    — CalcCheck: Proviso: ¬occurs(`x`, `R`)

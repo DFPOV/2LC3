@@ -1,0 +1,129 @@
+— Homework 10 Notebook 2: Cartesian Product of Sets
+[1]
+Preloaded here is the pair material from H10.1 and all set theory from Reference Notebook 6.1.
+
+[2]
+We use _×_ (type \x or \times for this symbol) for Cartesian product of sets only, not for types:
+
+[3]
+Declaration: _×_ : set t → set u → set ❰ t , u ❱
+
+Declaration: _×_ : set t → (set u → set ❰ t, u ❱)   
+    — CalcCheck: Operator _×_: Associating to the right; precedence 100
+[4]
+Instead of from (14.3) in LADM, we start from the following equivalent, but easier-to-use characterisation of product sets:
+
+[5]
+Axiom “Membership in ×”:
+  p ∈ S × T  ≡  fst p ∈ S ∧ snd p ∈ T
+
+Axiom “Membership in ×”: p ∈ S × T ≡ fst p ∈ S ∧ snd p ∈ T
+[6]
+Theorem (14.4) “Membership in ×”:
+    ⟨ x , y ⟩ ∈ S × T  ≡  x ∈ S ∧ y ∈ T
+Proof:
+    ⟨ x, y ⟩ ∈ S × T
+  ≡⟨ “Membership in ×” ⟩
+    fst ⟨ x, y ⟩ ∈ S ∧ snd ⟨ x , y ⟩ ∈ T
+  ≡⟨ “Definition of `fst`”, “Definition of `snd`” ⟩
+    x ∈ S ∧ y ∈ T
+
+Theorem (14.4) “Membership in ×”: ⟨x, y⟩ ∈ S × T ≡ x ∈ S ∧ y ∈ T
+Proof:
+    Calculation for expected goal  `⟨x, y⟩ ∈ S × T ≡ x ∈ S ∧ y ∈ T`:
+            ⟨x, y⟩ ∈ S × T
+        ≡ ⟨ “Membership in ×” ⟩
+                — CalcCheck: Found “Membership in ×”
+                — CalcCheck: ─ OK
+            fst ⟨x, y⟩ ∈ S ∧ snd ⟨x, y⟩ ∈ T
+        ≡ ⟨ “Definition of `fst`”, “Definition of `snd`” ⟩
+                — CalcCheck: Found “Definition of `fst`”
+                — CalcCheck: Found “Definition of `snd`”
+                — CalcCheck: ─ OK
+            x ∈ S ∧ y ∈ T    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[7]
+Theorem (14.5) “Membership in swapped ×”:
+    ⟨ x , y ⟩ ∈ S × T  ≡  ⟨ y , x ⟩ ∈ T × S
+Proof:
+    ⟨ x , y ⟩ ∈ S × T 
+  ≡⟨ “Membership in ×” ⟩
+     x ∈ S ∧ y ∈ T
+  ≡⟨ “Symmetry of ∧” ⟩
+    y ∈ T ∧ x ∈ S
+  ≡⟨“Membership in ×”⟩
+    ⟨ y, x ⟩ ∈ T × S  
+
+Theorem (14.5) “Membership in swapped ×”: ⟨x, y⟩ ∈ S × T ≡ ⟨y, x⟩ ∈ T × S
+Proof:
+    Calculation for expected goal  `⟨x, y⟩ ∈ S × T ≡ ⟨y, x⟩ ∈ T × S`:
+            ⟨x, y⟩ ∈ S × T
+        ≡ ⟨ “Membership in ×” ⟩
+                — CalcCheck: Found (14.4) “Membership in ×”, “Membership in ×”
+                — CalcCheck: ─ OK
+            x ∈ S ∧ y ∈ T
+        ≡ ⟨ “Symmetry of ∧” ⟩
+                — CalcCheck: Found (3.36) “Symmetry of ∧”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            y ∈ T ∧ x ∈ S
+        ≡ ⟨ “Membership in ×” ⟩
+                — CalcCheck: Found (14.4) “Membership in ×”, “Membership in ×”
+                — CalcCheck: ─ OK
+            ⟨y, x⟩ ∈ T × S    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[8]
+Theorem (14.6) “Empty factor in ×”:
+    S = {}  ⇒  S × T = {}
+Proof:
+  Assuming `S = {}`:
+    Using “Set extensionality”:
+      Subproof for `∀ p • p ∈ S × T ≡ p ∈ {}`:
+        For any `p`:
+            p ∈ S × T
+          ≡⟨ “Membership in ×”⟩
+            fst p ∈ S ∧ snd p ∈ T 
+          ≡⟨ Assumption `S = {}`⟩
+            fst p ∈ {} ∧ snd p ∈ T
+          ≡⟨ “Empty set”⟩
+            false ∧ snd p ∈ T
+          ≡⟨ “Zero of ∧”⟩
+            false
+          ≡⟨ “Empty set”⟩
+            p ∈ {} 
+          
+
+Theorem (14.6) “Empty factor in ×”: S = {} ⇒ S × T = {}
+Proof:
+    Assuming `S = {}`:
+    — CalcCheck: Assumption matches goal
+        Using “Set extensionality”:           
+            — CalcCheck: Found (11.4) “Set extensionality”
+            Subproof for `(∀ p • p ∈ S × T ≡ p ∈ {} )`:
+                For any ` p`:
+                    Calculation for expected goal  `p ∈ S × T ≡ p ∈ {}`:
+                            p ∈ S × T
+                        ≡ ⟨ “Membership in ×” ⟩
+                                — CalcCheck: Found (14.4) “Membership in ×”, “Membership in ×”
+                                — CalcCheck: ─ OK
+                            fst p ∈ S ∧ snd p ∈ T
+                        ≡ ⟨ Assumption `S = {}` ⟩
+                                — CalcCheck: Found assumption `S = {}`
+                                — CalcCheck: ─ OK
+                            fst p ∈ {} ∧ snd p ∈ T
+                        ≡ ⟨ “Empty set” ⟩
+                                — CalcCheck: Found “Empty set”
+                                — CalcCheck: ─ OK
+                            false ∧ snd p ∈ T
+                        ≡ ⟨ “Zero of ∧” ⟩
+                                — CalcCheck: Found (3.40) “Zero of ∧”
+                                — CalcCheck: ─ OK
+                            false
+                        ≡ ⟨ “Empty set” ⟩
+                                — CalcCheck: Found “Empty set”
+                                — CalcCheck: ─ OK
+                            p ∈ {}                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK

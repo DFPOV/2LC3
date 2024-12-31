@@ -1,0 +1,327 @@
+— Homework 9 Notebook 2: Binary Trees
+[1]
+Binary Trees
+[2]
+We formalise simple binary trees as an inductive datatype, and make the associated (weak) induction principle explicit, so that we can prove properties about functions defined on such trees.
+
+Like for sequences, we allow “payloads” of arbitrary but fixed type in these trees, and therefore make Tree a one-argument type constructor:
+
+[3]
+Declaration: Tree : Type → Type
+
+Declaration: Tree : Type → Type
+[4]
+We use symbols for the tree constructors that are intended to somewhat reflect the kind of downwards-growing tree drawing you see below:
+
+◬ — type: \emptytree or \t0
+◿ — type: \lbranch
+◺ — type: \rbranch
+A nonempty tree (l ◿ x ◺ r) consists of a node carrying value x and branching to the left subtree l and the right subtree r:
+
+[5]
+Declaration:          ◬   : Tree A
+Precedence 60 for:  _◿_◺_
+Non-associating:    _◿_◺_
+Declaration:        _◿_◺_ : Tree A → A → Tree A → Tree A
+
+Declaration: ◬ : Tree A
+Precedence 60 for: _◿_◺_
+Non-associating: _◿_◺_
+Declaration: _◿_◺_ : Tree A → (A → (Tree A → Tree A))   
+    — CalcCheck: Operator _◿_◺_: Non-associating; precedence 60
+[6]
+The tree drawn below is then encoded as the expression given the name t1 here:
+
+[7]
+Declaration: t1 : Tree ℕ
+Axiom “Definition of `t1`”:
+  t1 = ((◬ ◿ 2 ◺ ◬) ◿ 3 ◺ (◬ ◿ 5 ◺ ◬))
+       ◿ 7 ◺
+       (◬ ◿ 10 ◺ (◬ ◿ 11 ◺ ◬))
+
+Declaration: t1 : Tree ℕ
+Axiom “Definition of `t1`”: t1 = ((◬ ◿ 2 ◺ ◬) ◿ 3 ◺ (◬ ◿ 5 ◺ ◬)) ◿ 7 ◺ (◬ ◿ 10 ◺ (◬ ◿ 11 ◺ ◬))
+[8]
+[9]
+Read “l ◿ x ◺ r” as “node x has two child trees, the left l and the right r”.
+
+(The notation is also suggestive of how such trees are actually implemented: A non-empty tree is a value x and a pointer to the right child and a pointer to the left child!)
+
+As with sequences, and other inductive data types, we can define operations on an inductive data type by considering the possible ways to form elements of this type.
+
+To make examples easier to write, we introduce special notation for singleton trees: “｢ x ｣” (type the corner brackets as \lsingleton and \rsingleton and note that these need to be surrounded by spaces) is the one-node tree containing x:
+
+[10]
+Declaration: ｢_｣ : A → Tree A
+Axiom “Singleton tree”: ｢ x ｣ = ◬ ◿ x ◺ ◬
+
+Declaration: ｢_｣ : A → Tree A
+Axiom “Singleton tree”: ｢ x ｣ = ◬ ◿ x ◺ ◬
+[11]
+With that, we have a shorter encoding of t1:
+
+[12]
+Fact “Alternative definition of `t1`”:
+  t1 = (｢ 2 ｣ ◿ 3 ◺ ｢ 5 ｣)
+       ◿ 7 ◺
+       (◬ ◿ 10 ◺ ｢ 11 ｣)
+Proof:
+  By “Definition of `t1`” and “Singleton tree”
+
+Fact “Alternative definition of `t1`”: t1 = (｢ 2 ｣ ◿ 3 ◺ ｢ 5 ｣) ◿ 7 ◺ (◬ ◿ 10 ◺ ｢ 11 ｣)
+Proof:
+    By “Definition of `t1`”, “Singleton tree”       
+        — CalcCheck: Found “Definition of `t1`”       
+        — CalcCheck: Found “Singleton tree”
+[13]
+We define the operator _˘ (type \converse or \u{}) to stand for the mirroring function on trees — via an inductive definition that covers all possible shapes of the argument tree:
+
+[14]
+Declaration: _˘ : Tree A → Tree A
+Axiom “Mirror”: ◬ ˘  = ◬
+Axiom “Mirror”: (l ◿ x ◺ r) ˘  =  (r ˘) ◿ x ◺ (l ˘)
+
+Declaration: _˘ : Tree A → Tree A   
+    — CalcCheck: Operator _˘: Non-associating; precedence 140
+Axiom “Mirror”: ◬ ˘ = ◬
+Axiom “Mirror”: (l ◿ x ◺ r) ˘ = r ˘ ◿ x ◺ l ˘
+[15]
+Singleton trees are fixpoints of mirroring:
+
+[16]
+Theorem “Mirroring singleton trees”: ｢ x ｣ ˘ = ｢ x ｣
+Proof:
+    ｢ x ｣ ˘
+  =⟨ “Singleton tree”⟩
+    (◬ ◿ x ◺ ◬) ˘
+  =⟨ “Mirror”⟩
+    (◬ ◿ x ◺ ◬)
+  =⟨ “Singleton tree”⟩
+     ｢ x ｣
+     
+
+Theorem “Mirroring singleton trees”: ｢ x ｣ ˘ = ｢ x ｣
+Proof:
+    Calculation for expected goal  `｢ x ｣ ˘ = ｢ x ｣`:
+            ｢ x ｣ ˘
+        = ⟨ “Singleton tree” ⟩
+                — CalcCheck: Found “Singleton tree”
+                — CalcCheck: ─ OK
+            (◬ ◿ x ◺ ◬) ˘
+        = ⟨ “Mirror” ⟩
+                — CalcCheck: Found “Mirror”
+                — CalcCheck: ─ OK
+            ◬ ◿ x ◺ ◬
+        = ⟨ “Singleton tree” ⟩
+                — CalcCheck: Found “Singleton tree”
+                — CalcCheck: ─ OK
+            ｢ x ｣    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[17]
+To show a property P is true for all trees, one needs to check that it is true for the simplest tree ◬, and that whenever it is true for existing trees, then the way to make new trees preserves the truth of P; i.e., if P holds for l and r, then it needs to hold also for (l ◿ x ◺ r):
+
+[18]
+Axiom “Tree induction”:
+     P[t ≔ ◬]
+  ∧  ( ∀ l, r : Tree A; x : A
+       • P[t ≔ l] ∧ P[t ≔ r]  ⇒  P[t ≔ l ◿ x ◺ r]
+     )
+  ⇒  (∀ t : Tree A • P)
+
+Axiom “Tree induction”: P[t ≔ ◬] ∧ (∀ l : Tree A; r : Tree A; x : A • P[t ≔ l] ∧ P[t ≔ r] ⇒ P[t ≔ l ◿ x ◺ r] ) ⇒ (∀ t : Tree A • P )   
+    — CalcCheck: Metavariables: A = A〖〗, P = P〖t〗   
+    — CalcCheck: Proviso: ¬occurs(`l, r, x`, `P`)
+[19]
+Using this induction principle for our trees, we can prove that the above mirroring operation is an involution, just like reverse for sequences and converse for relations:
+
+[20]
+Theorem “Self-inverse of tree mirror”: ∀ t : Tree A • (t ˘) ˘ = t
+Proof:
+  Using “Tree induction”:
+    Subproof for `◬ ˘ ˘ = ◬`: By “Mirror”
+    Subproof for `∀ l, r : Tree A; x : A
+         • (l ˘) ˘ = l ∧ (r ˘) ˘ = r
+         ⇒ (l ◿ x ◺ r)˘ ˘ = (l ◿ x ◺ r)`:
+       For any `l, r, x`:
+         Assuming “IHL” `(l ˘) ˘ = l`,
+                  “IHR” `(r ˘) ˘ = r`:
+             (l ◿ x ◺ r) ˘ ˘
+           =⟨ “Mirror” ⟩
+             (l ˘ ˘) ◿ x ◺ (r ˘ ˘)
+           =⟨ Assumptions “IHL” and “IHR” ⟩
+             l ◿ x ◺ r
+
+Theorem “Self-inverse of tree mirror”: (∀ t : Tree A • (t ˘) ˘ = t )   
+    — CalcCheck: Metavariables: A = A〖〗
+Proof:
+    Using “Tree induction”:       
+        — CalcCheck: Found “Tree induction”
+        Subproof for `(◬ ˘) ˘ = ◬`:
+            By “Mirror”               
+                — CalcCheck: Found “Mirror”
+        Subproof for `(∀ l : Tree A; r : Tree A; x : A • (l ˘) ˘ = l ∧ (r ˘) ˘ = r ⇒ ((l ◿ x ◺ r) ˘) ˘ = l ◿ x ◺ r )`:
+            For any ` l, r, x`:
+                Assuming “IHL” `(l ˘) ˘ = l` , “IHR” `(r ˘) ˘ = r`:
+                — CalcCheck: Assumptions match goal
+                    Calculation for expected goal  `((l ◿ x ◺ r) ˘) ˘ = l ◿ x ◺ r`:
+                            ((l ◿ x ◺ r) ˘) ˘
+                        = ⟨ “Mirror” ⟩
+                                — CalcCheck: Found “Mirror”
+                                — CalcCheck: ─ OK
+                            (l ˘) ˘ ◿ x ◺ (r ˘) ˘
+                        = ⟨ Assumption “IHL”, Assumption “IHR” ⟩
+                                — CalcCheck: Found assumption “IHL”
+                                — CalcCheck: Found assumption “IHR”
+                                — CalcCheck: ─ OK
+                            l ◿ x ◺ r                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK
+[21]
+For the natural numbers, we have maximum _↑_ and minimum _↓_ preloaded from module Natural.MaxMin; the operators are also registered for Evaluation.
+
+We use maximum to define the height function for our trees, again inductively over the possible shapes of the argument trees:
+
+[22]
+Declaration: height : Tree A → ℕ
+Axiom “Empty tree height”: height ◬  = 0
+Axiom “Branch height”: height (l ◿ x ◺ r)  =  suc (height l ↑ height r)
+
+Declaration: height : Tree A → ℕ
+Axiom “Empty tree height”: height ◬ = 0
+Axiom “Branch height”: height (l ◿ x ◺ r) = suc (height l ↑ height r)
+[23]
+Lemma “Singleton tree height”: height ｢ x ｣ = 1
+Proof:
+    height ｢ x ｣
+  =⟨ “Singleton tree”, “Branch height” ⟩
+    suc (height ◬ ↑ height ◬)
+  =⟨ “Empty tree height”, evaluation ⟩
+    1
+
+Lemma “Singleton tree height”: height ｢ x ｣ = 1
+Proof:
+    Calculation for expected goal  `height ｢ x ｣ = 1`:
+            height ｢ x ｣
+        = ⟨ “Singleton tree”, “Branch height” ⟩
+                — CalcCheck: Found “Singleton tree”
+                — CalcCheck: Found “Branch height”
+                — CalcCheck: ─ OK
+            suc (height ◬ ↑ height ◬)
+        = ⟨ “Empty tree height”, Evaluation ⟩
+                — CalcCheck: Found “Empty tree height”
+                — CalcCheck: ─ OK
+            1    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[24]
+In a similar way you can prove the following:
+
+[25]
+Fact “Height of `t1`”: height t1 = 3
+Proof:
+    height t1
+  =⟨ “Definition of `t1`”⟩ 
+    height (((◬ ◿ 2 ◺ ◬) ◿ 3 ◺ (◬ ◿ 5 ◺ ◬)) ◿ 7 ◺ (◬ ◿ 10 ◺ (◬ ◿ 11 ◺ ◬)))
+  =⟨ “Branch height”⟩
+    suc (height ((◬ ◿ 2 ◺ ◬) ◿ 3 ◺ (◬ ◿ 5 ◺ ◬)) ↑ height (◬ ◿ 10 ◺ (◬ ◿ 11 ◺ ◬))) 
+  =⟨ “Branch height”⟩
+    suc (suc (height (◬ ◿ 2 ◺ ◬) ↑ height (◬ ◿ 5 ◺ ◬)) ↑ suc (height ◬ ↑ height (◬ ◿ 11 ◺ ◬))) 
+  =⟨ “Branch height”⟩ 
+    suc (suc (suc (height ◬ ↑ height ◬) ↑ suc (height ◬ ↑ height ◬)) ↑ suc (height ◬ ↑ suc (height ◬ ↑ height ◬)))
+  =⟨ “Empty tree height”, evaluation⟩
+    3  
+
+Fact “Height of `t1`”: height t1 = 3
+Proof:
+    Calculation for expected goal  `height t1 = 3`:
+            height t1
+        = ⟨ “Definition of `t1`” ⟩
+                — CalcCheck: Found “Definition of `t1`”
+                — CalcCheck: ─ OK
+            height (((◬ ◿ 2 ◺ ◬) ◿ 3 ◺ (◬ ◿ 5 ◺ ◬)) ◿ 7 ◺ (◬ ◿ 10 ◺ (◬ ◿ 11 ◺ ◬)))
+        = ⟨ “Branch height” ⟩
+                — CalcCheck: Found “Branch height”
+                — CalcCheck: ─ OK
+            suc (height ((◬ ◿ 2 ◺ ◬) ◿ 3 ◺ (◬ ◿ 5 ◺ ◬)) ↑ height (◬ ◿ 10 ◺ (◬ ◿ 11 ◺ ◬)))
+        = ⟨ “Branch height” ⟩
+                — CalcCheck: Found “Branch height”
+                — CalcCheck: ─ OK
+            suc (suc (height (◬ ◿ 2 ◺ ◬) ↑ height (◬ ◿ 5 ◺ ◬)) ↑ suc (height ◬ ↑ height (◬ ◿ 11 ◺ ◬)))
+        = ⟨ “Branch height” ⟩
+                — CalcCheck: Found “Branch height”
+                — CalcCheck: ─ OK
+            suc (suc (suc (height ◬ ↑ height ◬) ↑ suc (height ◬ ↑ height ◬)) ↑ suc (height ◬ ↑ suc (height ◬ ↑ height ◬)))
+        = ⟨ “Empty tree height”, Evaluation ⟩
+                — CalcCheck: Found “Empty tree height”
+                — CalcCheck: ─ OK
+            3    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[26]
+You will need “Tree induction” to prove that mirroring preserves height:
+
+[27]
+Theorem “Height of mirrored tree”:
+    ∀ t : Tree A • height (t ˘) = height t
+Proof:
+  Using “Tree induction”:
+    Subproof for `height (◬ ˘) = height ◬`:
+        height (◬ ˘)
+      =⟨ “Mirror”⟩
+        height (◬)
+    Subproof for `∀ l, r : Tree A; x : A
+         • height (l ˘) = height l ∧ height (r ˘) = height r
+         ⇒ height ((l ◿ x ◺ r)˘) = height (l ◿ x ◺ r)`:
+       For any `l, r, x`:
+         Assuming “IHL” `height (l ˘) = height l`, 
+                  “IHR” `height (r ˘) = height r`:
+             height ((l ◿ x ◺ r)˘)
+           =⟨ “Mirror”⟩
+             height ((r ˘ ◿ x ◺ l ˘))
+           =⟨ “Branch height”⟩
+             suc (height (r ˘) ↑ height (l ˘))
+           =⟨ Assumptions “IHL” and “IHR”⟩
+             suc (height r ↑ height l)
+           =⟨ “Branch height”⟩
+             height (l ◿ x ◺ r) 
+             
+
+Theorem “Height of mirrored tree”: (∀ t : Tree A • height (t ˘) = height t )   
+    — CalcCheck: Metavariables: A = A〖〗
+Proof:
+    Using “Tree induction”:       
+        — CalcCheck: Found “Tree induction”
+        Subproof for `height (◬ ˘) = height ◬`:
+                    height (◬ ˘)
+                = ⟨ “Mirror” ⟩
+                        — CalcCheck: Found “Mirror”
+                        — CalcCheck: ─ OK
+                    height ◬            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Subproof for `(∀ l : Tree A; r : Tree A; x : A • height (l ˘) = height l ∧ height (r ˘) = height r ⇒ height ((l ◿ x ◺ r) ˘) = height (l ◿ x ◺ r) )`:
+            For any ` l, r, x`:
+                Assuming “IHL” `height (l ˘) = height l` , “IHR” `height (r ˘) = height r`:
+                — CalcCheck: Assumptions match goal
+                    Calculation for expected goal  `height ((l ◿ x ◺ r) ˘) = height (l ◿ x ◺ r)`:
+                            height ((l ◿ x ◺ r) ˘)
+                        = ⟨ “Mirror” ⟩
+                                — CalcCheck: Found “Mirror”
+                                — CalcCheck: ─ OK
+                            height (r ˘ ◿ x ◺ l ˘)
+                        = ⟨ “Branch height” ⟩
+                                — CalcCheck: Found “Branch height”
+                                — CalcCheck: ─ OK
+                            suc (height (r ˘) ↑ height (l ˘))
+                        = ⟨ Assumption “IHL”, Assumption “IHR” ⟩
+                                — CalcCheck: Found assumption “IHL”
+                                — CalcCheck: Found assumption “IHR”
+                                — CalcCheck: ─ OK
+                            suc (height r ↑ height l)
+                        = ⟨ “Branch height” ⟩
+                                — CalcCheck: Found “Branch height”
+                                — CalcCheck: ─ OK
+                            height (l ◿ x ◺ r)                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK

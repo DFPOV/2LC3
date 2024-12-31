@@ -1,0 +1,187 @@
+— Homework 10 Notebook 1: Pairs
+[1]
+Preloaded here is all set theory from Reference Notebook 6.1.
+
+[2]
+The pair consisting of the two constituents b and c, in that order, is written ⟨ b , c ⟩.
+
+Pairs are equal exactly if their respective constituents are equal:
+
+[3]
+Axiom (14.2) “Pair equality”: ⟨ b, c ⟩ =  ⟨ b', c' ⟩  ≡  b = b' ∧ c = c'
+
+Axiom (14.2) “Pair equality”: ⟨b, c⟩ = ⟨b', c'⟩ ≡ b = b' ∧ c = c'
+[4]
+If t and u are types, the type of pairs with first constituent in t and second constituent in u is written ❰ t, u ❱. (You type \<! for ❰ and \>! for ❱, but you will probably not need these a lot.)
+
+The pair projections work for pairs with any constituent types, so both t and u are type variables here:
+
+[5]
+Declaration: fst : ❰ t , u ❱ → t
+Declaration: snd : ❰ t , u ❱ → u
+Axiom “Definition of `fst`”: fst ⟨ x, y ⟩ = x
+Axiom “Definition of `snd`”: snd ⟨ x, y ⟩ = y
+
+Declaration: fst : ❰ t, u ❱ → t
+Declaration: snd : ❰ t, u ❱ → u
+Axiom “Definition of `fst`”: fst ⟨x, y⟩ = x
+Axiom “Definition of `snd`”: snd ⟨x, y⟩ = y
+[6]
+Axiom “Pair equality”:
+  p = q   ≡   fst p = fst q  ∧  snd p = snd q
+
+Axiom “Pair equality”: p = q ≡ fst p = fst q ∧ snd p = snd q
+[7]
+LADM states only (14.2) as axiom — this is however not sufficient to prove the above “Pair equality”, since surjectivity of pairing (an easy consequence of “Pair extensionality”) is missing.
+
+[8]
+Theorem (14.2) “Pair equality”:
+    ⟨ b, c ⟩ =  ⟨ b', c' ⟩  ≡  b = b' ∧ c = c'
+Proof:
+    ⟨ b, c ⟩ = ⟨ b', c'⟩
+  ≡⟨ “Pair equality”⟩  
+    fst ⟨ b, c ⟩ = fst ⟨ b', c' ⟩ ∧ snd ⟨ b, c⟩ = snd ⟨ b', c'⟩  
+  ≡⟨ “Definition of `fst`”, “Definition of `snd`”⟩
+    b = b' ∧ c = c'      
+
+Theorem (14.2) “Pair equality”: ⟨b, c⟩ = ⟨b', c'⟩ ≡ b = b' ∧ c = c'
+Proof:
+    Calculation for expected goal  `⟨b, c⟩ = ⟨b', c'⟩ ≡ b = b' ∧ c = c'`:
+            ⟨b, c⟩ = ⟨b', c'⟩
+        ≡ ⟨ “Pair equality” ⟩
+                — CalcCheck: Found “Pair equality”, (14.2) “Pair equality”
+                — CalcCheck: ─ OK
+            fst ⟨b, c⟩ = fst ⟨b', c'⟩ ∧ snd ⟨b, c⟩ = snd ⟨b', c'⟩
+        ≡ ⟨ “Definition of `fst`”, “Definition of `snd`” ⟩
+                — CalcCheck: Found “Definition of `fst`”
+                — CalcCheck: Found “Definition of `snd`”
+                — CalcCheck: ─ OK
+            b = b' ∧ c = c'    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[9]
+(One proof of “Pair extensionality” is shown on the lecture slides.)
+
+[10]
+Theorem “Pair extensionality”: p = ⟨ fst p , snd p ⟩
+Proof:
+    p = ⟨ fst p, snd p ⟩ 
+  =⟨ “Pair equality”⟩
+    fst p = fst ⟨ fst p, snd p ⟩ ∧ snd p = snd ⟨ fst p, snd p ⟩ 
+  =⟨ “Definition of `fst`”, “Definition of `snd`”⟩ 
+    fst p = fst p ∧ snd p = snd p
+  =⟨ “Reflexivity of =”, “Idempotency of ∧”⟩
+    true
+     
+
+Theorem “Pair extensionality”: p = ⟨fst p, snd p⟩
+Proof:
+    Calculation for expected goal  `p = ⟨fst p, snd p⟩`:
+            p = ⟨fst p, snd p⟩
+        = ⟨ “Pair equality” ⟩
+                — CalcCheck: Found “Pair equality”, (14.2) “Pair equality”
+                — CalcCheck: ─ OK
+            fst p = fst ⟨fst p, snd p⟩ ∧ snd p = snd ⟨fst p, snd p⟩
+        = ⟨ “Definition of `fst`”, “Definition of `snd`” ⟩
+                — CalcCheck: Found “Definition of `fst`”
+                — CalcCheck: Found “Definition of `snd`”
+                — CalcCheck: ─ OK
+            fst p = fst p ∧ snd p = snd p
+        = ⟨ “Reflexivity of =”, “Idempotency of ∧” ⟩
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: Found (3.38) “Idempotency of ∧”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[11]
+The following special shape of “Pair equality” is occasionally useful:
+
+[12]
+Lemma “Pair equality”: p = ⟨ x, y ⟩  ≡  fst p = x  ∧  snd p = y
+Proof:
+    p = ⟨ x, y ⟩
+  ≡⟨ “Pair equality”⟩
+    fst p = fst ⟨ x, y ⟩ ∧ snd p = snd ⟨ x , y ⟩
+  ≡⟨ “Definition of `fst`”, “Definition of `snd`”⟩
+    fst p = x ∧ snd p = y     
+
+Lemma “Pair equality”: p = ⟨x, y⟩ ≡ fst p = x ∧ snd p = y
+Proof:
+    Calculation for expected goal  `p = ⟨x, y⟩ ≡ fst p = x ∧ snd p = y`:
+            p = ⟨x, y⟩
+        ≡ ⟨ “Pair equality” ⟩
+                — CalcCheck: Found “Pair equality”, (14.2) “Pair equality”
+                — CalcCheck: ─ OK
+            fst p = fst ⟨x, y⟩ ∧ snd p = snd ⟨x, y⟩
+        ≡ ⟨ “Definition of `fst`”, “Definition of `snd`” ⟩
+                — CalcCheck: Found “Definition of `fst`”
+                — CalcCheck: Found “Definition of `snd`”
+                — CalcCheck: ─ OK
+            fst p = x ∧ snd p = y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[13]
+Declaration: swap-× : ❰ t, u ❱ → ❰ u, t ❱
+Axiom “Definition of `swap-×`”: swap-× ⟨ x, y ⟩ = ⟨ y, x ⟩
+
+Declaration: swap-× : ❰ t, u ❱ → ❰ u, t ❱
+Axiom “Definition of `swap-×`”: swap-× ⟨x, y⟩ = ⟨y, x⟩
+[14]
+Theorem “fst after swap-×”: fst (swap-× p) = snd p
+Proof:
+    fst (swap-× p)
+  =⟨ “Pair extensionality”⟩ 
+    fst (swap-× ⟨ fst p, snd p ⟩)
+  =⟨ “Definition of `swap-×`”⟩
+    fst ⟨ snd p , fst p ⟩
+  =⟨ “Definition of `fst`”⟩
+    snd p 
+
+Theorem “fst after swap-×”: fst (swap-× p) = snd p
+Proof:
+    Calculation for expected goal  `fst (swap-× p) = snd p`:
+            fst (swap-× p)
+        = ⟨ “Pair extensionality” ⟩
+                — CalcCheck: Found “Pair extensionality”
+                — CalcCheck: ─ OK
+            fst (swap-× ⟨fst p, snd p⟩)
+        = ⟨ “Definition of `swap-×`” ⟩
+                — CalcCheck: Found “Definition of `swap-×`”
+                — CalcCheck: ─ OK
+            fst ⟨snd p, fst p⟩
+        = ⟨ “Definition of `fst`” ⟩
+                — CalcCheck: Found “Definition of `fst`”
+                — CalcCheck: ─ OK
+            snd p    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[15]
+Theorem “snd after swap-×”: snd (swap-× p) = fst p
+Proof:
+    snd (swap-× p)
+  =⟨ “Pair extensionality”⟩
+    snd (swap-× ⟨ fst p, snd p ⟩ )
+  =⟨ “Definition of `swap-×`”⟩
+    snd (⟨ snd p, fst p⟩ )
+  =⟨ “Definition of `snd`” ⟩
+    fst p
+
+Theorem “snd after swap-×”: snd (swap-× p) = fst p
+Proof:
+    Calculation for expected goal  `snd (swap-× p) = fst p`:
+            snd (swap-× p)
+        = ⟨ “Pair extensionality” ⟩
+                — CalcCheck: Found “Pair extensionality”
+                — CalcCheck: ─ OK
+            snd (swap-× ⟨fst p, snd p⟩)
+        = ⟨ “Definition of `swap-×`” ⟩
+                — CalcCheck: Found “Definition of `swap-×`”
+                — CalcCheck: ─ OK
+            snd ⟨snd p, fst p⟩
+        = ⟨ “Definition of `snd`” ⟩
+                — CalcCheck: Found “Definition of `snd`”
+                — CalcCheck: ─ OK
+            fst p    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
