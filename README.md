@@ -1,2 +1,2 @@
 # 2LC3
-Materials for COMPSCI 2LC3:Logical Reasoning for Computer Science
+Homeworks and (some of) exercises from COMPSCI 2LC3:Logical Reasoning for Computer Science
