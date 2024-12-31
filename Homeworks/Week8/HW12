@@ -1,0 +1,533 @@
+— Homework 12: Heterogeneous Relation Properties
+[1]
+Building on the set and relation operations and properties from Ref6.1, H10.3, and Ref8.1, we now introduce several properties of heterogeneous relations, that is, of relations that are not assumed to be of type A ↔ A for some type A.
+
+The keyword Monotonicity is not enabled here. Four hint items are allowed per hint.
+
+(“?₁” must always be replaced by just a single (possibly structured) hint item, while simple “?” hints will need to be expanded into arbitrarily-long calculations.)
+
+[2]
+Univalence
+[3]
+A relation is univalent iff it relates each argument with at most one result.
+
+We define the univalence predicate for relations using the relation-algebraic formulation:
+
+[4]
+Declaration: univalent : A ↔ B  →  𝔹
+Axiom “Definition of univalence”:
+    univalent R   ≡  R ˘ ⨾ R ⊆ 𝕀
+
+Declaration: univalent : A ↔ B → 𝔹
+Axiom “Definition of univalence”: univalent R ≡ R ˘ ⨾ R ⊆ 𝕀
+[5]
+It is easy to prove preservation of univalence by composition relation-algebraically from this definition — for these relation-algebraic proofs, you will need to use theorems from Ref8.1.
+
+[6]
+Theorem “Univalence of composition”:
+     univalent R ⇒ univalent S ⇒ univalent (R ⨾ S)
+Proof:
+  Assuming `univalent R` and using with “Definition of univalence”,
+           `univalent S` and using with “Definition of univalence”:
+    Using “Definition of univalence”:
+        (R ⨾ S) ˘ ⨾ (R ⨾ S)
+      =⟨ “Converse of ⨾” ⟩
+        (S ˘ ⨾ R ˘) ⨾ R ⨾ S
+      =⟨ “Associativity of ⨾” ⟩
+        S ˘ ⨾ (R ˘ ⨾ R) ⨾ S
+      ⊆⟨ “Monotonicity of ⨾” with “Monotonicity of ⨾” with
+         Assumption `univalent R` ⟩
+        S ˘ ⨾ 𝕀 ⨾ S
+      =⟨ “Identity of ⨾” ⟩
+        S ˘ ⨾ S
+      ⊆⟨ Assumption `univalent S`⟩
+        𝕀
+
+Theorem “Univalence of composition”: univalent R ⇒ (univalent S ⇒ univalent (R ⨾ S))
+Proof:
+    Assuming `univalent R` and using with “Definition of univalence”
+    — CalcCheck: Found “Definition of univalence” , `univalent S` and using with “Definition of univalence”
+    — CalcCheck: Found “Definition of univalence”:
+    — CalcCheck: Assumptions match goal
+        Using “Definition of univalence”:           
+            — CalcCheck: Found “Definition of univalence”
+            Subproof establishing `(R ⨾ S) ˘ ⨾ (R ⨾ S) ⊆ 𝕀`:
+                        (R ⨾ S) ˘ ⨾ (R ⨾ S)
+                    = ⟨ “Converse of ⨾” ⟩
+                            — CalcCheck: Found “Converse of ⨾”
+                            — CalcCheck: ─ OK
+                        (S ˘ ⨾ R ˘) ⨾ (R ⨾ S)
+                    = ⟨ “Associativity of ⨾” ⟩
+                            — CalcCheck: Found “Associativity of ⨾”
+                            — CalcCheck: OK (no change)
+                            — CalcCheck: ─ OK
+                        S ˘ ⨾ ((R ˘ ⨾ R) ⨾ S)
+                    ⊆ ⟨ “Monotonicity of ⨾” with “Monotonicity of ⨾” with Assumption `univalent R` ⟩
+                            — CalcCheck: Found “Monotonicity of ⨾”
+                            — CalcCheck: Found assumption `univalent R`
+                            — CalcCheck: ─ OK
+                        S ˘ ⨾ (𝕀 ⨾ S)
+                    = ⟨ “Identity of ⨾” ⟩
+                            — CalcCheck: Found “Identity of ⨾”
+                            — CalcCheck: ─ OK
+                        S ˘ ⨾ S
+                    ⊆ ⟨ Assumption `univalent S` ⟩
+                            — CalcCheck: Found assumption `univalent S`
+                            — CalcCheck: ─ OK
+                        𝕀                
+                — CalcCheck: All steps OK
+[7]
+From the above “Definition of univalence” we can prove the most common predicate-logic formulation of univalence in a straight-forward equivalence calculation using mainly the definitions of the relation operations from H10.3, and predicate logic. Here, you may in particular need “Distributivity of ∨ over ∀” or “Witness” (pay attention to the proviso in either case!):
+
+[8]
+Theorem “Univalence”:
+      univalent R
+   ≡  ∀ b₁ • ∀ b₂ • ∀ a • a ⦗ R ⦘ b₁ ∧ a ⦗ R ⦘ b₂ ⇒ b₁ = b₂
+Proof:
+    univalent R
+  ≡⟨ “Definition of univalence”⟩
+    R ˘ ⨾ R ⊆ 𝕀
+  ≡⟨ “Relation inclusion”⟩
+    (∀ b₁ • (∀ b₂ • b₁ ⦗ R ˘ ⨾ R ⦘ b₂ ⇒ b₁ ⦗ 𝕀 ⦘ b₂ ) )
+  ≡⟨“Relation composition”, “Identity relation”, “Relation converse”⟩
+    (∀ b₁ • (∀ b₂ • (∃ a • (a ⦗ R ⦘ b₁ ∧ a ⦗ R ⦘ b₂)) ⇒ b₁ = b₂ ) ) 
+  ≡⟨ “Witness” ⟩
+    ∀ b₁ • ∀ b₂ • (∀ a • ((a ⦗ R ⦘ b₁ ∧ a ⦗ R ⦘ b₂) ⇒ b₁ = b₂))
+
+Theorem “Univalence”: univalent R ≡ (∀ b₁ • (∀ b₂ • (∀ a • a ⦗ R ⦘ b₁ ∧ a ⦗ R ⦘ b₂ ⇒ b₁ = b₂ ) ) )   
+    — CalcCheck: Proviso: ¬occurs(`a, b₁, b₂`, `R`)
+Proof:
+    Calculation for expected goal  `univalent R ≡ (∀ b₁ • (∀ b₂ • (∀ a • a ⦗ R ⦘ b₁ ∧ a ⦗ R ⦘ b₂ ⇒ b₁ = b₂ ) ) )`:
+            univalent R
+        ≡ ⟨ “Definition of univalence” ⟩
+                — CalcCheck: Found “Definition of univalence”
+                — CalcCheck: ─ OK
+            R ˘ ⨾ R ⊆ 𝕀
+        ≡ ⟨ “Relation inclusion” ⟩
+                — CalcCheck: Found “Relation inclusion”
+                — CalcCheck: ─ OK
+            (∀ b₁ • (∀ b₂ • b₁ ⦗ R ˘ ⨾ R ⦘ b₂ ⇒ b₁ ⦗ 𝕀 ⦘ b₂ ) )
+        ≡ ⟨ “Relation composition”, “Identity relation”, “Relation converse” ⟩
+                — CalcCheck: Found “Relation composition”
+                — CalcCheck: Found “Relationship via 𝕀”
+                — CalcCheck: Found “Relation converse”
+                — CalcCheck: ─ OK
+            (∀ b₁ • (∀ b₂ • (∃ a • a ⦗ R ⦘ b₁ ∧ a ⦗ R ⦘ b₂ ) ⇒ b₁ = b₂ ) )
+        ≡ ⟨ “Witness” ⟩
+                — CalcCheck: Found (9.30.1) “Witness”, (9.30.2) “Witness”
+                — CalcCheck: ─ OK
+            (∀ b₁ • (∀ b₂ • (∀ a • a ⦗ R ⦘ b₁ ∧ a ⦗ R ⦘ b₂ ⇒ b₁ = b₂ ) ) )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[9]
+Now imagine proving “Univalence of composition” via “Univalence” in predicate logic…
+
+[10]
+Totality
+[11]
+A relation is total if it relates each argument with at least one result.
+
+We define the totality predicate for relations using the relation-algebraic formulation:
+
+[12]
+Declaration: total : A ↔ B  →  𝔹
+Axiom “Definition of totality”:
+      total R       ≡  𝕀 ⊆ R ⨾ R ˘
+
+Declaration: total : A ↔ B → 𝔹
+Axiom “Definition of totality”: total R ≡ 𝕀 ⊆ R ⨾ R ˘
+[13]
+Using a purely relation-algebraic proof, you obtain “Totality of union” from this definition:
+
+[14]
+Theorem “Totality of union”:
+    total R ⇒ total S ⇒ total (R ∪ S)
+Proof:
+  Assuming `total R` and using with “Definition of totality”,
+           `total S`:
+    Using “Definition of totality”:
+        (R ∪ S) ⨾ (R ∪ S) ˘
+      =⟨ “Converse of ∪” ⟩
+        (R ∪ S) ⨾ (R ˘ ∪ S ˘)
+      =⟨ “Distributivity of ⨾ over ∪” ⟩
+        R ⨾ R ˘ ∪ R ⨾ S ˘ ∪ S ⨾ R ˘ ∪ S ⨾ S ˘
+      ⊇⟨ “Weakening of ∪” ⟩
+        R ⨾ R ˘
+      ⊇⟨ Assumption `total R` ⟩
+        𝕀
+
+Theorem “Totality of union”: total R ⇒ (total S ⇒ total (R ∪ S))
+Proof:
+    Assuming `total R` and using with “Definition of totality”
+    — CalcCheck: Found “Definition of totality” , `total S`:
+    — CalcCheck: Assumptions match goal
+        Using “Definition of totality”:           
+            — CalcCheck: Found “Definition of totality”
+            Subproof establishing `(R ∪ S) ⨾ (R ∪ S) ˘ ⊇ 𝕀`:
+                        (R ∪ S) ⨾ (R ∪ S) ˘
+                    = ⟨ “Converse of ∪” ⟩
+                            — CalcCheck: Found “Converse of ∪”
+                            — CalcCheck: ─ OK
+                        (R ∪ S) ⨾ (R ˘ ∪ S ˘)
+                    = ⟨ “Distributivity of ⨾ over ∪” ⟩
+                            — CalcCheck: Found “Distributivity of ⨾ over ∪”
+                            — CalcCheck: ─ OK
+                        R ⨾ R ˘ ∪ (R ⨾ S ˘ ∪ (S ⨾ R ˘ ∪ S ⨾ S ˘))
+                    ⊇ ⟨ “Weakening of ∪” ⟩
+                            — CalcCheck: Found (11.31) “Weakening of ∪”
+                            — CalcCheck: ─ OK
+                        R ⨾ R ˘
+                    ⊇ ⟨ Assumption `total R` ⟩
+                            — CalcCheck: Found assumption `total R`
+                            — CalcCheck: ─ OK
+                        𝕀                
+                — CalcCheck: All steps OK
+[15]
+The most convenient predicate-logic formulation of the definition of totalisy again follows in a straight-forward equivalence calculation:
+
+[16]
+Theorem “Totality”: total R  ≡  ∀ a • ∃ b • a ⦗ R ⦘ b
+Proof:
+    total R
+  ≡⟨ “Definition of totality” ⟩
+    𝕀 ⊆ R ⨾ R ˘
+  ≡⟨ “Relation inclusion”⟩
+    (∀ a • (∀ b • a ⦗ 𝕀 ⦘ b ⇒ a ⦗ R ⨾ R ˘ ⦘ b ) ) 
+  ≡⟨ “Identity relation”⟩
+    (∀ a • (∀ b • (a = b) ⇒ a ⦗ R ⨾ R ˘ ⦘ b ) ) 
+  ≡⟨ “Relation composition”⟩
+    (∀ a • (∀ b • (a = b) ⇒ ∃ b₁ • a ⦗ R ⦘ b₁  ∧  b₁ ⦗ R ˘ ⦘ b ) ) 
+  ≡⟨ “Relation converse”⟩
+    (∀ a • (∀ b • (a = b) ⇒ ∃ b₁ • a ⦗ R ⦘ b₁  ∧  b ⦗ R ⦘ b₁) ) 
+  ≡⟨ “Trading for ∀”⟩
+    (∀ a • (∀ b ❙ (a = b) • ∃ b₁ • a ⦗ R ⦘ b₁  ∧  b ⦗ R ⦘ b₁) )
+  ≡⟨ “One-point rule for ∀”⟩  
+    (∀ a • (∃ x • a ⦗ R ⦘ x  ∧  b ⦗ R ⦘ x)[ b ≔ a ] )
+  ≡⟨ Substitution ⟩
+    (∀ a • (∃ x • a ⦗ R ⦘ x  ∧  a ⦗ R ⦘ x))
+  ≡⟨ “Idempotency of ∧”⟩
+    (∀ a • (∃ x • a ⦗ R ⦘ x ))
+  ≡⟨ “Identity of ≡” ⟩ 
+    ∀ a • ∃ b • a ⦗ R ⦘ b
+
+Theorem “Totality”: total R ≡ (∀ a • (∃ b • a ⦗ R ⦘ b ) )   
+    — CalcCheck: Proviso: ¬occurs(`a, b`, `R`)
+Proof:
+    Calculation for expected goal  `total R ≡ (∀ a • (∃ b • a ⦗ R ⦘ b ) )`:
+            total R
+        ≡ ⟨ “Definition of totality” ⟩
+                — CalcCheck: Found “Definition of totality”
+                — CalcCheck: ─ OK
+            𝕀 ⊆ R ⨾ R ˘
+        ≡ ⟨ “Relation inclusion” ⟩
+                — CalcCheck: Found “Relation inclusion”
+                — CalcCheck: ─ OK
+            (∀ a • (∀ b • a ⦗ 𝕀 ⦘ b ⇒ a ⦗ R ⨾ R ˘ ⦘ b ) )
+        ≡ ⟨ “Identity relation” ⟩
+                — CalcCheck: Found “Relationship via 𝕀”
+                — CalcCheck: ─ OK
+            (∀ a • (∀ b • a = b ⇒ a ⦗ R ⨾ R ˘ ⦘ b ) )
+        ≡ ⟨ “Relation composition” ⟩
+                — CalcCheck: Found “Relation composition”
+                — CalcCheck: ─ OK
+            (∀ a • (∀ b • a = b ⇒ (∃ b₁ • a ⦗ R ⦘ b₁ ∧ b₁ ⦗ R ˘ ⦘ b ) ) )
+        ≡ ⟨ “Relation converse” ⟩
+                — CalcCheck: Found “Relation converse”
+                — CalcCheck: ─ OK
+            (∀ a • (∀ b • a = b ⇒ (∃ b₁ • a ⦗ R ⦘ b₁ ∧ b ⦗ R ⦘ b₁ ) ) )
+        ≡ ⟨ “Trading for ∀” ⟩
+                — CalcCheck: Found (9.3a) “Trading for ∀”, (9.3b) “Trading for ∀”, (9.3c) “Trading for ∀”, (9.4a) “Trading for ∀”, (9.4b) “Trading for ∀”, (9.4c) “Trading for ∀”, (9.4d) “Trading for ∀”, (9.2) “Trading for ∀”
+                — CalcCheck: ─ OK
+            (∀ a • (∀ b ❙ a = b • (∃ b₁ • a ⦗ R ⦘ b₁ ∧ b ⦗ R ⦘ b₁ ) ) )
+        ≡ ⟨ “One-point rule for ∀” ⟩
+                — CalcCheck: Found (8.14) “One-point rule for ∀”
+                — CalcCheck: ─ OK
+            (∀ a • (∃ x • a ⦗ R ⦘ x ∧ b ⦗ R ⦘ x )[b ≔ a] )
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∀ a • (∃ x • a ⦗ R ⦘ x ∧ a ⦗ R ⦘ x ) )
+        ≡ ⟨ “Idempotency of ∧” ⟩
+                — CalcCheck: Found (3.38) “Idempotency of ∧”
+                — CalcCheck: ─ OK
+            (∀ a • (∃ x • a ⦗ R ⦘ x ) )
+        ≡ ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            (∀ a • (∃ b • a ⦗ R ⦘ b ) )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[17]
+Another quantifier-free formulation of totality is not strictly relation algebraic, since it involves not only relations, but also sets (the universal set 𝐔 and the set Dom R) — this is sometimes called “Peirce-algebraic”:
+
+[18]
+Theorem “Domain of total relations”:
+    total R  ≡  𝐔 ⊆ Dom R
+Proof:
+    𝐔 ⊆ Dom R
+  ≡⟨ “Set inclusion” ⟩
+    ∀ a • a ∈ 𝐔 ⇒ a ∈ Dom R
+  ≡⟨ “Universal set”, “Left-identity of ⇒” ⟩  
+    ∀ a • a ∈ Dom R
+  ≡⟨ “Membership in `Dom`” ⟩ 
+    ∀ a • ∃ b • a ⦗ R ⦘ b
+  ≡⟨ “Totality” ⟩
+    total R
+
+Theorem “Domain of total relations”: total R ≡ 𝐔 ⊆ Dom R
+Proof:
+    Calculation for expected goal  `total R ≡ 𝐔 ⊆ Dom R`:
+            𝐔 ⊆ Dom R
+        ≡ ⟨ “Set inclusion” ⟩
+                — CalcCheck: Found (11.13b) “Set inclusion”, (11.13) “Set inclusion”
+                — CalcCheck: ─ OK
+            (∀ a • a ∈ 𝐔 ⇒ a ∈ Dom R )
+        ≡ ⟨ “Universal set”, “Left-identity of ⇒” ⟩
+                — CalcCheck: Found “Universal set”, “Universal set”
+                — CalcCheck: Found (3.73) “Left-identity of ⇒”
+                — CalcCheck: ─ OK
+            (∀ a • a ∈ Dom R )
+        ≡ ⟨ “Membership in `Dom`” ⟩
+                — CalcCheck: Found “Membership in `Dom`”
+                — CalcCheck: ─ OK
+            (∀ a • (∃ b • a ⦗ R ⦘ b ) )
+        ≡ ⟨ “Totality” ⟩
+                — CalcCheck: Found “Totality”
+                — CalcCheck: ─ OK
+            total R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[19]
+Another variant of this is frequently perceived as “nicer”:
+
+[20]
+Theorem “Domain of total relations”:
+    total R  ≡  Dom R = 𝐔
+Proof:
+    Dom R = 𝐔
+  ≡⟨ “Set extensionality”⟩
+    ∀ x • x ∈ Dom R ≡ x ∈ 𝐔
+  ≡⟨ “Universal set”⟩
+    ∀ x • x ∈ Dom R ≡ true
+  ≡⟨ “Identity of ≡”⟩ 
+    ∀ x • x ∈ Dom R
+  ≡⟨ “Membership in `Dom`”, “Totality”⟩
+    total R 
+        
+     
+        
+    
+
+Theorem “Domain of total relations”: total R ≡ Dom R = 𝐔
+Proof:
+    Calculation for expected goal  `total R ≡ Dom R = 𝐔`:
+            Dom R = 𝐔
+        ≡ ⟨ “Set extensionality” ⟩
+                — CalcCheck: Found (11.4) “Set extensionality”
+                — CalcCheck: ─ OK
+            (∀ x • x ∈ Dom R ≡ x ∈ 𝐔 )
+        ≡ ⟨ “Universal set” ⟩
+                — CalcCheck: Found “Universal set”, “Universal set”
+                — CalcCheck: ─ OK
+            (∀ x • x ∈ Dom R ≡ true )
+        ≡ ⟨ “Identity of ≡” ⟩
+                — CalcCheck: Found (3.3) “Identity of ≡”
+                — CalcCheck: ─ OK
+            (∀ x • x ∈ Dom R )
+        ≡ ⟨ “Membership in `Dom`”, “Totality” ⟩
+                — CalcCheck: Found “Membership in `Dom`”
+                — CalcCheck: Found “Totality”
+                — CalcCheck: ─ OK
+            total R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[21]
+Injectivity
+[22]
+Declaration: injective : A ↔ B  →  𝔹
+
+Declaration: injective : A ↔ B → 𝔹
+[23]
+Axiom “Definition of injectivity”:
+    injective R    ≡   R ⨾ R ˘  ⊆  𝕀
+
+Axiom “Definition of injectivity”: injective R ≡ R ⨾ R ˘ ⊆ 𝕀
+[24]
+Injectivity is dual (with respect to the direction of composition) to univalence, so the dualisation operator “_˘” (converse) converts between the two:
+
+[25]
+Theorem “Injectivity of converse”:
+    injective (R ˘)  ≡  univalent R
+Proof:
+    injective (R ˘)
+  ≡⟨ “Definition of injectivity”⟩
+    R ˘ ⨾ R ˘ ˘  ⊆  𝕀
+  ≡⟨ “Self-inverse of ˘”⟩
+    R ˘ ⨾ R ⊆ 𝕀
+  ≡⟨ “Definition of univalence” ⟩
+    univalent R
+
+Theorem “Injectivity of converse”: injective (R ˘) ≡ univalent R
+Proof:
+    Calculation for expected goal  `injective (R ˘) ≡ univalent R`:
+            injective (R ˘)
+        ≡ ⟨ “Definition of injectivity” ⟩
+                — CalcCheck: Found “Definition of injectivity”
+                — CalcCheck: ─ OK
+            R ˘ ⨾ (R ˘) ˘ ⊆ 𝕀
+        ≡ ⟨ “Self-inverse of ˘” ⟩
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: ─ OK
+            R ˘ ⨾ R ⊆ 𝕀
+        ≡ ⟨ “Definition of univalence” ⟩
+                — CalcCheck: Found “Definition of univalence”
+                — CalcCheck: ─ OK
+            univalent R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[26]
+Theorem “Univalence of converse”:
+    univalent (R ˘)  ≡  injective R
+Proof:
+    univalent (R ˘)
+  ≡⟨ “Definition of univalence”⟩
+    R ˘ ˘ ⨾ R ˘ ⊆ 𝕀
+  ≡⟨ “Self-inverse of ˘”⟩
+    R ⨾ R ˘ ⊆ 𝕀
+  ≡⟨ “Definition of injectivity”⟩
+    injective R   
+
+Theorem “Univalence of converse”: univalent (R ˘) ≡ injective R
+Proof:
+    Calculation for expected goal  `univalent (R ˘) ≡ injective R`:
+            univalent (R ˘)
+        ≡ ⟨ “Definition of univalence” ⟩
+                — CalcCheck: Found “Definition of univalence”
+                — CalcCheck: ─ OK
+            (R ˘) ˘ ⨾ R ˘ ⊆ 𝕀
+        ≡ ⟨ “Self-inverse of ˘” ⟩
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: ─ OK
+            R ⨾ R ˘ ⊆ 𝕀
+        ≡ ⟨ “Definition of injectivity” ⟩
+                — CalcCheck: Found “Definition of injectivity”
+                — CalcCheck: ─ OK
+            injective R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[27]
+One way to prove the predicate-logic formulation of injectivity is to use “Univalence of converse” to reduce the amount of predicate-logic reasoning required to a minimum:
+
+[28]
+Theorem “Injectivity”:
+       injective R
+    ≡  ∀ a₁ • ∀ a₂ • ∀ b • a₁ ⦗ R ⦘ b ∧ a₂ ⦗ R ⦘ b ⇒ a₁ = a₂
+Proof:
+    injective R
+  ≡⟨ “Univalence of converse”⟩
+    univalent (R ˘)
+  ≡⟨ “Univalence”⟩
+    (∀ b₁ • (∀ b₂ • (∀ a • a ⦗ R ˘ ⦘ b₁ ∧ a ⦗ R ˘ ⦘ b₂ ⇒ b₁ = b₂ ))) 
+  ≡⟨ “Relation converse”⟩
+    ∀ a₁ • ∀ a₂ • ∀ b • a₁ ⦗ R ⦘ b ∧ a₂ ⦗ R ⦘ b ⇒ a₁ = a₂
+
+Theorem “Injectivity”: injective R ≡ (∀ a₁ • (∀ a₂ • (∀ b • a₁ ⦗ R ⦘ b ∧ a₂ ⦗ R ⦘ b ⇒ a₁ = a₂ ) ) )   
+    — CalcCheck: Proviso: ¬occurs(`a₁, a₂, b`, `R`)
+Proof:
+    Calculation for expected goal  `injective R ≡ (∀ a₁ • (∀ a₂ • (∀ b • a₁ ⦗ R ⦘ b ∧ a₂ ⦗ R ⦘ b ⇒ a₁ = a₂ ) ) )`:
+            injective R
+        ≡ ⟨ “Univalence of converse” ⟩
+                — CalcCheck: Found “Univalence of converse”
+                — CalcCheck: ─ OK
+            univalent (R ˘)
+        ≡ ⟨ “Univalence” ⟩
+                — CalcCheck: Found “Univalence”
+                — CalcCheck: ─ OK
+            (∀ b₁ • (∀ b₂ • (∀ a • a ⦗ R ˘ ⦘ b₁ ∧ a ⦗ R ˘ ⦘ b₂ ⇒ b₁ = b₂ ) ) )
+        ≡ ⟨ “Relation converse” ⟩
+                — CalcCheck: Found “Relation converse”
+                — CalcCheck: ─ OK
+            (∀ a₁ • (∀ a₂ • (∀ b • a₁ ⦗ R ⦘ b ∧ a₂ ⦗ R ⦘ b ⇒ a₁ = a₂ ) ) )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[29]
+Surjectivity
+[30]
+We define the surjectivity predicate for relations using the relation-algebraic formulation:
+
+[31]
+Declaration: surjective : A ↔ B  →  𝔹
+
+Declaration: surjective : A ↔ B → 𝔹
+[32]
+Axiom “Definition of surjectivity”:
+    surjective R    ≡   𝕀  ⊆  R ˘ ⨾ R
+
+Axiom “Definition of surjectivity”: surjective R ≡ 𝕀 ⊆ R ˘ ⨾ R
+[33]
+Surjectivity is dual to totality:
+
+[34]
+Theorem “Totality of converse”:
+    total (R ˘)  ≡  surjective R
+Proof:
+    total (R ˘)
+  ≡⟨ “Definition of totality” ⟩
+    𝕀 ⊆ R ˘ ⨾ R ˘ ˘
+  ≡⟨ “Self-inverse of ˘”⟩
+    𝕀 ⊆ R ˘ ⨾ R
+  ≡⟨ “Definition of surjectivity” ⟩
+    surjective R
+
+Theorem “Totality of converse”: total (R ˘) ≡ surjective R
+Proof:
+    Calculation for expected goal  `total (R ˘) ≡ surjective R`:
+            total (R ˘)
+        ≡ ⟨ “Definition of totality” ⟩
+                — CalcCheck: Found “Definition of totality”
+                — CalcCheck: ─ OK
+            𝕀 ⊆ R ˘ ⨾ (R ˘) ˘
+        ≡ ⟨ “Self-inverse of ˘” ⟩
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: ─ OK
+            𝕀 ⊆ R ˘ ⨾ R
+        ≡ ⟨ “Definition of surjectivity” ⟩
+                — CalcCheck: Found “Definition of surjectivity”
+                — CalcCheck: ─ OK
+            surjective R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[35]
+Theorem “Surjectivity”, relating the above relation-algebraic formulation of totality with the predicate-logic formulation, can now be shown in different ways…
+
+[36]
+Theorem “Surjectivity”:
+    surjective R  ≡  (∀ b • (∃ a • a ⦗ R ⦘ b))
+Proof:
+    surjective R
+  ≡⟨ “Totality of converse”⟩
+    total (R ˘)
+  ≡⟨ “Totality”⟩
+    (∀ a • (∃ b • a ⦗ R ˘ ⦘ b))  
+  ≡⟨ “Relation converse”⟩
+    (∀ a • (∃ b • b ⦗ R ⦘ a))
+
+Theorem “Surjectivity”: surjective R ≡ (∀ b • (∃ a • a ⦗ R ⦘ b ) )   
+    — CalcCheck: Proviso: ¬occurs(`a, b`, `R`)
+Proof:
+    Calculation for expected goal  `surjective R ≡ (∀ b • (∃ a • a ⦗ R ⦘ b ) )`:
+            surjective R
+        ≡ ⟨ “Totality of converse” ⟩
+                — CalcCheck: Found “Totality of converse”
+                — CalcCheck: ─ OK
+            total (R ˘)
+        ≡ ⟨ “Totality” ⟩
+                — CalcCheck: Found “Totality”
+                — CalcCheck: ─ OK
+            (∀ a • (∃ b • a ⦗ R ˘ ⦘ b ) )
+        ≡ ⟨ “Relation converse” ⟩
+                — CalcCheck: Found “Relation converse”
+                — CalcCheck: ─ OK
+            (∀ a • (∃ b • b ⦗ R ⦘ a ) )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK

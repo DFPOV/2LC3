@@ -1,0 +1,655 @@
+— Homework 13: Abstract Relation Algebra: More Union Material
+[1]
+Here we bring converse ˘ together with binary union ∪, for which distributivity of composition is already assumed.
+
+Preloaded here are propositional and predicate logic, and abstract relation-algebraic material from Ref9.2, Ref9.3, Ref9.4, and Ref9.5.
+
+(No set theory, and no relationship _⦗_⦘_ are available here!)
+
+[2]
+The first two theorems here are dual versions of theorems in Ex9.5 (and Ref9.4); “Characterisation of ∪” from Ref9.5 will be useful to get started:
+
+[3]
+Theorem “Union of converses”:    R ˘ ∪ S ˘  ⊆  (R ∪ S) ˘
+Proof:
+    R ˘ ∪ S ˘ ⊆ (R ∪ S) ˘
+  ≡⟨ “Characterisation of ∪”⟩
+    R ˘ ⊆ (R ∪ S) ˘ ∧ S ˘ ⊆ (R ∪ S) ˘
+  ≡⟨ “Isotonicity of ˘”⟩
+    R ˘ ˘ ⊆ (R ∪ S) ˘ ˘ ∧ S ˘ ˘ ⊆ (R ∪ S) ˘ ˘
+  ≡⟨ “Self-inverse of ˘”, “Weakening for ∪”⟩  
+    true
+
+Theorem “Weak”:
+    R ⊆ R ∪ S
+Proof:
+    R ⊆ R ∪ S
+  ≡⟨ “Weakening for ∪”⟩
+    true 
+
+Theorem “Union of converses”: R ˘ ∪ S ˘ ⊆ (R ∪ S) ˘
+Proof:
+    Calculation for expected goal  `R ˘ ∪ S ˘ ⊆ (R ∪ S) ˘`:
+            R ˘ ∪ S ˘ ⊆ (R ∪ S) ˘
+        ≡ ⟨ “Characterisation of ∪” ⟩
+                — CalcCheck: Found “Characterisation of ∪”
+                — CalcCheck: ─ OK
+            R ˘ ⊆ (R ∪ S) ˘ ∧ S ˘ ⊆ (R ∪ S) ˘
+        ≡ ⟨ “Isotonicity of ˘” ⟩
+                — CalcCheck: Found “Isotonicity of ˘”
+                — CalcCheck: ─ OK
+            (R ˘) ˘ ⊆ ((R ∪ S) ˘) ˘ ∧ (S ˘) ˘ ⊆ ((R ∪ S) ˘) ˘
+        ≡ ⟨ “Self-inverse of ˘”, “Weakening for ∪” ⟩
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: Found “Weakening for ∪”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+Theorem “Weak”: R ⊆ R ∪ S
+Proof:
+    Calculation for expected goal  `R ⊆ R ∪ S`:
+            R ⊆ R ∪ S
+        ≡ ⟨ “Weakening for ∪” ⟩
+                — CalcCheck: Found “Weakening for ∪”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[4]
+Theorem “Converse of ∪”:     (R ∪ S) ˘  =  R ˘ ∪ S ˘
+Proof:
+  Using “Mutual inclusion”:
+      Subproof for ` R ˘ ∪ S ˘  ⊆  (R ∪ S) ˘`:
+          By “Union of converses”
+
+      Subproof for ` (R ∪ S) ˘ ⊆ R ˘ ∪ S ˘`:
+          (R ∪ S) ˘ ⊆ R ˘ ∪ S ˘
+        ≡⟨ “Isotonicity of ˘”, “Self-inverse of ˘”⟩ 
+          R ∪ S ⊆ (R ˘ ∪ S ˘) ˘
+        ≡⟨ “Characterisation of ∪”⟩
+          R ⊆ (R ˘ ∪ S ˘) ˘ ∧ S ⊆ (R ˘ ∪ S ˘) ˘
+        ≡⟨ “Isotonicity of ˘”, “Self-inverse of ˘”⟩ 
+          R ˘ ⊆ (R ˘ ∪ S ˘) ∧ S ˘ ⊆ (R ˘ ∪ S ˘)
+        ≡⟨ “Weakening for ∪”⟩ 
+          true
+
+Theorem “Converse of ∪”: (R ∪ S) ˘ = R ˘ ∪ S ˘
+Proof:
+    Using “Mutual inclusion”:       
+        — CalcCheck: Found “Mutual inclusion”
+        Subproof for `R ˘ ∪ S ˘ ⊆ (R ∪ S) ˘`:
+            By “Union of converses”               
+                — CalcCheck: Found “Union of converses”
+        Subproof for `(R ∪ S) ˘ ⊆ R ˘ ∪ S ˘`:
+                    (R ∪ S) ˘ ⊆ R ˘ ∪ S ˘
+                ≡ ⟨ “Isotonicity of ˘”, “Self-inverse of ˘” ⟩
+                        — CalcCheck: Found “Isotonicity of ˘”
+                        — CalcCheck: Found “Self-inverse of ˘”
+                        — CalcCheck: ─ OK
+                    R ∪ S ⊆ (R ˘ ∪ S ˘) ˘
+                ≡ ⟨ “Characterisation of ∪” ⟩
+                        — CalcCheck: Found “Characterisation of ∪”
+                        — CalcCheck: ─ OK
+                    R ⊆ (R ˘ ∪ S ˘) ˘ ∧ S ⊆ (R ˘ ∪ S ˘) ˘
+                ≡ ⟨ “Isotonicity of ˘”, “Self-inverse of ˘” ⟩
+                        — CalcCheck: Found “Isotonicity of ˘”
+                        — CalcCheck: Found “Self-inverse of ˘”
+                        — CalcCheck: ─ OK
+                    R ˘ ⊆ R ˘ ∪ S ˘ ∧ S ˘ ⊆ R ˘ ∪ S ˘
+                ≡ ⟨ “Weakening for ∪” ⟩
+                        — CalcCheck: Found “Weakening for ∪”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+[5]
+The theorem “Converse dummy in ∀” is a special case of theorem (8.22) “Change of dummy” in LADM — the proof on p. 151 in LADM can be followed essentially step by step to obtain a proof of this instance:
+
+[6]
+Theorem “Converse dummy in ∀”:
+    (∀ X ❙ R • P) ≡ (∀ Y ❙ R[X ≔ Y ˘] • P[X ≔ Y ˘])
+Proof:
+      (∀ Y ❙ R[X ≔ Y ˘] • P[X ≔ Y ˘])
+    ≡⟨ “One-point rule for ∀” ⟩
+      ∀ Y ❙ R [X ≔ Y ˘] • (∀ X ❙ X = Y ˘ • P)
+    ≡⟨ “Nesting for ∀”, “Dummy list permutation for ∀”⟩
+      ∀ X, Y ❙ R [X ≔ Y ˘] ∧ X = Y ˘ • P 
+    ≡⟨ “Replacement”⟩
+      ∀ X, Y ❙ R [X ≔ X] ∧ X = Y ˘ • P
+    ≡⟨ Substitution ⟩
+      ∀ X, Y ❙ R ∧ X = Y ˘ • P 
+    ≡⟨ “Nesting for ∀”⟩
+      ∀ X ❙ R • (∀ Y ❙ X = Y ˘ • P)
+    ≡⟨ “Self-inverse of ˘”, “Cancellation of ˘”, “Reflexivity of =”⟩
+      ∀ X ❙ R • (∀ Y ❙ Y = X ˘ • P)
+    ≡⟨ “One-point rule for ∀”⟩
+      ∀ X ❙ R • P[Y ≔ X ˘] 
+    ≡⟨ Substitution ⟩
+      ∀ X ❙ R • P 
+    
+
+Theorem “Converse dummy in ∀”: (∀ X ❙ R • P ) ≡ (∀ Y ❙ R[X ≔ Y ˘] • P[X ≔ Y ˘] )   
+    — CalcCheck: Proviso: ¬occurs(`Y`, `P, R`)
+Proof:
+    Calculation for expected goal  `(∀ X ❙ R • P ) ≡ (∀ Y ❙ R[X ≔ Y ˘] • P[X ≔ Y ˘] )`:
+            (∀ Y ❙ R[X ≔ Y ˘] • P[X ≔ Y ˘] )
+        ≡ ⟨ “One-point rule for ∀” ⟩
+                — CalcCheck: Found (8.14) “One-point rule for ∀”
+                — CalcCheck: ─ OK
+            (∀ Y ❙ R[X ≔ Y ˘] • (∀ X ❙ X = Y ˘ • P ) )
+        ≡ ⟨ “Nesting for ∀”, “Dummy list permutation for ∀” ⟩
+                — CalcCheck: Found (8.20.2) “Nesting for ∀”, (8.20.1) “Nesting for ∀”, (8.20) “Nesting for ∀”
+                — CalcCheck: Found (8.19.1) “Dummy list permutation for ∀”
+                — CalcCheck: ─ OK
+            (∀ X, Y ❙ R[X ≔ Y ˘] ∧ X = Y ˘ • P )
+        ≡ ⟨ “Replacement” ⟩
+                — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                — CalcCheck: ─ OK
+            (∀ X, Y ❙ R[X ≔ X] ∧ X = Y ˘ • P )
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∀ X, Y ❙ R ∧ X = Y ˘ • P )
+        ≡ ⟨ “Nesting for ∀” ⟩
+                — CalcCheck: Found (8.20.2) “Nesting for ∀”, (8.20.1) “Nesting for ∀”, (8.20) “Nesting for ∀”
+                — CalcCheck: ─ OK
+            (∀ X ❙ R • (∀ Y ❙ X = Y ˘ • P ) )
+        ≡ ⟨ “Self-inverse of ˘”, “Cancellation of ˘”, “Reflexivity of =” ⟩
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: Found “Cancellation of ˘”
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: ─ OK
+            (∀ X ❙ R • (∀ Y ❙ Y = X ˘ • P ) )
+        ≡ ⟨ “One-point rule for ∀” ⟩
+                — CalcCheck: Found (8.14) “One-point rule for ∀”
+                — CalcCheck: ─ OK
+            (∀ X ❙ R • P[Y ≔ X ˘] )
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            (∀ X ❙ R • P )    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[7]
+Difference of Relations
+[8]
+In the current context, we are not assuming a least relation (such as {} in set theory), so we resort to a somewhat convoluted characterisation of relation difference:
+
+[9]
+Declaration: _-_ : A ↔ B → A ↔ B → A ↔ B
+Axiom “Characterisation of -”: X ⊆ R - S  ≡  X ⊆ R  ∧
+  ∀ Y ❙ Y ⊆ S •  X ∩ S ⊆ Y
+
+Declaration: _-_ : A ↔ B → (A ↔ B → A ↔ B)   
+    — CalcCheck: Operator _-_: Associating to the left; precedence 100
+Axiom “Characterisation of -”: X ⊆ R - S ≡ X ⊆ R ∧ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y )   
+    — CalcCheck: Proviso: ¬occurs(`Y`, `S, X`)
+[10]
+Axiom “Cancellation of - with ∪”: S ⊆ T ∪ (S - T)
+
+Axiom “Cancellation of - with ∪”: S ⊆ T ∪ (S - T)
+[11]
+Theorem “Difference ⊆”: R - S ⊆ R
+Proof:
+      R - S ⊆ R
+    ≡⟨ “Indirect Relation Inclusion”⟩ 
+      ∀ X • X ⊆ R - S ⇒ X ⊆ R
+    ≡⟨ “Trading for ∀”⟩ 
+      ∀ X ❙ X ⊆ R - S • X ⊆ R
+    ≡⟨ “Characterisation of -”⟩
+      ∀ X ❙ (X ⊆ R ∧ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y)) • X ⊆ R
+    ≡⟨ “Symmetry of ∧”⟩
+      ∀ X ❙ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y) ∧ X ⊆ R • X ⊆ R
+    ≡⟨ “Trading for ∀”⟩
+      ∀ X ❙ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y) • X ⊆ R ⇒ X ⊆ R
+    ≡⟨ “Reflexivity of ⇒”⟩
+      ∀ X ❙ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y) • true
+    ≡⟨ “True ∀ body”⟩
+      true 
+
+Theorem “Difference ⊆”: R - S ⊆ R
+Proof:
+    Calculation for expected goal  `R - S ⊆ R`:
+            R - S ⊆ R
+        ≡ ⟨ “Indirect Relation Inclusion” ⟩
+                — CalcCheck: Found “Indirect Relation Inclusion”
+                — CalcCheck: ─ OK
+            (∀ X • X ⊆ R - S ⇒ X ⊆ R )
+        ≡ ⟨ “Trading for ∀” ⟩
+                — CalcCheck: Found (9.3a) “Trading for ∀”, (9.3b) “Trading for ∀”, (9.3c) “Trading for ∀”, (9.4a) “Trading for ∀”, (9.4b) “Trading for ∀”, (9.4c) “Trading for ∀”, (9.4d) “Trading for ∀”, (9.2) “Trading for ∀”
+                — CalcCheck: ─ OK
+            (∀ X ❙ X ⊆ R - S • X ⊆ R )
+        ≡ ⟨ “Characterisation of -” ⟩
+                — CalcCheck: Found “Characterisation of -”
+                — CalcCheck: ─ OK
+            (∀ X ❙ X ⊆ R ∧ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y ) • X ⊆ R )
+        ≡ ⟨ “Symmetry of ∧” ⟩
+                — CalcCheck: Found (3.36) “Symmetry of ∧”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            (∀ X ❙ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y ) ∧ X ⊆ R • X ⊆ R )
+        ≡ ⟨ “Trading for ∀” ⟩
+                — CalcCheck: Found (9.3a) “Trading for ∀”, (9.3b) “Trading for ∀”, (9.3c) “Trading for ∀”, (9.4a) “Trading for ∀”, (9.4b) “Trading for ∀”, (9.4c) “Trading for ∀”, (9.4d) “Trading for ∀”, (9.2) “Trading for ∀”
+                — CalcCheck: ─ OK
+            (∀ X ❙ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y ) • X ⊆ R ⇒ X ⊆ R )
+        ≡ ⟨ “Reflexivity of ⇒” ⟩
+                — CalcCheck: Found (3.80.1) “Reflexivity of ⇒ wrt. ≡”, (3.71) “Reflexivity of ⇒”
+                — CalcCheck: ─ OK
+            (∀ X ❙ (∀ Y ❙ Y ⊆ S • X ∩ S ⊆ Y ) • true )
+        ≡ ⟨ “True ∀ body” ⟩
+                — CalcCheck: Found (9.8) “True ∀ body”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[12]
+Theorem “Difference in ∪”:
+   T ⊆ R  ⇒  R ∪ (S - T) = R ∪ S
+Proof:
+  Assuming `T ⊆ R`:
+    Using “Mutual inclusion”:
+      Subproof for `R ∪ (S - T) ⊆ R ∪ S`:
+          R ∪ (S - T)
+        ⊆⟨ “Monotonicity of ∪” with “Difference ⊆”⟩
+          R ∪ S
+      Subproof for `R ∪ S ⊆ R ∪ (S - T)`:
+          R ∪ S
+        ⊆⟨ “Monotonicity of ∪” with “Cancellation of - with ∪”⟩
+          R ∪ (T ∪ (S - T))
+        =⟨ “Symmetry of ∪”⟩
+          (T ∪ R) ∪ (S - T)
+        =⟨ “Inclusion via ∪” with Assumption `T ⊆ R`⟩
+          R ∪ (S - T)
+          
+        
+
+Theorem “Difference in ∪”: T ⊆ R ⇒ R ∪ (S - T) = R ∪ S
+Proof:
+    Assuming `T ⊆ R`:
+    — CalcCheck: Assumption matches goal
+        Using “Mutual inclusion”:           
+            — CalcCheck: Found “Mutual inclusion”
+            Subproof for `R ∪ (S - T) ⊆ R ∪ S`:
+                        R ∪ (S - T)
+                    ⊆ ⟨ “Monotonicity of ∪” with “Difference ⊆” ⟩
+                            — CalcCheck: Found “Monotonicity of ∪”
+                            — CalcCheck: Found “Difference ⊆”
+                            — CalcCheck: ─ OK
+                        R ∪ S                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK
+            Subproof for `R ∪ S ⊆ R ∪ (S - T)`:
+                        R ∪ S
+                    ⊆ ⟨ “Monotonicity of ∪” with “Cancellation of - with ∪” ⟩
+                            — CalcCheck: Found “Monotonicity of ∪”
+                            — CalcCheck: Found “Cancellation of - with ∪”
+                            — CalcCheck: ─ OK
+                        R ∪ (T ∪ (S - T))
+                    = ⟨ “Symmetry of ∪” ⟩
+                            — CalcCheck: Found “Symmetry of ∪”
+                            — CalcCheck: OK (no change)
+                            — CalcCheck: ─ OK
+                        (T ∪ R) ∪ (S - T)
+                    = ⟨ “Inclusion via ∪” with Assumption `T ⊆ R` ⟩
+                            — CalcCheck: Found “Inclusion via ∪”
+                            — CalcCheck: Found assumption `T ⊆ R`
+                            — CalcCheck: ─ OK
+                        R ∪ (S - T)                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK
+[13]
+Theorem “Converse of -”: (R - S) ˘ = R ˘ - S ˘
+Proof:
+  Using “Indirect Relation Equality”:
+    For any `X`:
+        X ⊆ R ˘ - S ˘ 
+      ≡⟨ “Characterisation of -”⟩
+        X ⊆ R ˘ ∧ ∀ Y ❙ Y ⊆ S ˘ • X ∩ S ˘ ⊆ Y
+      ≡⟨ “Converse dummy in ∀”⟩
+        X ⊆ R ˘ ∧ (∀ Z ❙ (Y ⊆ S ˘) [Y ≔ Z ˘] • (X ∩ S ˘ ⊆ Y) [Y ≔ Z ˘])
+      ≡⟨ Substitution ⟩
+        X ⊆ R ˘ ∧ ∀ Z ❙ Z ˘ ⊆ S ˘ • X ∩ S ˘ ⊆ Z ˘
+      ≡⟨“˘ connection”, “Isotonicity of ˘”⟩
+        X ˘ ⊆ R ∧ ∀ Z ❙ Z ⊆ S • (X ∩ S ˘) ˘ ⊆ (Z ˘) ˘
+      ≡⟨ “Converse of ∩”, “Self-inverse of ˘”⟩ 
+        X ˘ ⊆ R ∧ ∀ Z ❙ Z ⊆ S • X ˘ ∩ S ⊆ Z
+      ≡⟨ “Characterisation of -” ⟩ 
+        X ˘ ⊆ R - S 
+      ≡⟨ “˘ connection”⟩
+        X ⊆ (R - S) ˘  
+        
+
+    
+
+Theorem “Converse of -”: (R - S) ˘ = R ˘ - S ˘
+Proof:
+    Using “Indirect Relation Equality”:       
+        — CalcCheck: Found “Indirect Relation Equality”
+        Subproof establishing `(∀ X • X ⊆ R ˘ - S ˘ ≡ X ⊆ (R - S) ˘ )`:
+            For any ` X`:
+                Calculation establishing  `X ⊆ R ˘ - S ˘ ≡ X ⊆ (R - S) ˘`:
+                        X ⊆ R ˘ - S ˘
+                    ≡ ⟨ “Characterisation of -” ⟩
+                            — CalcCheck: Found “Characterisation of -”
+                            — CalcCheck: ─ OK
+                        X ⊆ R ˘ ∧ (∀ Y ❙ Y ⊆ S ˘ • X ∩ S ˘ ⊆ Y )
+                    ≡ ⟨ “Converse dummy in ∀” ⟩
+                            — CalcCheck: Found “Converse dummy in ∀”
+                            — CalcCheck: ─ OK
+                        X ⊆ R ˘ ∧ (∀ Z ❙ (Y ⊆ S ˘)[Y ≔ Z ˘] • (X ∩ S ˘ ⊆ Y)[Y ≔ Z ˘] )
+                    ≡ ⟨ Substitution ⟩
+                            — CalcCheck: ─ OK
+                        X ⊆ R ˘ ∧ (∀ Z ❙ Z ˘ ⊆ S ˘ • X ∩ S ˘ ⊆ Z ˘ )
+                    ≡ ⟨ “˘ connection”, “Isotonicity of ˘” ⟩
+                            — CalcCheck: Found “˘ connection”
+                            — CalcCheck: Found “Isotonicity of ˘”
+                            — CalcCheck: ─ OK
+                        X ˘ ⊆ R ∧ (∀ Z ❙ Z ⊆ S • (X ∩ S ˘) ˘ ⊆ (Z ˘) ˘ )
+                    ≡ ⟨ “Converse of ∩”, “Self-inverse of ˘” ⟩
+                            — CalcCheck: Found “Converse of ∩”
+                            — CalcCheck: Found “Self-inverse of ˘”
+                            — CalcCheck: ─ OK
+                        X ˘ ⊆ R ∧ (∀ Z ❙ Z ⊆ S • X ˘ ∩ S ⊆ Z )
+                    ≡ ⟨ “Characterisation of -” ⟩
+                            — CalcCheck: Found “Characterisation of -”
+                            — CalcCheck: ─ OK
+                        X ˘ ⊆ R - S
+                    ≡ ⟨ “˘ connection” ⟩
+                            — CalcCheck: Found “˘ connection”
+                            — CalcCheck: ─ OK
+                        X ⊆ (R - S) ˘                
+                — CalcCheck: All steps OK
+[14]
+Linear Orders
+[15]
+On the integers, the linearity property of ≤ takes the following shape:
+
+  ∀ x, y • x ≤ y  ∨  y ≤ x
+You know that the order ≤ on integers is linear, but the inclusion order ⊆ on power sets of sets with at least two elements is not linear — see the Hasse diagrams shown in the lecture.
+
+For defining linearity of order relations in the current context, we resort to is-top introduced in Ref9.2:
+
+[16]
+Declaration: linear : A ↔ A → 𝔹
+
+Declaration: linear : A ↔ A → 𝔹
+[17]
+Axiom “Definition of `linear`”:
+    linear E  ≡  is-top (E ∪ E ˘)
+
+Axiom “Definition of `linear`”: linear E ≡ is-top (E ∪ E ˘)
+[18]
+For an order E, the corresponding strict-order is obtained as C = E - 𝕀.
+
+You have seen the following:
+
+Theorem “Complement of <”: a < b ≢ a ≥ b
+Part of this kind of relationship between a linear order and the corresponding strict-order
+
+[19]
+Theorem “Complement of linear orders”:
+  order E ∧ linear E ⇒ is-top (E ∪ (E - 𝕀) ˘)
+Proof:
+  Assuming `order E ∧ linear E`:
+        order E ∧ linear E — This is Assumption `order E ∧ linear E`
+      ≡⟨ “Definition of `linear`” ⟩
+        order E ∧ is-top (E ∪ E ˘)
+      ⇒⟨ “Weakening”⟩
+        is-top (E ˘ ∪ E)
+      =⟨ Subproof for `(E ˘ ∪ E) = (E ˘ ∪ (E - 𝕀))`:
+            (E ˘ ∪ E)
+          =⟨ “Difference in ∪” with Subproof for `𝕀 ⊆ E ˘`:
+                  order E ∧ linear E — This is Assumption `order E ∧ linear E`
+                ⇒⟨ “Weakening” ⟩
+                  order E
+                ≡⟨ “Definition of order”⟩ 
+                  reflexive E ∧ (antisymmetric E ∧ transitive E)
+                ≡⟨ “Definition of reflexivity”, “Definition of antisymmetry”, “Definition of transitivity”⟩
+                  𝕀 ⊆ E ∧ (E ∩ E ˘ ⊆ 𝕀 ∧ E ⨾ E ⊆ E)
+                ⇒⟨ “Weakening”⟩
+                  𝕀 ⊆ E
+                ≡⟨ “Converse of 𝕀”⟩  
+                  𝕀 ˘ ⊆ E
+                ≡⟨ “˘ connection”⟩ 
+                  𝕀 ⊆ E ˘
+            ⟩ 
+            (E ˘ ∪ (E - 𝕀))
+        ⟩  ╍╍╍ I ⊆ E ˘ ⇒ (E ˘ ∪ E) = (E ˘ ∪ (E - 𝕀)) 
+        is-top (E ˘ ∪ (E - 𝕀))
+      ≡⟨ “Self-inverse of ˘”⟩ 
+        is-top (E ˘ ∪ ((E - 𝕀) ˘) ˘)
+      ≡⟨ “Converse of ∪”⟩ 
+        is-top ((E ∪ (E - 𝕀) ˘) ˘)
+      ≡⟨ “Converse of top relations”⟩ 
+        is-top (E ∪ (E - 𝕀) ˘)
+
+Theorem “Complement of linear orders”: order E ∧ linear E ⇒ is-top (E ∪ (E - 𝕀) ˘)
+Proof:
+    Assuming `order E ∧ linear E`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `is-top (E ∪ (E - 𝕀) ˘)`:
+                order E ∧ linear E     — This is Assumption `order E ∧ linear E`
+            ≡ ⟨ “Definition of `linear`” ⟩
+                    — CalcCheck: Found “Definition of `linear`”
+                    — CalcCheck: ─ OK
+                order E ∧ is-top (E ∪ E ˘)
+            ⇒ ⟨ “Weakening” ⟩
+                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                    — CalcCheck: ─ OK
+                is-top (E ˘ ∪ E)
+            = ⟨ Subproof for `E ˘ ∪ E = E ˘ ∪ (E - 𝕀)`:
+                        E ˘ ∪ E
+                    = ⟨ “Difference in ∪” with Subproof for `𝕀 ⊆ E ˘`:
+                                order E ∧ linear E     — This is Assumption `order E ∧ linear E`
+                            ⇒ ⟨ “Weakening” ⟩
+                                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                                    — CalcCheck: ─ OK
+                                order E
+                            ≡ ⟨ “Definition of order” ⟩
+                                    — CalcCheck: Found “Definition of order”, “Definition of order”
+                                    — CalcCheck: ─ OK
+                                reflexive E ∧ (antisymmetric E ∧ transitive E)
+                            ≡ ⟨ “Definition of reflexivity”, “Definition of antisymmetry”, “Definition of transitivity” ⟩
+                                    — CalcCheck: Found “Definition of reflexivity”
+                                    — CalcCheck: Found “Definition of antisymmetry”
+                                    — CalcCheck: Found “Definition of transitivity”
+                                    — CalcCheck: ─ OK
+                                𝕀 ⊆ E ∧ (E ∩ E ˘ ⊆ 𝕀 ∧ E ⨾ E ⊆ E)
+                            ⇒ ⟨ “Weakening” ⟩
+                                    — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                                    — CalcCheck: ─ OK
+                                𝕀 ⊆ E
+                            ≡ ⟨ “Converse of 𝕀” ⟩
+                                    — CalcCheck: Found “Converse of 𝕀”
+                                    — CalcCheck: ─ OK
+                                𝕀 ˘ ⊆ E
+                            ≡ ⟨ “˘ connection” ⟩
+                                    — CalcCheck: Found “˘ connection”
+                                    — CalcCheck: ─ OK
+                                𝕀 ⊆ E ˘                        
+                        — CalcCheck: Found assumption `order E ∧ linear E`                       
+                        — CalcCheck: All steps OK                       
+                        — CalcCheck: Calculation matches goal ─ OK
+                        ⟩
+                            — CalcCheck: Found “Difference in ∪”
+                            — CalcCheck: ─ OK
+                        E ˘ ∪ (E - 𝕀)                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK
+                ⟩
+                    — CalcCheck: ─ OK
+                is-top (E ˘ ∪ (E - 𝕀))
+            ≡ ⟨ “Self-inverse of ˘” ⟩
+                    — CalcCheck: Found “Self-inverse of ˘”
+                    — CalcCheck: ─ OK
+                is-top (E ˘ ∪ ((E - 𝕀) ˘) ˘)
+            ≡ ⟨ “Converse of ∪” ⟩
+                    — CalcCheck: Found “Converse of ∪”
+                    — CalcCheck: ─ OK
+                is-top ((E ∪ (E - 𝕀) ˘) ˘)
+            ≡ ⟨ “Converse of top relations” ⟩
+                    — CalcCheck: Found “Converse of top relations”
+                    — CalcCheck: ─ OK
+                is-top (E ∪ (E - 𝕀) ˘)        
+        — CalcCheck: Found assumption `order E ∧ linear E`       
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[20]
+Symmetric Closure
+[21]
+Declaration:  symClos :  A ↔ A  →  A ↔ A
+
+Declaration: symClos : A ↔ A → A ↔ A
+[22]
+We first give an explicit definition for the symClos operation:
+
+[23]
+Axiom “Definition of `symClos`”:  symClos R  =  R ∪ R ˘
+
+Axiom “Definition of `symClos`”: symClos R = R ∪ R ˘
+[24]
+Now we have to prove well-definedness of this closure operator — see Ref9.5 for the definition of _is_closure-of_, and read all the closure material in Ref9.5.
+
+[25]
+Theorem “Well-definedness of `symClos`”:
+    symClos R is symmetric closure-of R
+Proof:
+  Using “Relation closure”:
+    Subproof for `R ⊆ symClos R`:
+        R ⊆ symClos R
+      ≡⟨ “Definition of `symClos`”⟩
+        R ⊆ R ∪ R ˘
+      ≡⟨ “Weakening for ∪”⟩
+        true  
+    Subproof for `symmetric (symClos R)`:
+        symmetric (symClos R)
+      ≡⟨ “Definition of `symClos`”⟩
+        symmetric (R ∪ R ˘)
+      ≡⟨ “Definition of symmetry”⟩
+        (R ∪ R ˘) ˘ ⊆ (R ∪ R ˘)
+      ≡⟨“Converse of ∪”, “Self-inverse of ˘”⟩
+        R ˘ ∪ R ⊆ R ∪ R ˘
+      ≡⟨ “Reflexivity of ⊆”⟩
+        true 
+    Subproof for `∀ S • R ⊆ S  ∧  symmetric S  ⇒  symClos R ⊆ S`:
+      For any `S`:
+          R ⊆ S  ∧  symmetric S ⇒  symClos R ⊆ S
+        ≡⟨ Subproof for `R ⊆ S  ∧  symmetric S ⇒  symClos R ⊆ S`:
+              Assuming `R ⊆ S`, `symmetric S`:
+                  R ⊆ S — This is Assumption `R ⊆ S`
+                ≡⟨ “Identity of ∧”⟩
+                  R ⊆ S ∧ true
+                ≡⟨ Subproof for `R ˘ ⊆ S`:
+                        R ⊆ S — This is Assumption `R ⊆ S`
+                      ≡⟨ “Isotonicity of ˘”⟩
+                        R ˘ ⊆ S ˘
+                      ⇒⟨ “Transitivity of ⊆”⟩ 
+                        S ˘ ⊆ S ⇒ R ˘ ⊆ S
+                      ≡⟨ “Definition of symmetry” with Assumption `symmetric S` ⟩
+                        true ⇒ R ˘ ⊆ S
+                      ≡⟨ “Left-identity of ⇒”⟩ 
+                        R ˘ ⊆ S 
+                  ⟩ 
+                  R ⊆ S ∧ R ˘ ⊆ S
+                ≡⟨ “Characterisation of ∪”⟩ 
+                  (R ∪ R ˘) ⊆ S
+                ≡⟨ “Definition of `symClos`”⟩
+                  symClos R ⊆ S
+          ⟩ 
+          true
+        
+        
+      
+          
+        
+
+Theorem “Well-definedness of `symClos`”: symClos R is symmetric closure-of R
+Proof:
+    Using “Relation closure”:       
+        — CalcCheck: Found “Relation closure”
+        Subproof for `R ⊆ symClos R`:
+                    R ⊆ symClos R
+                ≡ ⟨ “Definition of `symClos`” ⟩
+                        — CalcCheck: Found “Definition of `symClos`”
+                        — CalcCheck: ─ OK
+                    R ⊆ R ∪ R ˘
+                ≡ ⟨ “Weakening for ∪” ⟩
+                        — CalcCheck: Found “Weakening for ∪”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Subproof for `symmetric (symClos R)`:
+                    symmetric (symClos R)
+                ≡ ⟨ “Definition of `symClos`” ⟩
+                        — CalcCheck: Found “Definition of `symClos`”
+                        — CalcCheck: ─ OK
+                    symmetric (R ∪ R ˘)
+                ≡ ⟨ “Definition of symmetry” ⟩
+                        — CalcCheck: Found “Definition of symmetry”, “Definition of symmetry”
+                        — CalcCheck: ─ OK
+                    (R ∪ R ˘) ˘ ⊆ R ∪ R ˘
+                ≡ ⟨ “Converse of ∪”, “Self-inverse of ˘” ⟩
+                        — CalcCheck: Found “Converse of ∪”
+                        — CalcCheck: Found “Self-inverse of ˘”
+                        — CalcCheck: ─ OK
+                    R ˘ ∪ R ⊆ R ∪ R ˘
+                ≡ ⟨ “Reflexivity of ⊆” ⟩
+                        — CalcCheck: Found “Reflexivity of ⊆”, “Reflexivity of ⊆”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Subproof for `(∀ S • R ⊆ S ∧ symmetric S ⇒ symClos R ⊆ S )`:
+            For any ` S`:
+                Calculation for expected goal  `R ⊆ S ∧ symmetric S ⇒ symClos R ⊆ S`:
+                        R ⊆ S ∧ symmetric S ⇒ symClos R ⊆ S
+                    ≡ ⟨ Subproof for `R ⊆ S ∧ symmetric S ⇒ symClos R ⊆ S`:
+                        Assuming `R ⊆ S` , `symmetric S`:
+                        — CalcCheck: Assumptions match goal
+                            Calculation for expected goal  `symClos R ⊆ S`:
+                                    R ⊆ S     — This is Assumption `R ⊆ S`
+                                ≡ ⟨ “Identity of ∧” ⟩
+                                        — CalcCheck: Found (3.39) “Identity of ∧”
+                                        — CalcCheck: ─ OK
+                                    R ⊆ S ∧ true
+                                ≡ ⟨ Subproof for `R ˘ ⊆ S`:
+                                            R ⊆ S     — This is Assumption `R ⊆ S`
+                                        ≡ ⟨ “Isotonicity of ˘” ⟩
+                                                — CalcCheck: Found “Isotonicity of ˘”
+                                                — CalcCheck: ─ OK
+                                            R ˘ ⊆ S ˘
+                                        ⇒ ⟨ “Transitivity of ⊆” ⟩
+                                                — CalcCheck: Found “Transitivity of ⊆”, “Transitivity of ⊆”
+                                                — CalcCheck: ─ OK
+                                            S ˘ ⊆ S ⇒ R ˘ ⊆ S
+                                        ≡ ⟨ “Definition of symmetry” with Assumption `symmetric S` ⟩
+                                                — CalcCheck: Found “Definition of symmetry”, “Definition of symmetry”
+                                                — CalcCheck: Found assumption `symmetric S`
+                                                — CalcCheck: ─ OK
+                                            true ⇒ R ˘ ⊆ S
+                                        ≡ ⟨ “Left-identity of ⇒” ⟩
+                                                — CalcCheck: Found (3.73) “Left-identity of ⇒”
+                                                — CalcCheck: ─ OK
+                                            R ˘ ⊆ S                                    
+                                    — CalcCheck: Found assumption `R ⊆ S`                                   
+                                    — CalcCheck: All steps OK                                   
+                                    — CalcCheck: Calculation matches goal ─ OK
+                                    ⟩
+                                        — CalcCheck: ─ OK
+                                    R ⊆ S ∧ R ˘ ⊆ S
+                                ≡ ⟨ “Characterisation of ∪” ⟩
+                                        — CalcCheck: Found “Characterisation of ∪”
+                                        — CalcCheck: ─ OK
+                                    R ∪ R ˘ ⊆ S
+                                ≡ ⟨ “Definition of `symClos`” ⟩
+                                        — CalcCheck: Found “Definition of `symClos`”
+                                        — CalcCheck: ─ OK
+                                    symClos R ⊆ S                            
+                            — CalcCheck: Found assumption `R ⊆ S`                           
+                            — CalcCheck: All steps OK                           
+                            — CalcCheck: Calculation matches goal ─ OK
+                        ⟩
+                            — CalcCheck: ─ OK
+                        true                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK

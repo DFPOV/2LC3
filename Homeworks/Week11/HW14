@@ -1,0 +1,809 @@
+— Homework 14: Domain in Abstract Relation Algebra
+[1]
+The Reference Notebooks 9.2, 9.3 and 9.4 containing our previous development of abstract relation algebra involving ⊆, ⨾, ˘, and ∩ are preloaded here, and also Exercise 9.6 which adds the modal rules and the Dedekind rule.
+
+Be aware that composition ⨾ has higher precedence than intersection ∩!
+
+As in Ex9.6, the monotonicity properties of the relation operations are activated here, and the keyword Monotonicity is enabled: Where before you had to write
+
+        S ˘ ⨾ R ˘ ⨾ R ⨾ S
+      ⊆⟨ “Monotonicity of ⨾” with “Monotonicity of ⨾” with
+         Assumption `R ˘ ⨾ R ⊆ 𝕀`, “Identity of ⨾” ⟩
+        S ˘ ⨾ S
+you now can just write the following:
+
+        S ˘ ⨾ R ˘ ⨾ R ⨾ S
+      ⊆⟨ Monotonicity with Assumption `R ˘ ⨾ R ⊆ 𝕀`, “Identity of ⨾” ⟩
+        S ˘ ⨾ S
+This Monotonicity is a keyword (like Evaluation and Assumption), not a theorem name, and therefore has to be used without quotation marks. It only makes sense before with. (Where the keyword Monotonicity is enabled, the keyword Antitonicity is enabled as well.)
+
+If using Monotonicity leads to a time-out, try the appropriate nesting of explicit “Monotonicity of …” theorems instead. (And if that still does not help, a subproof for the innermost step frequently helps on the road towards finding a solution.)
+
+[2]
+Antisymmetry of inclusion ⊆ is also activated here, so that instead of
+
+    Using “Mutual inclusion”:
+      Subproof for `R ⊆ S`:
+        ...
+      Subproof for `S ⊆ R`:
+        ...
+you can now write:
+
+      R
+    ⊆⟨ ... ⟩
+      S
+    ⊆⟨ ... ⟩
+      R
+for a proof of R = S.
+
+[3]
+Prove all theorems below — these are a selection from Reference Notebook 11.3, and some of the additional theorems there may come in useful here.
+
+Where the theorems you prove have numbers, you are not allowed to use numbered theorems with equal or larger numbers (or theorems occurring after the current theorem in this notebook).
+
+(Theorems with larger numbers may still be offered by theorem name completion, but will not be accepted by the proof checker.)
+
+Even though theorem numbers are relevant for which theorems you are allowed to use, you still do not have to refer to theorems by their numbers — it remains preferred that you refer to named theorems by (one of) their names.
+
+Up to four hint items are allowed per hint.
+
+You should not need to introduce additional auxiliary theorems.
+
+[4]
+Before you start, you want to be generally familiar with the content of Reference Notebooks 9.2, 9.3 and 9.4, and have worked through a good portion of Exercises 9.3 to 9.6.
+
+[5]
+We start with proving additional useful properties of subidentities (which are also called “coreflexives”):
+
+[6]
+Useful Properties of Subidentities
+[7]
+Theorem (dom.100) “Converse of subidentity”:  q ⊆ 𝕀  ⇒  q ˘ ⊆ 𝕀
+Proof:
+    q ⊆ 𝕀
+  ≡⟨ “Isotonicity of ˘”⟩ 
+    q ˘ ⊆ 𝕀 ˘
+  ≡⟨ “Converse of 𝕀”⟩
+    q ˘ ⊆ 𝕀
+
+Theorem (dom.100) “Converse of subidentity”: q ⊆ 𝕀 ⇒ q ˘ ⊆ 𝕀
+Proof:
+    Calculation for expected goal  `q ⊆ 𝕀 ⇒ q ˘ ⊆ 𝕀`:
+            q ⊆ 𝕀
+        ≡ ⟨ “Isotonicity of ˘” ⟩
+                — CalcCheck: Found “Isotonicity of ˘”
+                — CalcCheck: ─ OK
+            q ˘ ⊆ 𝕀 ˘
+        ≡ ⟨ “Converse of 𝕀” ⟩
+                — CalcCheck: Found “Converse of 𝕀”
+                — CalcCheck: ─ OK
+            q ˘ ⊆ 𝕀    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[8]
+Theorem (dom.101) “Subidentity included in ˘”:  q ⊆ 𝕀  ⇒  q ⊆ q ˘
+Proof:
+    Assuming (1) `q ⊆ 𝕀`:
+        q 
+      ⊆⟨ “Hesitation”⟩
+        q ⨾ (q ˘ ⨾ q) 
+      ⊆⟨ “Monotonicity of ⨾” with Assumption (1)⟩
+        𝕀 ⨾ (q ˘ ⨾ q)
+      =⟨ “Identity of ⨾”⟩
+        q ˘ ⨾ q
+      ⊆⟨ “Monotonicity of ⨾” with Assumption (1), “Identity of ⨾”⟩
+        q ˘
+        
+      
+
+Theorem (dom.101) “Subidentity included in ˘”: q ⊆ 𝕀 ⇒ q ⊆ q ˘
+Proof:
+    Assuming (1) `q ⊆ 𝕀`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `q ⊆ q ˘`:
+                q
+            ⊆ ⟨ “Hesitation” ⟩
+                    — CalcCheck: Found “Hesitation”
+                    — CalcCheck: ─ OK
+                q ⨾ (q ˘ ⨾ q)
+            ⊆ ⟨ “Monotonicity of ⨾” with Assumption (1) ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: ─ OK
+                𝕀 ⨾ (q ˘ ⨾ q)
+            = ⟨ “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                q ˘ ⨾ q
+            ⊆ ⟨ “Monotonicity of ⨾” with Assumption (1), “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                q ˘        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[9]
+Theorem (dom.102) “Symmetry of subidentity”:  q ⊆ 𝕀  ⇒  q ˘ = q
+Proof:
+  Assuming (1) `q ⊆ 𝕀`:
+    Side proof for `q ⊆ 𝕀  ≡  q ˘ ⊆ 𝕀`:
+        q ⊆ 𝕀  ≡  q ˘ ⊆ 𝕀
+      ≡⟨ “Isotonicity of ˘”⟩
+        q ˘ ⊆ 𝕀 ˘ ≡  q ˘ ⊆ 𝕀 
+      ≡⟨ “Converse of 𝕀”⟩
+        q ˘ ⊆ 𝕀  ≡  q ˘ ⊆ 𝕀 
+      ≡⟨ “Reflexivity of ≡”⟩
+        true 
+
+    Continuing: 
+        q
+      ⊆⟨ “Subidentity included in ˘” with Assumption (1)⟩
+        q ˘
+      ⊆⟨ “Subidentity included in ˘” with Assumption (1) and local property `q ⊆ 𝕀  ≡  q ˘ ⊆ 𝕀`⟩
+        (q ˘) ˘ 
+      =⟨ “Self-inverse of ˘”⟩
+        q 
+    
+
+Theorem (dom.102) “Symmetry of subidentity”: q ⊆ 𝕀 ⇒ q ˘ = q
+Proof:
+    Assuming (1) `q ⊆ 𝕀`:
+    — CalcCheck: Assumption matches goal
+        Side proof for `q ⊆ 𝕀 ≡ q ˘ ⊆ 𝕀`:
+                    q ⊆ 𝕀 ≡ q ˘ ⊆ 𝕀
+                ≡ ⟨ “Isotonicity of ˘” ⟩
+                        — CalcCheck: Found “Isotonicity of ˘”
+                        — CalcCheck: ─ OK
+                    q ˘ ⊆ 𝕀 ˘ ≡ q ˘ ⊆ 𝕀
+                ≡ ⟨ “Converse of 𝕀” ⟩
+                        — CalcCheck: Found “Converse of 𝕀”
+                        — CalcCheck: ─ OK
+                    q ˘ ⊆ 𝕀 ≡ q ˘ ⊆ 𝕀
+                ≡ ⟨ “Reflexivity of ≡” ⟩
+                        — CalcCheck: Found (3.5) “Reflexivity of ≡”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Continuing:
+            Calculation for expected goal  `q ˘ = q`:
+                    q
+                ⊆ ⟨ “Subidentity included in ˘” with Assumption (1) ⟩
+                        — CalcCheck: Found (dom.101) “Subidentity included in ˘”
+                        — CalcCheck: Found assumption (1)
+                        — CalcCheck: ─ OK
+                    q ˘
+                ⊆ ⟨ “Subidentity included in ˘” with Assumption (1) and Local property `q ⊆ 𝕀 ≡ q ˘ ⊆ 𝕀` ⟩
+                        — CalcCheck: Found (dom.101) “Subidentity included in ˘”
+                        — CalcCheck: Found assumption (1)
+                        — CalcCheck: Found local property `q ⊆ 𝕀 ≡ q ˘ ⊆ 𝕀`
+                        — CalcCheck: ─ OK
+                    (q ˘) ˘
+                = ⟨ “Self-inverse of ˘” ⟩
+                        — CalcCheck: Found “Self-inverse of ˘”
+                        — CalcCheck: ─ OK
+                    q            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Cyclic `_⊆_`-calculation matches goal ─ OK
+[10]
+Theorem (dom.103) “Idempotency of subidentity”:  q ⊆ 𝕀  ⇒  q ⨾ q = q
+Proof:
+  Assuming (1) `q ⊆ 𝕀`:
+      q ⨾ q
+    ⊆⟨ “Monotonicity of ⨾” with Assumption (1)⟩
+      q ⨾ 𝕀
+    =⟨ “Identity of ⨾”⟩
+      q
+    ⊆⟨ “Hesitation”⟩
+      q ⨾ (q ˘ ⨾ q)
+    ⊆⟨“Monotonicity of ⨾” with Assumption (1), “Identity of ⨾”⟩
+      q ˘ ⨾ q
+    =⟨“Symmetry of subidentity” with Assumption (1)⟩
+      q ⨾ q 
+      
+        
+
+Theorem (dom.103) “Idempotency of subidentity”: q ⊆ 𝕀 ⇒ q ⨾ q = q
+Proof:
+    Assuming (1) `q ⊆ 𝕀`:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `q ⨾ q = q`:
+                q ⨾ q
+            ⊆ ⟨ “Monotonicity of ⨾” with Assumption (1) ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: ─ OK
+                q ⨾ 𝕀
+            = ⟨ “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                q
+            ⊆ ⟨ “Hesitation” ⟩
+                    — CalcCheck: Found “Hesitation”
+                    — CalcCheck: ─ OK
+                q ⨾ (q ˘ ⨾ q)
+            ⊆ ⟨ “Monotonicity of ⨾” with Assumption (1), “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                q ˘ ⨾ q
+            = ⟨ “Symmetry of subidentity” with Assumption (1) ⟩
+                    — CalcCheck: Found (dom.102) “Symmetry of subidentity”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: ─ OK
+                q ⨾ q        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Cyclic `_⊆_`-calculation matches goal ─ OK
+[11]
+Theorem (dom.107) “Sub-commutativity of subidentities”:
+    p ⊆ 𝕀  ∧  q ⊆ 𝕀   ⇒   p ⨾ q ⊆ q ⨾ p
+Proof:
+    Assuming (1) `p ⊆ 𝕀`, 
+             (2) `q ⊆ 𝕀`:
+        p ⨾ q
+      ⊆⟨ “Hesitation”⟩
+        p ⨾ q ⨾ ((p ⨾ q) ˘ ⨾ (p ⨾ q))
+      ⊆⟨“Monotonicity of ⨾” with Assumption (1), “Identity of ⨾”⟩
+        q ⨾ ((p ⨾ q) ˘ ⨾ (p ⨾ q))
+      ⊆⟨“Monotonicity of ⨾” with Assumption (2), “Identity of ⨾”⟩
+        ((p ⨾ q) ˘ ⨾ (p ⨾ q))
+      ⊆⟨“Monotonicity of ⨾” with “Monotonicity of ⨾” with Assumption (1), “Identity of ⨾”⟩
+        ((p ⨾ q) ˘ ⨾ q)
+      ⊆⟨“Monotonicity of ⨾” with “Monotonicity of ⨾” with Assumption (2), “Identity of ⨾”⟩
+        (p ⨾ q) ˘
+      =⟨ “Converse of ⨾”⟩
+        (q ˘ ⨾ p ˘)
+      =⟨ “Symmetry of subidentity” with Assumption (1), “Symmetry of subidentity” with Assumption (2)⟩ 
+        q ⨾ p
+      
+      
+
+Theorem (dom.107) “Sub-commutativity of subidentities”: p ⊆ 𝕀 ∧ q ⊆ 𝕀 ⇒ p ⨾ q ⊆ q ⨾ p
+Proof:
+    Assuming (1) `p ⊆ 𝕀` , (2) `q ⊆ 𝕀`:
+    — CalcCheck: Assumptions match goal
+        Calculation for expected goal  `p ⨾ q ⊆ q ⨾ p`:
+                p ⨾ q
+            ⊆ ⟨ “Hesitation” ⟩
+                    — CalcCheck: Found “Hesitation”
+                    — CalcCheck: ─ OK
+                p ⨾ (q ⨾ ((p ⨾ q) ˘ ⨾ (p ⨾ q)))
+            ⊆ ⟨ “Monotonicity of ⨾” with Assumption (1), “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                q ⨾ ((p ⨾ q) ˘ ⨾ (p ⨾ q))
+            ⊆ ⟨ “Monotonicity of ⨾” with Assumption (2), “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (2)
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                (p ⨾ q) ˘ ⨾ (p ⨾ q)
+            ⊆ ⟨ “Monotonicity of ⨾” with “Monotonicity of ⨾” with Assumption (1), “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                (p ⨾ q) ˘ ⨾ q
+            ⊆ ⟨ “Monotonicity of ⨾” with “Monotonicity of ⨾” with Assumption (2), “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                    — CalcCheck: Found assumption (2)
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                (p ⨾ q) ˘
+            = ⟨ “Converse of ⨾” ⟩
+                    — CalcCheck: Found “Converse of ⨾”
+                    — CalcCheck: ─ OK
+                q ˘ ⨾ p ˘
+            = ⟨ “Symmetry of subidentity” with Assumption (1), “Symmetry of subidentity” with Assumption (2) ⟩
+                    — CalcCheck: Found (dom.102) “Symmetry of subidentity”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found assumption (2)
+                    — CalcCheck: ─ OK
+                q ⨾ p        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[12]
+Theorem (dom.108) “Commutativity of subidentities”:
+    p ⊆ 𝕀  ∧  q ⊆ 𝕀   ⇒   p ⨾ q = q ⨾ p
+Proof:
+  Assuming (1) `p ⊆ 𝕀`,
+           (2) `q ⊆ 𝕀`:
+      p ⨾ q
+    ⊆⟨ “Sub-commutativity of subidentities” with Assumption (1) and Assumption (2)⟩ 
+      q ⨾ p
+    ⊆⟨ “Sub-commutativity of subidentities” with Assumption (1) and Assumption (2)⟩ 
+      p ⨾ q
+
+Theorem (dom.108) “Commutativity of subidentities”: p ⊆ 𝕀 ∧ q ⊆ 𝕀 ⇒ p ⨾ q = q ⨾ p
+Proof:
+    Assuming (1) `p ⊆ 𝕀` , (2) `q ⊆ 𝕀`:
+    — CalcCheck: Assumptions match goal
+        Calculation for expected goal  `p ⨾ q = q ⨾ p`:
+                p ⨾ q
+            ⊆ ⟨ “Sub-commutativity of subidentities” with Assumption (1) and Assumption (2) ⟩
+                    — CalcCheck: Found (dom.107) “Sub-commutativity of subidentities”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found assumption (2)
+                    — CalcCheck: ─ OK
+                q ⨾ p
+            ⊆ ⟨ “Sub-commutativity of subidentities” with Assumption (1) and Assumption (2) ⟩
+                    — CalcCheck: Found (dom.107) “Sub-commutativity of subidentities”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found assumption (2)
+                    — CalcCheck: ─ OK
+                p ⨾ q        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Cyclic `_⊆_`-calculation matches goal ─ OK
+[13]
+Theorem (dom.109) “Modal rule with injective”:
+    injective Q  ⇒   Q ⨾ R ∩ S = Q ⨾ (R ∩ Q ˘ ⨾ S)
+Proof:
+  Assuming (1) `injective Q` and using with“Definition of injectivity”: ╍╍╍  Q ⨾ Q ˘ ⊆ 𝕀
+        Q ⨾ R ∩ S
+      ⊆⟨ “Modal rule”⟩
+        Q ⨾ (R ∩ (Q ˘ ⨾ S))
+      ⊆⟨ “Sub-distributivity of ⨾ over ∩”⟩
+        Q ⨾ R ∩ Q ⨾ (Q ˘ ⨾ S)
+      =⟨ “Associativity of ⨾”⟩
+        Q ⨾ R ∩ (Q ⨾ Q ˘) ⨾ S 
+      ⊆⟨ Monotonicity with Monotonicity with Assumption (1), “Identity of ⨾”⟩
+        Q ⨾ R ∩ S 
+        
+      
+
+Theorem (dom.109) “Modal rule with injective”: injective Q ⇒ Q ⨾ R ∩ S = Q ⨾ (R ∩ Q ˘ ⨾ S)
+Proof:
+    Assuming (1) `injective Q` and using with “Definition of injectivity”
+    — CalcCheck: Found “Definition of injectivity”:
+    — CalcCheck: Assumption matches goal
+        Calculation for expected goal  `Q ⨾ R ∩ S = Q ⨾ (R ∩ Q ˘ ⨾ S)`:
+                Q ⨾ R ∩ S
+            ⊆ ⟨ “Modal rule” ⟩
+                    — CalcCheck: Found “Modal rule”
+                    — CalcCheck: ─ OK
+                Q ⨾ (R ∩ Q ˘ ⨾ S)
+            ⊆ ⟨ “Sub-distributivity of ⨾ over ∩” ⟩
+                    — CalcCheck: Found “Sub-distributivity of ⨾ over ∩”
+                    — CalcCheck: ─ OK
+                Q ⨾ R ∩ Q ⨾ (Q ˘ ⨾ S)
+            = ⟨ “Associativity of ⨾” ⟩
+                    — CalcCheck: Found “Associativity of ⨾”
+                    — CalcCheck: OK (no change)
+                    — CalcCheck: ─ OK
+                Q ⨾ R ∩ (Q ⨾ Q ˘) ⨾ S
+            ⊆ ⟨ Monotonicity with Monotonicity with Assumption (1), “Identity of ⨾” ⟩
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                Q ⨾ R ∩ S        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Cyclic `_⊆_`-calculation matches goal ─ OK
+[14]
+Domain via Intersection, Composition, and Converse
+[15]
+In the abstract relation-algebraic setting, we are only dealing with types A ↔ B that we understand to be populated by relations; we do not have anything corresponding to the set types of set theory, and therefore we have no direct way to express Dom, ◁, ⦇_⦈, etc..
+
+One candidate for “relations representing sets” are subidentities: In set theory, id A is a relation that can just serve as a representation of set A, and we have seen that this allows us to define ◁:
+
+    Theorem (14.237) “Domain restriction via ⨾”:    A ◁ R  =  id A ⨾ R
+In the abstract relation-algebraic setting, the role of the operation
+
+    Dom : (A ↔ B) → set A
+is taken by the new operation
+
+    dom : (A ↔ B) → (A ↔ A)
+taking each relation R to the subidentity relation representing the set Dom R:
+
+[16]
+Declaration: dom : (A ↔ B) → (A ↔ A)
+Declaration: ran : (A ↔ B) → (B ↔ B)
+
+Declaration: dom : A ↔ B → A ↔ A
+Declaration: ran : A ↔ B → B ↔ B
+[17]
+These operations dom and ran can be defined via intersection, composition, and converse:
+
+[18]
+Axiom (dom.200) “`dom` via ∩” “Relation-algebraic definition of `dom`”:
+    dom R = R ⨾ R ˘ ∩ 𝕀
+
+Axiom (dom.200) “`dom` via ∩” “Relation-algebraic definition of `dom`”: dom R = R ⨾ R ˘ ∩ 𝕀
+[19]
+Axiom (dom.201) “`ran` via ∩” “Relation-algebraic definition of `ran`”:
+    ran R = R ˘ ⨾ R ∩ 𝕀
+
+Axiom (dom.201) “`ran` via ∩” “Relation-algebraic definition of `ran`”: ran R = R ˘ ⨾ R ∩ 𝕀
+[20]
+The remainder of this notebook contains the same sequence of theorems as in Ref11.2, which however need to be proven here from these very different definitions, and purely in the setting of abstract relation algebra (that is, no _⦗_⦘_, no “Relation extensionality”).
+
+[21]
+The operators dom and ran are ˘-dual to each other:
+
+[22]
+Theorem (dom.202) “`dom` of converse” “`ran` via `dom`”:  dom (R ˘) = ran R
+Proof:
+    dom (R ˘)
+  =⟨ “`dom` via ∩”, “Self-inverse of ˘”⟩ 
+    R ˘ ⨾ R ∩ 𝕀
+  =⟨ “`ran` via ∩”⟩
+    ran (R)
+
+Theorem (dom.202) “`dom` of converse” “`ran` via `dom`”: dom (R ˘) = ran R
+Proof:
+    Calculation for expected goal  `dom (R ˘) = ran R`:
+            dom (R ˘)
+        = ⟨ “`dom` via ∩”, “Self-inverse of ˘” ⟩
+                — CalcCheck: Found (dom.200) “`dom` via ∩”
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: ─ OK
+            R ˘ ⨾ R ∩ 𝕀
+        = ⟨ “`ran` via ∩” ⟩
+                — CalcCheck: Found (dom.201) “`ran` via ∩”
+                — CalcCheck: ─ OK
+            ran R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[23]
+Theorem (dom.203) “`ran` of converse” “`dom` via `ran`”:  ran (R ˘) = dom R
+Proof:
+    ran (R ˘)
+  =⟨ “`ran` via ∩”, “Self-inverse of ˘”, “`dom` via ∩”⟩
+    dom R 
+
+Theorem (dom.203) “`ran` of converse” “`dom` via `ran`”: ran (R ˘) = dom R
+Proof:
+    Calculation for expected goal  `ran (R ˘) = dom R`:
+            ran (R ˘)
+        = ⟨ “`ran` via ∩”, “Self-inverse of ˘”, “`dom` via ∩” ⟩
+                — CalcCheck: Found (dom.201) “`ran` via ∩”
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: Found (dom.200) “`dom` via ∩”
+                — CalcCheck: ─ OK
+            dom R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[24]
+Due to this duality, the proofs for properties of ran can frequently be made much shorter than the proofs for the corresponding properties of dom, by just invoking the property of dom and adapting for the ˘-duality. (As far as the dom property has to be proven first…)
+
+[25]
+Theorem (dom.204) “Subidentity `dom`”:  dom R ⊆ 𝕀
+Proof:
+    dom R
+  =⟨“`dom` via ∩”⟩
+    (R ⨾ R ˘) ∩ 𝕀 
+  ⊆⟨“Weakening for ∩”⟩
+    𝕀
+
+Theorem (dom.204) “Subidentity `dom`”: dom R ⊆ 𝕀
+Proof:
+    Calculation for expected goal  `dom R ⊆ 𝕀`:
+            dom R
+        = ⟨ “`dom` via ∩” ⟩
+                — CalcCheck: Found (dom.200) “`dom` via ∩”
+                — CalcCheck: ─ OK
+            R ⨾ R ˘ ∩ 𝕀
+        ⊆ ⟨ “Weakening for ∩” ⟩
+                — CalcCheck: Found “Weakening for ∩”
+                — CalcCheck: ─ OK
+            𝕀    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[26]
+Theorem (dom.205) “Subidentity `ran`”:  ran R ⊆ 𝕀
+Proof:
+    ran R
+  =⟨“Self-inverse of ˘”⟩
+    ran (R ˘ ˘)
+  =⟨“`ran` of converse”⟩
+    dom (R ˘)
+  ⊆⟨“Subidentity `dom`”⟩
+    𝕀 
+
+Theorem (dom.205) “Subidentity `ran`”: ran R ⊆ 𝕀
+Proof:
+    Calculation for expected goal  `ran R ⊆ 𝕀`:
+            ran R
+        = ⟨ “Self-inverse of ˘” ⟩
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: ─ OK
+            ran ((R ˘) ˘)
+        = ⟨ “`ran` of converse” ⟩
+                — CalcCheck: Found (dom.203) “`ran` of converse”
+                — CalcCheck: ─ OK
+            dom (R ˘)
+        ⊆ ⟨ “Subidentity `dom`” ⟩
+                — CalcCheck: Found (dom.204) “Subidentity `dom`”
+                — CalcCheck: ─ OK
+            𝕀    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[27]
+Theorem (dom.206) “Symmetry of `dom`” “Converse of `dom`”:
+    (dom R) ˘ = dom R
+Proof:
+    (dom R) ˘
+  =⟨ “`dom` via ∩”⟩
+    (R ⨾ R ˘ ∩ 𝕀 ) ˘ 
+  =⟨ “Converse of ∩”⟩
+    (R ⨾ R ˘) ˘ ∩ 𝕀 ˘
+  =⟨ “Converse of ⨾”, “Converse of 𝕀”, “Self-inverse of ˘”⟩
+    R ⨾ R ˘ ∩ 𝕀
+  =⟨ “`dom` via ∩”⟩
+    dom R 
+
+Theorem (dom.206) “Symmetry of `dom`” “Converse of `dom`”: dom R ˘ = dom R
+Proof:
+    Calculation for expected goal  `dom R ˘ = dom R`:
+            dom R ˘
+        = ⟨ “`dom` via ∩” ⟩
+                — CalcCheck: Found (dom.200) “`dom` via ∩”
+                — CalcCheck: ─ OK
+            (R ⨾ R ˘ ∩ 𝕀) ˘
+        = ⟨ “Converse of ∩” ⟩
+                — CalcCheck: Found “Converse of ∩”
+                — CalcCheck: ─ OK
+            (R ⨾ R ˘) ˘ ∩ 𝕀 ˘
+        = ⟨ “Converse of ⨾”, “Converse of 𝕀”, “Self-inverse of ˘” ⟩
+                — CalcCheck: Found “Converse of ⨾”
+                — CalcCheck: Found “Converse of 𝕀”
+                — CalcCheck: Found “Self-inverse of ˘”
+                — CalcCheck: ─ OK
+            R ⨾ R ˘ ∩ 𝕀
+        = ⟨ “`dom` via ∩” ⟩
+                — CalcCheck: Found (dom.200) “`dom` via ∩”
+                — CalcCheck: ─ OK
+            dom R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[28]
+Theorem (dom.212) “Absorption of `dom`”: dom R ⨾ R = R
+Proof:
+  Using “Mutual inclusion”:
+    Subproof for `dom R ⨾ R ⊆ R`:
+        dom R ⨾ R
+      ⊆⟨ “Monotonicity of ⨾” with “Subidentity `dom`”, “Identity of ⨾”⟩
+        R
+     
+    Subproof for `R ⊆ dom R ⨾ R`: 
+        R
+      =⟨ “Idempotency of ∩”⟩
+        R ∩ R 
+      =⟨ “Identity of ⨾”⟩
+        (𝕀 ⨾ R) ∩ R
+      ⊆⟨ “Modal rule” ⟩ 
+        ( 𝕀 ∩ (R ⨾ R ˘)) ⨾ R
+      =⟨ “Symmetry of ∩”⟩ 
+        (R ⨾ R ˘ ∩ 𝕀) ⨾ R
+      =⟨ “`dom` via ∩”⟩
+        dom R ⨾ R  
+╍╍╍  Q ⨾ R ∩ S ⊆ (Q ∩ S ⨾ R ˘) ⨾ R
+
+Theorem (dom.212) “Absorption of `dom`”: dom R ⨾ R = R
+Proof:
+    Using “Mutual inclusion”:       
+        — CalcCheck: Found “Mutual inclusion”
+        Subproof for `dom R ⨾ R ⊆ R`:
+                    dom R ⨾ R
+                ⊆ ⟨ “Monotonicity of ⨾” with “Subidentity `dom`”, “Identity of ⨾” ⟩
+                        — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                        — CalcCheck: Found (dom.204) “Subidentity `dom`”
+                        — CalcCheck: Found “Identity of ⨾”
+                        — CalcCheck: ─ OK
+                    R            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Subproof for `R ⊆ dom R ⨾ R`:
+                    R
+                = ⟨ “Idempotency of ∩” ⟩
+                        — CalcCheck: Found “Idempotency of ∩”
+                        — CalcCheck: ─ OK
+                    R ∩ R
+                = ⟨ “Identity of ⨾” ⟩
+                        — CalcCheck: Found “Identity of ⨾”
+                        — CalcCheck: ─ OK
+                    𝕀 ⨾ R ∩ R
+                ⊆ ⟨ “Modal rule” ⟩
+                        — CalcCheck: Found “Modal rule”
+                        — CalcCheck: ─ OK
+                    (𝕀 ∩ R ⨾ R ˘) ⨾ R
+                = ⟨ “Symmetry of ∩” ⟩
+                        — CalcCheck: Found “Symmetry of ∩”
+                        — CalcCheck: OK (no change)
+                        — CalcCheck: ─ OK
+                    (R ⨾ R ˘ ∩ 𝕀) ⨾ R
+                = ⟨ “`dom` via ∩” ⟩
+                        — CalcCheck: Found (dom.200) “`dom` via ∩”
+                        — CalcCheck: ─ OK
+                    dom R ⨾ R            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+[29]
+Theorem (dom.213) “Absorption of `ran`”: R ⨾ ran R = R
+Proof:
+    R ⨾ ran R
+  =⟨ “`ran` via ∩”⟩ 
+    R ⨾ (R ˘ ⨾ R ∩ 𝕀)
+  ⊆⟨ “Monotonicity of ⨾” with “Weakening for ∩”⟩
+    R ⨾ 𝕀
+  =⟨ “Identity of ⨾”⟩
+    R
+  =⟨ “Idempotency of ∩”⟩
+    R ∩ R
+  =⟨“Identity of ⨾”⟩
+    R ⨾ 𝕀 ∩ R
+  ⊆⟨ “Modal rule”⟩ 
+    R ⨾ (𝕀 ∩ (R ˘ ⨾ R))
+  =⟨ “Symmetry of ∩”⟩
+    R ⨾ (R ˘ ⨾ R ∩ 𝕀)
+  =⟨ “`ran` via ∩” ⟩ 
+    R ⨾ ran R
+
+Theorem (dom.213) “Absorption of `ran`”: R ⨾ ran R = R
+Proof:
+    Calculation for expected goal  `R ⨾ ran R = R`:
+            R ⨾ ran R
+        = ⟨ “`ran` via ∩” ⟩
+                — CalcCheck: Found (dom.201) “`ran` via ∩”
+                — CalcCheck: ─ OK
+            R ⨾ (R ˘ ⨾ R ∩ 𝕀)
+        ⊆ ⟨ “Monotonicity of ⨾” with “Weakening for ∩” ⟩
+                — CalcCheck: Found “Left-monotonicity of ⨾”, “Right-monotonicity of ⨾”, “Monotonicity of ⨾”
+                — CalcCheck: Found “Weakening for ∩”
+                — CalcCheck: A cycle of length 5 begins here.
+                — CalcCheck: ─ OK
+            R ⨾ 𝕀
+        = ⟨ “Identity of ⨾” ⟩
+                — CalcCheck: Found “Identity of ⨾”
+                — CalcCheck: ─ OK
+            R
+        = ⟨ “Idempotency of ∩” ⟩
+                — CalcCheck: Found “Idempotency of ∩”
+                — CalcCheck: ─ OK
+            R ∩ R
+        = ⟨ “Identity of ⨾” ⟩
+                — CalcCheck: Found “Identity of ⨾”
+                — CalcCheck: ─ OK
+            R ⨾ 𝕀 ∩ R
+        ⊆ ⟨ “Modal rule” ⟩
+                — CalcCheck: Found “Modal rule”
+                — CalcCheck: ─ OK
+            R ⨾ (𝕀 ∩ R ˘ ⨾ R)
+        = ⟨ “Symmetry of ∩” ⟩
+                — CalcCheck: Found “Symmetry of ∩”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            R ⨾ (R ˘ ⨾ R ∩ 𝕀)
+        = ⟨ “`ran` via ∩” ⟩
+                — CalcCheck: Found (dom.201) “`ran` via ∩”
+                — CalcCheck: ─ OK
+            R ⨾ ran R    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Cyclic `_⊆_`-calculation matches goal ─ OK
+[30]
+Theorem (dom.220) “Least left-preserver is `dom`”:
+  d ⊆ 𝕀  ∧  R ⊆ d ⨾ R  ⇒  dom R ⊆ d
+Proof:
+  Assuming (1) `d ⊆ 𝕀`,
+           (2) `R ⊆ d ⨾ R`:
+         dom R
+       =⟨ “`dom` via ∩”⟩
+         R ⨾ R ˘ ∩ 𝕀 
+       ⊆⟨ Monotonicity with Assumption (2)⟩
+         d ⨾ R ⨾ R ˘ ∩ 𝕀 
+       =⟨ “Associativity of ⨾”⟩
+         d ⨾ (R ⨾ R ˘) ∩ 𝕀
+       ⊆⟨ “Modal rule”⟩
+         d ⨾ ((R ⨾ R ˘) ∩ d ˘ ⨾ 𝕀)
+       =⟨ “Identity of ⨾”⟩
+         d ⨾ ((R ⨾ R ˘) ∩ d ˘)
+       ⊆⟨ Monotonicity with “Weakening for ∩”⟩
+         d ⨾ d ˘
+       =⟨ “Symmetry of subidentity” with Assumption (1), “Idempotency of subidentity” with Assumption (1)⟩ 
+         d 
+
+Theorem (dom.220) “Least left-preserver is `dom`”: d ⊆ 𝕀 ∧ R ⊆ d ⨾ R ⇒ dom R ⊆ d
+Proof:
+    Assuming (1) `d ⊆ 𝕀` , (2) `R ⊆ d ⨾ R`:
+    — CalcCheck: Assumptions match goal
+        Calculation for expected goal  `dom R ⊆ d`:
+                dom R
+            = ⟨ “`dom` via ∩” ⟩
+                    — CalcCheck: Found (dom.200) “`dom` via ∩”
+                    — CalcCheck: ─ OK
+                R ⨾ R ˘ ∩ 𝕀
+            ⊆ ⟨ Monotonicity with Assumption (2) ⟩
+                    — CalcCheck: Found assumption (2)
+                    — CalcCheck: ─ OK
+                d ⨾ (R ⨾ R ˘) ∩ 𝕀
+            = ⟨ “Associativity of ⨾” ⟩
+                    — CalcCheck: Found “Associativity of ⨾”
+                    — CalcCheck: OK (no change)
+                    — CalcCheck: ─ OK
+                d ⨾ (R ⨾ R ˘) ∩ 𝕀
+            ⊆ ⟨ “Modal rule” ⟩
+                    — CalcCheck: Found “Modal rule”
+                    — CalcCheck: ─ OK
+                d ⨾ (R ⨾ R ˘ ∩ d ˘ ⨾ 𝕀)
+            = ⟨ “Identity of ⨾” ⟩
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: ─ OK
+                d ⨾ (R ⨾ R ˘ ∩ d ˘)
+            ⊆ ⟨ Monotonicity with “Weakening for ∩” ⟩
+                    — CalcCheck: Found “Weakening for ∩”
+                    — CalcCheck: ─ OK
+                d ⨾ d ˘
+            = ⟨ “Symmetry of subidentity” with Assumption (1), “Idempotency of subidentity” with Assumption (1) ⟩
+                    — CalcCheck: Found (dom.102) “Symmetry of subidentity”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found (dom.103) “Idempotency of subidentity”
+                    — CalcCheck: ─ OK
+                d        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
+[31]
+Theorem (dom.221) “Least right-preserver is `ran`”:
+  d ⊆ 𝕀  ∧  R ⊆ R ⨾ d  ⇒  ran R ⊆ d
+Proof:
+    Assuming (1) `d ⊆ 𝕀`,
+             (2) `R ⊆ R ⨾ d`:
+        ran R
+      =⟨ “`ran` via ∩”⟩
+        R ˘ ⨾ R ∩ 𝕀
+      ⊆⟨ Monotonicity with Assumption (2) ⟩
+        ((R ⨾ d) ˘) ⨾ R ∩ 𝕀
+      =⟨ “Converse of ⨾”⟩
+        (d ˘ ⨾ R ˘) ⨾ R ∩ 𝕀
+      =⟨ “Associativity of ⨾”⟩
+        d ˘ ⨾ (R ˘ ⨾ R) ∩ 𝕀
+      ⊆⟨ “Modal rule”⟩
+        d ˘ ⨾ ((R ˘) ⨾ R ∩ (d ˘) ˘ ⨾ 𝕀)  
+      ⊆⟨“Identity of ⨾”, “Self-inverse of ˘”, Monotonicity with “Weakening for ∩”⟩ 
+        d ˘ ⨾ d
+      =⟨ “Symmetry of subidentity” with Assumption (1), “Idempotency of subidentity” with Assumption (1)⟩
+        d 
+
+Theorem (dom.221) “Least right-preserver is `ran`”: d ⊆ 𝕀 ∧ R ⊆ R ⨾ d ⇒ ran R ⊆ d
+Proof:
+    Assuming (1) `d ⊆ 𝕀` , (2) `R ⊆ R ⨾ d`:
+    — CalcCheck: Assumptions match goal
+        Calculation for expected goal  `ran R ⊆ d`:
+                ran R
+            = ⟨ “`ran` via ∩” ⟩
+                    — CalcCheck: Found (dom.201) “`ran` via ∩”
+                    — CalcCheck: ─ OK
+                R ˘ ⨾ R ∩ 𝕀
+            ⊆ ⟨ Monotonicity with Assumption (2) ⟩
+                    — CalcCheck: Found assumption (2)
+                    — CalcCheck: ─ OK
+                (R ⨾ d) ˘ ⨾ R ∩ 𝕀
+            = ⟨ “Converse of ⨾” ⟩
+                    — CalcCheck: Found “Converse of ⨾”
+                    — CalcCheck: ─ OK
+                (d ˘ ⨾ R ˘) ⨾ R ∩ 𝕀
+            = ⟨ “Associativity of ⨾” ⟩
+                    — CalcCheck: Found “Associativity of ⨾”
+                    — CalcCheck: OK (no change)
+                    — CalcCheck: ─ OK
+                d ˘ ⨾ (R ˘ ⨾ R) ∩ 𝕀
+            ⊆ ⟨ “Modal rule” ⟩
+                    — CalcCheck: Found “Modal rule”
+                    — CalcCheck: ─ OK
+                d ˘ ⨾ (R ˘ ⨾ R ∩ (d ˘) ˘ ⨾ 𝕀)
+            ⊆ ⟨ “Identity of ⨾”, “Self-inverse of ˘”, Monotonicity with “Weakening for ∩” ⟩
+                    — CalcCheck: Found “Identity of ⨾”
+                    — CalcCheck: Found “Self-inverse of ˘”
+                    — CalcCheck: Found “Weakening for ∩”
+                    — CalcCheck: ─ OK
+                d ˘ ⨾ d
+            = ⟨ “Symmetry of subidentity” with Assumption (1), “Idempotency of subidentity” with Assumption (1) ⟩
+                    — CalcCheck: Found (dom.102) “Symmetry of subidentity”
+                    — CalcCheck: Found assumption (1)
+                    — CalcCheck: Found (dom.103) “Idempotency of subidentity”
+                    — CalcCheck: ─ OK
+                d        
+        — CalcCheck: All steps OK       
+        — CalcCheck: Calculation matches goal ─ OK
