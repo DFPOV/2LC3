@@ -1,0 +1,549 @@
+— Assignment 2 Notebook 1: Correctness of `rev`
+
+[1]
+Propositional logic, predicate logic, and the sequence material of exercises 6.1 and 6.2 are preloaded here.
+
+Four hint items per hint are allowed here; Evaluation is disabled, but Facts are allowed.
+
+[2]
+The task here is similar to the task in Ex7.3, namely proving correctness of an imperative sequence manipulation program.
+
+[3]
+We define reversing of sequences:
+
+[4]
+Declaration: reverse : Seq A → Seq A
+Axiom “Definition of `reverse` for 𝜖”:  reverse 𝜖 = 𝜖
+Axiom “Definition of `reverse` for ◃”:  reverse (x ◃ xs) = reverse xs ▹ x
+
+Declaration: reverse : Seq A → Seq A
+Axiom “Definition of `reverse` for 𝜖”: reverse 𝜖 = 𝜖
+Axiom “Definition of `reverse` for ◃”: reverse (x ◃ xs) = reverse xs ▹ x
+[5]
+For natural proofs of some of the theorems here you will probably need an additional properties — you can prove these separately as additional Lemmas or Theorems, or as closed (by universal quantification) local properties in Side proofs.
+
+First prove that reversing a concatenation produces the same result as concatenating, in reverse order, the reversed arguments:
+
+[6]
+Lemma “Mutual associativity of ▹ with ⌢”:
+    ys ⌢ (xs ▹ x) = (ys ⌢ xs) ▹ x
+Proof:
+  By induction on `ys : Seq A`:
+    Base case:
+        𝜖 ⌢ (xs ▹ x) = (𝜖 ⌢ xs) ▹ x
+      ≡⟨ “Left-identity of ⌢” ⟩
+        (xs ▹ x) = xs ▹ x
+      ≡⟨ “Reflexivity of =” ⟩
+        true
+    Induction step:
+      For any `y : A`:
+          (y ◃ ys) ⌢ (xs ▹ x) = ((y ◃ ys) ⌢ xs) ▹ x
+        ≡⟨ “Mutual associativity of ◃ with ⌢” ⟩
+          (y ◃ (ys ⌢ (xs ▹ x))) = ((y ◃ ys) ⌢ xs) ▹ x
+        ≡⟨ Induction hypothesis ⟩
+          (y ◃ ((ys ⌢ xs) ▹ x)) = ((y ◃ ys) ⌢ xs) ▹ x
+        ≡⟨ “Definition of ▹ for ◃” ⟩
+          ((y ◃ (ys ⌢ xs)) ▹ x) = ((y ◃ ys) ⌢ xs) ▹ x
+        ≡⟨ “Mutual associativity of ◃ with ⌢” ⟩
+          (((y ◃ ys) ⌢ xs) ▹ x) = ((y ◃ ys) ⌢ xs) ▹ x
+        ≡⟨ “Reflexivity of =” ⟩
+          true
+
+Lemma “Mutual associativity of ▹ with ⌢”: ys ⌢ (xs ▹ x) = (ys ⌢ xs) ▹ x
+Proof:
+    By induction on `ys : Seq A`:
+        Base case:
+            Calculation for expected goal  `𝜖 ⌢ (xs ▹ x) = (𝜖 ⌢ xs) ▹ x`:
+                    𝜖 ⌢ (xs ▹ x) = (𝜖 ⌢ xs) ▹ x
+                ≡ ⟨ “Left-identity of ⌢” ⟩
+                        — CalcCheck: Found (13.17) “Left-identity of ⌢”
+                        — CalcCheck: ─ OK
+                    xs ▹ x = xs ▹ x
+                ≡ ⟨ “Reflexivity of =” ⟩
+                        — CalcCheck: Found (1.2) “Reflexivity of =”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            For any ` y : A`:
+                Calculation for expected goal  `(y ◃ ys) ⌢ (xs ▹ x) = ((y ◃ ys) ⌢ xs) ▹ x`:
+                        (y ◃ ys) ⌢ (xs ▹ x) = ((y ◃ ys) ⌢ xs) ▹ x
+                    ≡ ⟨ “Mutual associativity of ◃ with ⌢” ⟩
+                            — CalcCheck: Found (13.18) “Mutual associativity of ◃ with ⌢”
+                            — CalcCheck: ─ OK
+                        y ◃ (ys ⌢ (xs ▹ x)) = ((y ◃ ys) ⌢ xs) ▹ x
+                    ≡ ⟨ Induction hypothesis ⟩
+                            — CalcCheck: Found induction hypothesis `ys ⌢ (xs ▹ x) = (ys ⌢ xs) ▹ x`
+                            — CalcCheck: ─ OK
+                        y ◃ ((ys ⌢ xs) ▹ x) = ((y ◃ ys) ⌢ xs) ▹ x
+                    ≡ ⟨ “Definition of ▹ for ◃” ⟩
+                            — CalcCheck: Found (13.13) “Definition of ▹ for ◃”
+                            — CalcCheck: ─ OK
+                        (y ◃ (ys ⌢ xs)) ▹ x = ((y ◃ ys) ⌢ xs) ▹ x
+                    ≡ ⟨ “Mutual associativity of ◃ with ⌢” ⟩
+                            — CalcCheck: Found (13.18) “Mutual associativity of ◃ with ⌢”
+                            — CalcCheck: ─ OK
+                        ((y ◃ ys) ⌢ xs) ▹ x = ((y ◃ ys) ⌢ xs) ▹ x
+                    ≡ ⟨ “Reflexivity of =” ⟩
+                            — CalcCheck: Found (1.2) “Reflexivity of =”
+                            — CalcCheck: ─ OK
+                        true                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
+[7]
+Theorem “Reverse of ⌢”:
+   reverse (xs ⌢ ys) = reverse ys ⌢ reverse xs
+Proof:
+  By induction on `xs : Seq A`:
+    Base case:
+        reverse (𝜖 ⌢ ys) = reverse ys ⌢ reverse 𝜖
+      ≡⟨ “Definition of `reverse` for 𝜖”⟩
+        reverse (𝜖 ⌢ ys) = reverse ys ⌢ 𝜖
+      ≡⟨ “Right-identity of ⌢”, “Left-identity of ⌢” ⟩
+        reverse (ys) = reverse (ys)
+      ≡⟨ “Reflexivity of =”⟩
+        true 
+    Induction step:
+      For any `x`:
+          reverse ((x ◃ xs) ⌢ ys) = reverse ys ⌢ reverse (x ◃ xs)  
+        ≡⟨ “Definition of ⌢ for ◃”, “Definition of `reverse` for ◃”⟩
+          reverse (xs ⌢ ys) ▹ x = reverse ys ⌢ reverse xs ▹ x
+        ≡⟨ Induction hypothesis ⟩
+          (reverse ys ⌢ reverse xs) ▹ x = reverse ys ⌢ (reverse xs ▹ x)
+        ≡⟨ “Mutual associativity of ▹ with ⌢”⟩ 
+          reverse ys ⌢ (reverse xs ▹ x) = reverse ys ⌢ (reverse xs) ▹ x
+        ≡⟨ “Reflexivity of =”⟩
+          true 
+
+Theorem “Reverse of ⌢”: reverse (xs ⌢ ys) = reverse ys ⌢ reverse xs
+Proof:
+    By induction on `xs : Seq A`:
+        Base case:
+            Calculation for expected goal  `reverse (𝜖 ⌢ ys) = reverse ys ⌢ reverse 𝜖`:
+                    reverse (𝜖 ⌢ ys) = reverse ys ⌢ reverse 𝜖
+                ≡ ⟨ “Definition of `reverse` for 𝜖” ⟩
+                        — CalcCheck: Found “Definition of `reverse` for 𝜖”
+                        — CalcCheck: ─ OK
+                    reverse (𝜖 ⌢ ys) = reverse ys ⌢ 𝜖
+                ≡ ⟨ “Right-identity of ⌢”, “Left-identity of ⌢” ⟩
+                        — CalcCheck: Found (13.19) “Right-identity of ⌢”
+                        — CalcCheck: Found (13.17) “Left-identity of ⌢”
+                        — CalcCheck: ─ OK
+                    reverse ys = reverse ys
+                ≡ ⟨ “Reflexivity of =” ⟩
+                        — CalcCheck: Found (1.2) “Reflexivity of =”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            For any ` x`:
+                Calculation for expected goal  `reverse ((x ◃ xs) ⌢ ys) = reverse ys ⌢ reverse (x ◃ xs)`:
+                        reverse ((x ◃ xs) ⌢ ys) = reverse ys ⌢ reverse (x ◃ xs)
+                    ≡ ⟨ “Definition of ⌢ for ◃”, “Definition of `reverse` for ◃” ⟩
+                            — CalcCheck: Found (13.18) “Mutual associativity of ◃ with ⌢”
+                            — CalcCheck: Found “Definition of `reverse` for ◃”
+                            — CalcCheck: ─ OK
+                        reverse (xs ⌢ ys) ▹ x = reverse ys ⌢ (reverse xs ▹ x)
+                    ≡ ⟨ Induction hypothesis ⟩
+                            — CalcCheck: Found induction hypothesis `reverse (xs ⌢ ys) = reverse ys ⌢ reverse xs`
+                            — CalcCheck: ─ OK
+                        (reverse ys ⌢ reverse xs) ▹ x = reverse ys ⌢ (reverse xs ▹ x)
+                    ≡ ⟨ “Mutual associativity of ▹ with ⌢” ⟩
+                            — CalcCheck: Found “Mutual associativity of ▹ with ⌢”
+                            — CalcCheck: ─ OK
+                        reverse ys ⌢ (reverse xs ▹ x) = reverse ys ⌢ (reverse xs ▹ x)
+                    ≡ ⟨ “Reflexivity of =” ⟩
+                            — CalcCheck: Found (1.2) “Reflexivity of =”
+                            — CalcCheck: ─ OK
+                        true                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
+[8]
+As in Ex7.3, we introduce the head and tail functions that extract the constituents of non-empty sequences:
+
+[9]
+Declaration: head : Seq A → A
+Declaration: tail : Seq A → Seq A
+
+Declaration: head : Seq A → A
+Declaration: tail : Seq A → Seq A
+[10]
+Note that the following axioms leave “head 𝜖” and “tail 𝜖” unspecified — nothing interesting can be proven about these expressions. (Only boring things like “head 𝜖 = head 𝜖”…)
+
+[11]
+Axiom “Definition of `head`”: head (x ◃ xs) = x
+Axiom “Definition of `tail`”: tail (x ◃ xs) = xs
+
+Axiom “Definition of `head`”: head (x ◃ xs) = x
+Axiom “Definition of `tail`”: tail (x ◃ xs) = xs
+[12]
+For “Non-empty-sequence decomposition”, an induction proof is one (easy) option, but not the only option — you could also use “Cons decomposition”.
+
+[13]
+Theorem “Non-empty-sequence decomposition”:
+    xs ≠ 𝜖 ⇒ xs = head xs ◃ tail xs
+Proof:
+  By induction on `xs : Seq A`:   
+    Base case:
+      Assuming `𝜖 ≠ 𝜖`:
+          head 𝜖 ◃ tail 𝜖 = 𝜖
+        ≡⟨ “Cons is not empty” ⟩
+          false
+        ≡⟨ “Definition of `false`” ⟩
+          ¬ true
+        ≡⟨ Assumption `𝜖 ≠ 𝜖`⟩
+          ¬ (𝜖 ≠ 𝜖)
+        ≡⟨ “Negation of ≠”⟩
+          𝜖 = 𝜖
+        ≡⟨ “Reflexivity of =”⟩
+          true
+    Induction step:
+      For any `x`:
+        Assuming `x ◃ xs ≠ 𝜖`:
+            x ◃ xs = head (x ◃ xs) ◃ tail (x ◃ xs)
+          ≡⟨ “Definition of `head`”, “Definition of `tail`”⟩
+            x ◃ xs = x ◃ xs
+          ≡⟨ “Reflexivity of =”⟩
+            true  
+          
+
+Theorem “Non-empty-sequence decomposition”: xs ≠ 𝜖 ⇒ xs = head xs ◃ tail xs
+Proof:
+    By induction on `xs : Seq A`:
+        Base case:
+            Assuming `𝜖 ≠ 𝜖`:
+            — CalcCheck: Assumption matches goal
+                Calculation for expected goal  `𝜖 = head 𝜖 ◃ tail 𝜖`:
+                        head 𝜖 ◃ tail 𝜖 = 𝜖
+                    ≡ ⟨ “Cons is not empty” ⟩
+                            — CalcCheck: Found “Cons is not empty”, (13.3) “Cons is not empty”
+                            — CalcCheck: ─ OK
+                        false
+                    ≡ ⟨ “Definition of `false`” ⟩
+                            — CalcCheck: Found (3.8) “Definition of `false`”
+                            — CalcCheck: ─ OK
+                        ¬ true
+                    ≡ ⟨ Assumption `𝜖 ≠ 𝜖` ⟩
+                            — CalcCheck: Found assumption `𝜖 ≠ 𝜖`
+                            — CalcCheck: ─ OK
+                        ¬ (𝜖 ≠ 𝜖)
+                    ≡ ⟨ “Negation of ≠” ⟩
+                            — CalcCheck: Found “Negation of ≠”
+                            — CalcCheck: ─ OK
+                        𝜖 = 𝜖
+                    ≡ ⟨ “Reflexivity of =” ⟩
+                            — CalcCheck: Found (1.2) “Reflexivity of =”
+                            — CalcCheck: ─ OK
+                        true                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            For any ` x`:
+                Assuming `x ◃ xs ≠ 𝜖`:
+                — CalcCheck: Assumption matches goal
+                    Calculation for expected goal  `x ◃ xs = head (x ◃ xs) ◃ tail (x ◃ xs)`:
+                            x ◃ xs = head (x ◃ xs) ◃ tail (x ◃ xs)
+                        ≡ ⟨ “Definition of `head`”, “Definition of `tail`” ⟩
+                                — CalcCheck: Found “Definition of `head`”
+                                — CalcCheck: Found “Definition of `tail`”
+                                — CalcCheck: ─ OK
+                            x ◃ xs = x ◃ xs
+                        ≡ ⟨ “Reflexivity of =” ⟩
+                                — CalcCheck: Found (1.2) “Reflexivity of =”
+                                — CalcCheck: ─ OK
+                            true                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
+[14]
+A linear-time imperative implementation of reverse of sequences that are implemented as singly-linked lists can be achieved via a loop with the following program:
+
+    ys := 𝜖 ⍮
+    while xs ≠ 𝜖 do
+        ys := head xs ◃ ys ⍮
+        xs := tail xs
+    od
+To prove this correct with respect to precondition xs = xs₀ and postcondition
+
+    ys = reverse xs₀
+you need to choose an appropriate invariant for the while loop — comparing the situation here with the “Adding” variants in Ex6.6 may be helpful.
+
+You may need subproofs and/or additional lemmas or local properties.
+
+[15]
+Lemma “Reverse Equality”:
+      xs = ys ⇒ reverse xs = reverse ys
+Proof:
+    xs = ys
+  ⇒⟨ “Leibniz”⟩
+    (reverse z) [z ≔ xs] = (reverse z) [z ≔ ys]
+  ≡⟨ Substitution ⟩
+    reverse xs = reverse ys   
+
+Lemma “Reverse Equality”: xs = ys ⇒ reverse xs = reverse ys
+Proof:
+    Calculation for expected goal  `xs = ys ⇒ reverse xs = reverse ys`:
+            xs = ys
+        ⇒ ⟨ “Leibniz” ⟩
+                — CalcCheck: Found (3.83) “Leibniz”
+                — CalcCheck: ─ OK
+            (reverse z)[z ≔ xs] = (reverse z)[z ≔ ys]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            reverse xs = reverse ys    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[16]
+Lemma “Non-empty-sequence decomposition”:
+        xs = head xs ◃ tail xs ≡ xs ≠ 𝜖
+Proof:
+  Using “Mutual implication”:
+    Subproof for `xs = head xs ◃ tail xs ⇒ xs ≠ 𝜖`:
+        Assuming `xs = head xs ◃ tail xs`:
+            xs ≠ 𝜖
+          ≡⟨ Assumption `xs = head xs ◃ tail xs`⟩ 
+            head xs ◃ tail xs ≠ 𝜖
+          ≡⟨ “Cons is not empty”⟩
+            true 
+    Subproof for `xs ≠ 𝜖 ⇒ xs = head xs ◃ tail xs`:
+        By “Non-empty-sequence decomposition”
+
+Lemma “Non-empty-sequence decomposition”: xs = head xs ◃ tail xs ≡ xs ≠ 𝜖
+Proof:
+    Using “Mutual implication”:       
+        — CalcCheck: Found (3.80) “Mutual implication”
+        Subproof for `xs = head xs ◃ tail xs ⇒ xs ≠ 𝜖`:
+            Assuming `xs = head xs ◃ tail xs`:
+            — CalcCheck: Assumption matches goal
+                Calculation for expected goal  `xs ≠ 𝜖`:
+                        xs ≠ 𝜖
+                    ≡ ⟨ Assumption `xs = head xs ◃ tail xs` ⟩
+                            — CalcCheck: Found assumption `xs = head xs ◃ tail xs`
+                            — CalcCheck: ─ OK
+                        head xs ◃ tail xs ≠ 𝜖
+                    ≡ ⟨ “Cons is not empty” ⟩
+                            — CalcCheck: Found “Cons is not empty”, (13.3) “Cons is not empty”
+                            — CalcCheck: ─ OK
+                        true                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK
+        Subproof for `xs ≠ 𝜖 ⇒ xs = head xs ◃ tail xs`:
+            By “Non-empty-sequence decomposition”               
+                — CalcCheck: Found “Non-empty-sequence decomposition”
+[17]
+Lemma “Mutual associativity of ⌢ with ▹”:
+    xs ▹ x ⌢ ys = xs ⌢ (x ◃ ys)
+Proof:
+    By induction on `xs : Seq A`:
+      Base case:
+          (𝜖 ▹ x) ⌢ ys = 𝜖 ⌢ (x ◃ ys)
+        ≡⟨ “Definition of ▹ for 𝜖”, “Definition of ⌢ for 𝜖”⟩
+          (x ◃ 𝜖) ⌢ ys = (x ◃ ys)
+        ≡⟨ “Mutual associativity of ◃ with ⌢”⟩
+          x ◃ (𝜖 ⌢ ys) = (x ◃ ys) 
+        ≡⟨ “Left-identity of ⌢”⟩
+          x ◃ ys = x ◃ ys
+        ≡⟨ “Reflexivity of =”⟩
+          true
+      Induction step:
+        For any `z : A`:
+            (z ◃ xs) ▹ x ⌢ ys = (z ◃ xs) ⌢ (x ◃ ys)
+          ≡⟨ “Mutual associativity of ◃ with ⌢”⟩
+            (z ◃ xs) ▹ x ⌢ ys = z ◃ (xs ⌢ (x ◃ ys))
+          ≡⟨ Induction hypothesis ⟩
+            (z ◃ xs) ▹ x ⌢ ys = z ◃ xs ▹ x ⌢ ys
+          ≡⟨ “Definition of ▹ for ◃”, “Mutual associativity of ◃ with ⌢”⟩
+            z ◃ ((xs ▹ x) ⌢ ys) = z ◃ (xs ▹ x ⌢ ys)
+          ≡⟨ “Reflexivity of =” ⟩
+            true
+
+Lemma “Mutual associativity of ⌢ with ▹”: (xs ▹ x) ⌢ ys = xs ⌢ (x ◃ ys)
+Proof:
+    By induction on `xs : Seq A`:
+        Base case:
+            Calculation for expected goal  `(𝜖 ▹ x) ⌢ ys = 𝜖 ⌢ (x ◃ ys)`:
+                    (𝜖 ▹ x) ⌢ ys = 𝜖 ⌢ (x ◃ ys)
+                ≡ ⟨ “Definition of ▹ for 𝜖”, “Definition of ⌢ for 𝜖” ⟩
+                        — CalcCheck: Found (13.12) “Definition of ▹ for 𝜖”
+                        — CalcCheck: Found (13.17) “Left-identity of ⌢”
+                        — CalcCheck: ─ OK
+                    (x ◃ 𝜖) ⌢ ys = x ◃ ys
+                ≡ ⟨ “Mutual associativity of ◃ with ⌢” ⟩
+                        — CalcCheck: Found (13.18) “Mutual associativity of ◃ with ⌢”
+                        — CalcCheck: ─ OK
+                    x ◃ (𝜖 ⌢ ys) = x ◃ ys
+                ≡ ⟨ “Left-identity of ⌢” ⟩
+                        — CalcCheck: Found (13.17) “Left-identity of ⌢”
+                        — CalcCheck: ─ OK
+                    x ◃ ys = x ◃ ys
+                ≡ ⟨ “Reflexivity of =” ⟩
+                        — CalcCheck: Found (1.2) “Reflexivity of =”
+                        — CalcCheck: ─ OK
+                    true            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Induction step:
+            For any ` z : A`:
+                Calculation for expected goal  `((z ◃ xs) ▹ x) ⌢ ys = (z ◃ xs) ⌢ (x ◃ ys)`:
+                        ((z ◃ xs) ▹ x) ⌢ ys = (z ◃ xs) ⌢ (x ◃ ys)
+                    ≡ ⟨ “Mutual associativity of ◃ with ⌢” ⟩
+                            — CalcCheck: Found (13.18) “Mutual associativity of ◃ with ⌢”
+                            — CalcCheck: ─ OK
+                        ((z ◃ xs) ▹ x) ⌢ ys = z ◃ (xs ⌢ (x ◃ ys))
+                    ≡ ⟨ Induction hypothesis ⟩
+                            — CalcCheck: Found induction hypothesis `(xs ▹ x) ⌢ ys = xs ⌢ (x ◃ ys)`
+                            — CalcCheck: ─ OK
+                        ((z ◃ xs) ▹ x) ⌢ ys = z ◃ ((xs ▹ x) ⌢ ys)
+                    ≡ ⟨ “Definition of ▹ for ◃”, “Mutual associativity of ◃ with ⌢” ⟩
+                            — CalcCheck: Found (13.13) “Definition of ▹ for ◃”
+                            — CalcCheck: Found (13.18) “Mutual associativity of ◃ with ⌢”
+                            — CalcCheck: ─ OK
+                        z ◃ ((xs ▹ x) ⌢ ys) = z ◃ ((xs ▹ x) ⌢ ys)
+                    ≡ ⟨ “Reflexivity of =” ⟩
+                            — CalcCheck: Found (1.2) “Reflexivity of =”
+                            — CalcCheck: ─ OK
+                        true                
+                — CalcCheck: All steps OK               
+                — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: Base case and induction step both present   
+    — CalcCheck: Induction proof OK
+[18]
+Theorem “Correctness of `rev`”:
+      xs = xs₀
+    ⇒⁅  ys := 𝜖 ⍮
+        while xs ≠ 𝜖
+          do
+            ys := head xs ◃ ys ⍮
+            xs := tail xs
+          od
+      ⁆
+      ys = reverse xs₀
+Proof:
+    xs = xs₀                                                      ╍╍╍ Precondition
+  ⇒⟨ “Reverse Equality”⟩ 
+    reverse xs = reverse xs₀
+  ≡⟨ “Reflexivity of =”, “Right-identity of ⌢”⟩
+    reverse xs₀ = reverse xs ⌢ 𝜖
+  ⇒⁅ ys := 𝜖 ⁆ ⟨ “Assignment” with Substitution ⟩ 
+    reverse xs₀ = reverse xs ⌢ ys                                ╍╍╍ Invariant
+  ⇒⁅ while xs ≠ 𝜖 do
+       ys := head xs ◃ ys ⍮
+       xs := tail xs
+     od ⁆  ⟨ “While” with subproof:
+        (xs ≠ 𝜖) ∧  reverse xs₀ = reverse xs ⌢ ys             ╍╍╍ Invariant with loop condtion 
+      ≡⟨ “Non-empty-sequence decomposition”⟩ 
+        (xs = head xs ◃ tail xs) ∧ reverse xs₀ = reverse xs ⌢ ys
+      ≡⟨ Substitution, “Replacement”⟩
+        (xs = head xs ◃ tail xs) ∧ (reverse xs₀ = reverse z ⌢ ys) [ z ≔ head xs ◃ tail xs]
+      ≡⟨ Substitution ⟩
+        (xs = head xs ◃ tail xs) ∧ (reverse xs₀ = reverse (head xs ◃ tail xs) ⌢ ys)
+      ⇒⟨ “Weakening”⟩
+        reverse xs₀ = reverse (head xs ◃ tail xs) ⌢ ys
+      ≡⟨ “Definition of `reverse` for ◃”⟩
+        reverse xs₀ = reverse (tail xs) ▹ (head xs) ⌢ ys
+      ≡⟨“Mutual associativity of ⌢ with ▹”⟩ 
+        reverse xs₀ = reverse (tail xs) ⌢ (head xs ◃ ys)
+      ⇒⁅ ys := head xs ◃ ys ⁆ ⟨ “Assignment” with Substitution ⟩ 
+        reverse xs₀ = reverse (tail xs) ⌢ ys
+      ⇒⁅ xs := tail xs ⁆⟨ “Assignment” with Substitution ⟩ 
+        reverse xs₀ = reverse xs ⌢ ys                           ╍╍╍ Invariant holds
+    ⟩
+    ¬ (xs ≠ 𝜖) ∧ reverse xs₀ = reverse xs ⌢ ys
+  ≡⟨ “Definition of ≠”, “Double negation”⟩  
+    xs = 𝜖 ∧ reverse xs₀ = reverse xs ⌢ ys
+  ≡⟨ Substitution, “Replacement”⟩
+    xs = 𝜖 ∧ (reverse xs₀ = reverse z ⌢ ys) [z ≔ 𝜖]
+  ≡⟨ Substitution ⟩
+    xs = 𝜖 ∧ (reverse xs₀ = reverse 𝜖 ⌢ ys)
+  ≡⟨ “Definition of `reverse` for 𝜖”, “Left-identity of ⌢”⟩
+    xs = 𝜖 ∧ (reverse xs₀ = ys)
+  ⇒⟨ “Weakening”, “Reflexivity of =”⟩
+    ys = reverse xs₀  
+       
+
+Theorem “Correctness of `rev`”: xs = xs₀ ⇒⁅ (ys := 𝜖 ⍮ while (xs ≠ 𝜖) do (ys := head xs ◃ ys ⍮ xs := tail xs) od) ⁆ ys = reverse xs₀
+Proof:
+    Calculation for expected goal  `xs = xs₀ ⇒⁅ (ys := 𝜖 ⍮ while (xs ≠ 𝜖) do (ys := head xs ◃ ys ⍮ xs := tail xs) od) ⁆ ys = reverse xs₀`:
+            xs = xs₀
+        ⇒ ⟨ “Reverse Equality” ⟩
+                — CalcCheck: Found “Reverse Equality”
+                — CalcCheck: ─ OK
+            reverse xs = reverse xs₀
+        ≡ ⟨ “Reflexivity of =”, “Right-identity of ⌢” ⟩
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: Found (13.19) “Right-identity of ⌢”
+                — CalcCheck: ─ OK
+            reverse xs₀ = reverse xs ⌢ 𝜖
+        ⇒⁅ ys := 𝜖 ⁆ ⟨ “Assignment” with Substitution ⟩
+                — CalcCheck: Found “Assignment”, “Assignment”
+                — CalcCheck: ─ OK
+            reverse xs₀ = reverse xs ⌢ ys
+        ⇒⁅ while (xs ≠ 𝜖) do (ys := head xs ◃ ys ⍮ xs := tail xs) od ⁆ ⟨ “While” with Subproof establishing `xs ≠ 𝜖 ∧ reverse xs₀ = reverse xs ⌢ ys ⇒⁅ (ys := head xs ◃ ys ⍮ xs := tail xs) ⁆ reverse xs₀ = reverse xs ⌢ ys`:
+                    xs ≠ 𝜖 ∧ reverse xs₀ = reverse xs ⌢ ys
+                ≡ ⟨ “Non-empty-sequence decomposition” ⟩
+                        — CalcCheck: Found “Non-empty-sequence decomposition”
+                        — CalcCheck: ─ OK
+                    xs = head xs ◃ tail xs ∧ reverse xs₀ = reverse xs ⌢ ys
+                ≡ ⟨ Substitution, “Replacement” ⟩
+                        — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                        — CalcCheck: ─ OK
+                    xs = head xs ◃ tail xs ∧ (reverse xs₀ = reverse z ⌢ ys)[z ≔ head xs ◃ tail xs]
+                ≡ ⟨ Substitution ⟩
+                        — CalcCheck: ─ OK
+                    xs = head xs ◃ tail xs ∧ reverse xs₀ = reverse (head xs ◃ tail xs) ⌢ ys
+                ⇒ ⟨ “Weakening” ⟩
+                        — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                        — CalcCheck: ─ OK
+                    reverse xs₀ = reverse (head xs ◃ tail xs) ⌢ ys
+                ≡ ⟨ “Definition of `reverse` for ◃” ⟩
+                        — CalcCheck: Found “Definition of `reverse` for ◃”
+                        — CalcCheck: ─ OK
+                    reverse xs₀ = (reverse (tail xs) ▹ head xs) ⌢ ys
+                ≡ ⟨ “Mutual associativity of ⌢ with ▹” ⟩
+                        — CalcCheck: Found “Mutual associativity of ⌢ with ▹”
+                        — CalcCheck: ─ OK
+                    reverse xs₀ = reverse (tail xs) ⌢ (head xs ◃ ys)
+                ⇒⁅ ys := head xs ◃ ys ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    reverse xs₀ = reverse (tail xs) ⌢ ys
+                ⇒⁅ xs := tail xs ⁆ ⟨ “Assignment” with Substitution ⟩
+                        — CalcCheck: Found “Assignment”, “Assignment”
+                        — CalcCheck: ─ OK
+                    reverse xs₀ = reverse xs ⌢ ys            
+            — CalcCheck: All steps OK
+            ⟩
+                — CalcCheck: Found “While”
+                — CalcCheck: ─ OK
+            ¬ (xs ≠ 𝜖) ∧ reverse xs₀ = reverse xs ⌢ ys
+        ≡ ⟨ “Definition of ≠”, “Double negation” ⟩
+                — CalcCheck: Found “Definition of ≠”, “Definition of ≠”
+                — CalcCheck: Found (3.12) “Double negation”
+                — CalcCheck: ─ OK
+            xs = 𝜖 ∧ reverse xs₀ = reverse xs ⌢ ys
+        ≡ ⟨ Substitution, “Replacement” ⟩
+                — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                — CalcCheck: ─ OK
+            xs = 𝜖 ∧ (reverse xs₀ = reverse z ⌢ ys)[z ≔ 𝜖]
+        ≡ ⟨ Substitution ⟩
+                — CalcCheck: ─ OK
+            xs = 𝜖 ∧ reverse xs₀ = reverse 𝜖 ⌢ ys
+        ≡ ⟨ “Definition of `reverse` for 𝜖”, “Left-identity of ⌢” ⟩
+                — CalcCheck: Found “Definition of `reverse` for 𝜖”
+                — CalcCheck: Found (13.17) “Left-identity of ⌢”
+                — CalcCheck: ─ OK
+            xs = 𝜖 ∧ reverse xs₀ = ys
+        ⇒ ⟨ “Weakening”, “Reflexivity of =” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: ─ OK
+            ys = reverse xs₀    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK

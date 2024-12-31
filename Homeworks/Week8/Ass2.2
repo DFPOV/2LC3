@@ -1,0 +1,1025 @@
+— Assignment 2 Notebook 2: Absolute Value in ℤ
+[1]
+The integers up to order (≤, <) and maximum ↑ are preloaded here, but without integrality (Ex5.1 including Axiom “Least positive”).
+
+Symmetry and associativity of ↑ and ↓ as well as the converse properties for ≥ and > are activated. Evaluation is enabled, and up to four hint items are allowed per hint.
+
+[2]
+Absolute Value via Maximum
+[3]
+The maximum operator _↑_ has been introduced in Exercise 5.3; it may be useful to read the whole of Exercise 5.3 again carefully.
+
+[4]
+Declaration: abs : ℤ → ℤ
+
+Declaration: abs : ℤ → ℤ
+[5]
+Axiom “`abs` as maximum”:  abs x = x ↑ - x
+
+Axiom “`abs` as maximum”: abs x = x ↑ - x
+[6]
+The following calculations may help to confirm that this corresponds to your understanding of absolute value:
+
+[7]
+Calculation:
+    abs 4
+  =⟨ “`abs` as maximum” ⟩
+    4 ↑ - 4
+  =⟨ Evaluation ⟩
+    4
+
+Calculation:
+        abs 4
+    = ⟨ “`abs` as maximum” ⟩
+            — CalcCheck: Found “`abs` as maximum”
+            — CalcCheck: ─ OK
+        4 ↑ - 4
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        4
+— CalcCheck: All steps OK
+[8]
+Calculation:
+    abs 4
+  =⟨ “`abs` as maximum” ⟩
+    4 ↑ - 4
+  =⟨ Evaluation ⟩
+    4
+
+Calculation:
+        abs 4
+    = ⟨ “`abs` as maximum” ⟩
+            — CalcCheck: Found “`abs` as maximum”
+            — CalcCheck: ─ OK
+        4 ↑ - 4
+    = ⟨ Evaluation ⟩
+            — CalcCheck: ─ OK
+        4
+— CalcCheck: All steps OK
+[9]
+You can easily prove the following two simple properties from the definition “`abs` as maximum”:
+
+[10]
+Theorem “`abs` of zero”: abs 0 = 0
+Proof:
+    abs 0
+  =⟨ “`abs` as maximum”⟩
+    0 ↑ - 0
+  =⟨ Evaluation ⟩ 
+    0
+
+Theorem “`abs` of zero”: abs 0 = 0
+Proof:
+    Calculation for expected goal  `abs 0 = 0`:
+            abs 0
+        = ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            0 ↑ - 0
+        = ⟨ Evaluation ⟩
+                — CalcCheck: ─ OK
+            0    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[11]
+Theorem “`abs` of negation”: abs (- x) = abs x
+Proof:
+    abs (- x)
+  =⟨ “`abs` as maximum”⟩
+    - x ↑ - (- x)
+  =⟨ “Self-inverse of unary minus”⟩
+    - x ↑ x
+  =⟨ “Symmetry of ↑”⟩
+    x ↑ - x
+  =⟨ “`abs` as maximum”⟩
+    abs x    
+
+Theorem “`abs` of negation”: abs (- x) = abs x
+Proof:
+    Calculation for expected goal  `abs (- x) = abs x`:
+            abs (- x)
+        = ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            - x ↑ - (- x)
+        = ⟨ “Self-inverse of unary minus” ⟩
+                — CalcCheck: Found (15.17) “Self-inverse of unary minus”
+                — CalcCheck: ─ OK
+            - x ↑ x
+        = ⟨ “Symmetry of ↑” ⟩
+                — CalcCheck: Found (15.54) “Symmetry of ↑”
+                — CalcCheck: OK (no change)
+                — CalcCheck: ─ OK
+            x ↑ - x
+        = ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs x    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[12]
+For the following two more complicated properties, you will likely need to prove lots of auxiliary properties possibly at least about all of
+
+subtraction, unary minus,
+order (<, ≤),
+maximum ↑,
+abs.
+You are not allowed to add axioms, only to prove additional lemmas, theorems, corollaries, etc..
+
+[13]
+Lemma “`abs` is always larger”:
+      x ≤ abs x
+Proof:
+      x ≤ abs x
+    ≡⟨ “At most via maximum”⟩
+      x ↑ abs x = abs x 
+    ≡⟨ “`abs` as maximum”⟩
+      x ↑ x ↑ - x = abs x
+    ≡⟨ “Idempotency of ↑”⟩
+      x ↑ - x = abs x
+    ≡⟨ “`abs` as maximum”, “Reflexivity of =”⟩
+      true  
+
+Lemma “`abs` is always larger”: x ≤ abs x
+Proof:
+    Calculation for expected goal  `x ≤ abs x`:
+            x ≤ abs x
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            x ↑ abs x = abs x
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            x ↑ (x ↑ - x) = abs x
+        ≡ ⟨ “Idempotency of ↑” ⟩
+                — CalcCheck: Found (15.56) “Idempotency of ↑”
+                — CalcCheck: ─ OK
+            x ↑ - x = abs x
+        ≡ ⟨ “`abs` as maximum”, “Reflexivity of =” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: Found (1.2) “Reflexivity of =”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[14]
+Lemma “Negative `abs` value”:
+        y < - y ⇒ abs y = - y
+Proof:
+    y < - y
+  ⇒⟨ “Strengthening”⟩
+    y < - y ∨ y = - y 
+  ≡⟨ “Definition of ≤”⟩
+    y ≤ - y
+  ≡⟨ “At most via maximum”⟩
+    y ↑ - y = - y
+  ≡⟨ “`abs` as maximum”⟩
+    abs y = - y   
+
+Lemma “Negative `abs` value”: y < - y ⇒ abs y = - y
+Proof:
+    Calculation for expected goal  `y < - y ⇒ abs y = - y`:
+            y < - y
+        ⇒ ⟨ “Strengthening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            y < - y ∨ y = - y
+        ≡ ⟨ “Definition of ≤” ⟩
+                — CalcCheck: Found (15.38) “At most”
+                — CalcCheck: ─ OK
+            y ≤ - y
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            y ↑ - y = - y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs y = - y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[15]
+Lemma “Negative `abs` value”:
+        y < 0 ⇒ abs y = - y
+Proof:
+    y < 0
+  ⇒⟨ “Strengthening”⟩
+    y < 0 ∨ y = 0
+  ≡⟨ “Definition of ≤”⟩
+    y ≤ 0
+  ≡⟨ “Monotonicity of ·” with Fact `0 < 2`⟩ 
+    y · 2 ≤ 0 · 2
+  ≡⟨ Evaluation ⟩
+    2 · y ≤ 0
+  ⇒⟨“Monotonicity of -”, “Subtraction”, (15.20)⟩
+    2 · y + (- 1 · y) ≤ 0 + (- y)
+  ≡⟨“Distributivity of · over +”, “Identity of +”, Evaluation, “Identity of ·” ⟩
+    y ≤ - y
+  ≡⟨ “At most via maximum”⟩
+    y ↑ - y = - y
+  ≡⟨ “`abs` as maximum”⟩
+    abs y = - y   
+
+Lemma “Negative `abs` value”: y < 0 ⇒ abs y = - y
+Proof:
+    Calculation for expected goal  `y < 0 ⇒ abs y = - y`:
+            y < 0
+        ⇒ ⟨ “Strengthening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            y < 0 ∨ y = 0
+        ≡ ⟨ “Definition of ≤” ⟩
+                — CalcCheck: Found (15.38) “At most”
+                — CalcCheck: ─ OK
+            y ≤ 0
+        ≡ ⟨ “Monotonicity of ·” with Fact `0 < 2` ⟩
+                — CalcCheck: Found “Monotonicity of ·”, (15.42) “Monotonicity of ·”
+                — CalcCheck: ─ OK
+            y · 2 ≤ 0 · 2
+        ≡ ⟨ Evaluation ⟩
+                — CalcCheck: ─ OK
+            2 · y ≤ 0
+        ⇒ ⟨ “Monotonicity of -”, “Subtraction”, (15.20) ⟩
+                — CalcCheck: Found “Monotonicity of -”
+                — CalcCheck: Found (15.14) “Subtraction”
+                — CalcCheck: Found (15.20) “Negation as multiplication”
+                — CalcCheck: ─ OK
+            2 · y + - 1 · y ≤ 0 + - y
+        ≡ ⟨ “Distributivity of · over +”, “Identity of +”, Evaluation, “Identity of ·” ⟩
+                — CalcCheck: Found (15.5) “Distributivity of · over +”
+                — CalcCheck: Found (15.3) “Additive identity”
+                — CalcCheck: Found (15.4) “Multiplicative identity”
+                — CalcCheck: ─ OK
+            y ≤ - y
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            y ↑ - y = - y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs y = - y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[16]
+Lemma “Negative `abs` value”:
+        y < - y ⇒ abs y = - y
+Proof:
+    y < - y
+  ⇒⟨ “Strengthening”⟩
+    y < - y ∨ y = - y 
+  ≡⟨ “Definition of ≤”⟩
+    y ≤ - y
+  ≡⟨ “At most via maximum”⟩
+    y ↑ - y = - y
+  ≡⟨ “`abs` as maximum”⟩
+    abs y = - y   
+
+Lemma “Negative `abs` value”: y < - y ⇒ abs y = - y
+Proof:
+    Calculation for expected goal  `y < - y ⇒ abs y = - y`:
+            y < - y
+        ⇒ ⟨ “Strengthening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            y < - y ∨ y = - y
+        ≡ ⟨ “Definition of ≤” ⟩
+                — CalcCheck: Found (15.38) “At most”
+                — CalcCheck: ─ OK
+            y ≤ - y
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            y ↑ - y = - y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs y = - y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[17]
+Lemma “Non-negative `abs` value”:
+        y > - y ∨ y = - y ≡ abs y = y
+Proof:
+    y > - y ∨ y = - y     
+  ≡⟨ “Definition of ≥”, “Converse of ≤”⟩
+    - y ≤ y
+  ≡⟨ “At most via maximum”⟩
+    - y ↑ y = y
+  ≡⟨ “`abs` as maximum”⟩
+    abs y = y
+
+Lemma “Non-negative `abs` value”: y > - y ∨ y = - y ≡ abs y = y
+Proof:
+    Calculation for expected goal  `y > - y ∨ y = - y ≡ abs y = y`:
+            y > - y ∨ y = - y
+        ≡ ⟨ “Definition of ≥”, “Converse of ≤” ⟩
+                — CalcCheck: Found (15.39) “At least”
+                — CalcCheck: Found “Converse of ≤”
+                — CalcCheck: ─ OK
+            - y ≤ y
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            - y ↑ y = y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs y = y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[18]
+Lemma “Non-negative `abs` value”:
+        y > 0 ∨ y = 0 ⇒ abs y = y
+Proof:
+    y > 0 ∨ y = 0   
+  ≡⟨ “Definition of ≥”, “Converse of ≤”⟩
+    0 ≤ y
+  ≡⟨ “Monotonicity of ·” with Fact `0 < 2`⟩ 
+    0 · 2 ≤ y · 2
+  ≡⟨ Evaluation ⟩
+    0 ≤ 2 · y 
+  ⇒⟨ “Monotonicity of -” ⟩
+    0 - y ≤ 2 · y - y
+  ≡⟨ “Subtraction”, “Identity of +”, (15.20), “Distributivity of · over +”⟩ 
+    - y ≤ (2 - 1) · y
+  ≡⟨ Evaluation, “Identity of ·” ⟩  
+    - y ≤ y
+  ≡⟨ “At most via maximum”⟩
+    - y ↑ y = y
+  ≡⟨ “`abs` as maximum”⟩
+    abs y = y
+
+Lemma “Non-negative `abs` value”: y > 0 ∨ y = 0 ⇒ abs y = y
+Proof:
+    Calculation for expected goal  `y > 0 ∨ y = 0 ⇒ abs y = y`:
+            y > 0 ∨ y = 0
+        ≡ ⟨ “Definition of ≥”, “Converse of ≤” ⟩
+                — CalcCheck: Found (15.39) “At least”
+                — CalcCheck: Found “Converse of ≤”
+                — CalcCheck: ─ OK
+            0 ≤ y
+        ≡ ⟨ “Monotonicity of ·” with Fact `0 < 2` ⟩
+                — CalcCheck: Found “Monotonicity of ·”, (15.42) “Monotonicity of ·”
+                — CalcCheck: ─ OK
+            0 · 2 ≤ y · 2
+        ≡ ⟨ Evaluation ⟩
+                — CalcCheck: ─ OK
+            0 ≤ 2 · y
+        ⇒ ⟨ “Monotonicity of -” ⟩
+                — CalcCheck: Found “Monotonicity of -”
+                — CalcCheck: ─ OK
+            0 - y ≤ 2 · y - y
+        ≡ ⟨ “Subtraction”, “Identity of +”, (15.20), “Distributivity of · over +” ⟩
+                — CalcCheck: Found (15.14) “Subtraction”
+                — CalcCheck: Found (15.3) “Additive identity”
+                — CalcCheck: Found (15.20) “Negation as multiplication”
+                — CalcCheck: Found (15.5) “Distributivity of · over +”
+                — CalcCheck: ─ OK
+            - y ≤ (2 - 1) · y
+        ≡ ⟨ Evaluation, “Identity of ·” ⟩
+                — CalcCheck: Found (15.4) “Multiplicative identity”
+                — CalcCheck: ─ OK
+            - y ≤ y
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            - y ↑ y = y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs y = y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[19]
+Lemma “Non-negative `abs` value”:
+        y > - y ⇒ abs y = y
+Proof:
+    y > - y
+  ⇒⟨ “Strengthening”⟩ 
+    y > - y ∨ y = - y     
+  ≡⟨ “Definition of ≥”, “Converse of ≤”⟩
+    - y ≤ y
+  ≡⟨ “At most via maximum”⟩
+    - y ↑ y = y
+  ≡⟨ “`abs` as maximum”⟩
+    abs y = y
+
+Lemma “Non-negative `abs` value”: y > - y ⇒ abs y = y
+Proof:
+    Calculation for expected goal  `y > - y ⇒ abs y = y`:
+            y > - y
+        ⇒ ⟨ “Strengthening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            y > - y ∨ y = - y
+        ≡ ⟨ “Definition of ≥”, “Converse of ≤” ⟩
+                — CalcCheck: Found (15.39) “At least”
+                — CalcCheck: Found “Converse of ≤”
+                — CalcCheck: ─ OK
+            - y ≤ y
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            - y ↑ y = y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs y = y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[20]
+Lemma “Non-negative `abs` value”:
+        y > 0 ⇒ abs y = y
+Proof:
+    y > 0
+  ⇒⟨ “Strengthening”⟩ 
+    y > 0 ∨ y = 0   
+  ≡⟨ “Definition of ≥”, “Converse of ≤”⟩
+    0 ≤ y
+  ≡⟨ “Monotonicity of ·” with Fact `0 < 2`⟩ 
+    0 · 2 ≤ y · 2
+  ≡⟨ Evaluation ⟩
+    0 ≤ 2 · y 
+  ⇒⟨ “Monotonicity of -” ⟩
+    0 - y ≤ 2 · y - y
+  ≡⟨ “Subtraction”, “Identity of +”, (15.20), “Distributivity of · over +”⟩ 
+    - y ≤ (2 - 1) · y
+  ≡⟨ Evaluation, “Identity of ·” ⟩  
+    - y ≤ y
+  ≡⟨ “At most via maximum”⟩
+    - y ↑ y = y
+  ≡⟨ “`abs` as maximum”⟩
+    abs y = y
+
+Lemma “Non-negative `abs` value”: y > 0 ⇒ abs y = y
+Proof:
+    Calculation for expected goal  `y > 0 ⇒ abs y = y`:
+            y > 0
+        ⇒ ⟨ “Strengthening” ⟩
+                — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                — CalcCheck: ─ OK
+            y > 0 ∨ y = 0
+        ≡ ⟨ “Definition of ≥”, “Converse of ≤” ⟩
+                — CalcCheck: Found (15.39) “At least”
+                — CalcCheck: Found “Converse of ≤”
+                — CalcCheck: ─ OK
+            0 ≤ y
+        ≡ ⟨ “Monotonicity of ·” with Fact `0 < 2` ⟩
+                — CalcCheck: Found “Monotonicity of ·”, (15.42) “Monotonicity of ·”
+                — CalcCheck: ─ OK
+            0 · 2 ≤ y · 2
+        ≡ ⟨ Evaluation ⟩
+                — CalcCheck: ─ OK
+            0 ≤ 2 · y
+        ⇒ ⟨ “Monotonicity of -” ⟩
+                — CalcCheck: Found “Monotonicity of -”
+                — CalcCheck: ─ OK
+            0 - y ≤ 2 · y - y
+        ≡ ⟨ “Subtraction”, “Identity of +”, (15.20), “Distributivity of · over +” ⟩
+                — CalcCheck: Found (15.14) “Subtraction”
+                — CalcCheck: Found (15.3) “Additive identity”
+                — CalcCheck: Found (15.20) “Negation as multiplication”
+                — CalcCheck: Found (15.5) “Distributivity of · over +”
+                — CalcCheck: ─ OK
+            - y ≤ (2 - 1) · y
+        ≡ ⟨ Evaluation, “Identity of ·” ⟩
+                — CalcCheck: Found (15.4) “Multiplicative identity”
+                — CalcCheck: ─ OK
+            - y ≤ y
+        ≡ ⟨ “At most via maximum” ⟩
+                — CalcCheck: Found (15.58) “At most via maximum”
+                — CalcCheck: ─ OK
+            - y ↑ y = y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            abs y = y    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[21]
+Lemma “`abs` is always non-negative”:
+        0 ≤ abs y
+Proof:
+  By cases: `y < 0`, `y > 0 ∨ y = 0`
+    Completeness: By “Trichotomy”
+    Case `y < 0`:
+          true
+        ≡⟨ Assumption `y < 0`⟩
+          y < 0
+        ⇒⟨ “Negative `abs` value” ⟩
+          abs y = - y
+        ≡⟨ “Identity of ∧”, Assumption `y < 0`⟩
+          y < 0 ∧ abs y = - y
+        ≡⟨ “<-Anti-isotonicity of unary minus”, “Fixpoint of unary minus”⟩ 
+          0 < - y ∧ abs y = - y
+        ≡⟨ Substitution ⟩
+          (0 < z) [ z ≔ - y] ∧ abs y = - y
+        ≡⟨ “Replacement”, Substitution ⟩
+          0 < abs y ∧ abs y = - y 
+        ⇒⟨ “Weakening” ⟩
+          0 < abs y 
+        ⇒⟨ “Strengthening” ⟩
+          0 = abs y ∨ 0 < abs y
+        ≡⟨ “Definition of ≤” ⟩
+          0 ≤ abs y
+    Case `y > 0 ∨ y = 0`:
+          true
+        ≡⟨ Assumption `y > 0 ∨ y = 0`⟩
+          y > 0 ∨ y = 0
+        ⇒⟨ “Non-negative `abs` value”⟩ 
+          abs y = y
+        ≡⟨ “Identity of ∧”, Assumption `y > 0 ∨ y = 0`⟩ 
+          (y > 0 ∨ y = 0) ∧ abs y = y
+        ≡⟨ “Converse of <”⟩
+          (0 < y ∨ 0 = y) ∧ abs y = y
+        ≡⟨ Substitution ⟩ 
+          (0 < z ∨ 0 = z) [ z ≔ y ] ∧ abs y = y
+        ≡⟨ “Replacement”, Substitution ⟩
+          (0 < abs y ∨ 0 = abs y) ∧ abs y = y
+        ⇒⟨ “Weakening”⟩
+          0 < abs y ∨ 0 = abs y
+        ≡⟨ “Definition of ≤”⟩ 
+          0 ≤ abs y
+
+Lemma “`abs` is always non-negative”: 0 ≤ abs y
+Proof:
+    By cases: `y < 0`, `y > 0 ∨ y = 0`
+        Completeness:
+            By “Trichotomy”               
+                — CalcCheck: Found “Trichotomy”, (15.44) “Trichotomy”
+        Case `y < 0`:
+            Calculation for expected goal  `0 ≤ abs y`:
+                    true
+                ≡ ⟨ Assumption `y < 0` ⟩
+                        — CalcCheck: Found assumption `y < 0`
+                        — CalcCheck: ─ OK
+                    y < 0
+                ⇒ ⟨ “Negative `abs` value” ⟩
+                        — CalcCheck: Found “Negative `abs` value”
+                        — CalcCheck: ─ OK
+                    abs y = - y
+                ≡ ⟨ “Identity of ∧”, Assumption `y < 0` ⟩
+                        — CalcCheck: Found (3.39) “Identity of ∧”
+                        — CalcCheck: Found assumption `y < 0`
+                        — CalcCheck: ─ OK
+                    y < 0 ∧ abs y = - y
+                ≡ ⟨ “<-Anti-isotonicity of unary minus”, “Fixpoint of unary minus” ⟩
+                        — CalcCheck: Found “<-Anti-isotonicity of unary minus”
+                        — CalcCheck: Found (15.18) “Fixpoint of unary minus”
+                        — CalcCheck: ─ OK
+                    0 < - y ∧ abs y = - y
+                ≡ ⟨ Substitution ⟩
+                        — CalcCheck: ─ OK
+                    (0 < z)[z ≔ - y] ∧ abs y = - y
+                ≡ ⟨ “Replacement”, Substitution ⟩
+                        — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                        — CalcCheck: ─ OK
+                    0 < abs y ∧ abs y = - y
+                ⇒ ⟨ “Weakening” ⟩
+                        — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                        — CalcCheck: ─ OK
+                    0 < abs y
+                ⇒ ⟨ “Strengthening” ⟩
+                        — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                        — CalcCheck: ─ OK
+                    0 = abs y ∨ 0 < abs y
+                ≡ ⟨ “Definition of ≤” ⟩
+                        — CalcCheck: Found (15.38) “At most”
+                        — CalcCheck: ─ OK
+                    0 ≤ abs y            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Case `y > 0 ∨ y = 0`:
+            Calculation for expected goal  `0 ≤ abs y`:
+                    true
+                ≡ ⟨ Assumption `y > 0 ∨ y = 0` ⟩
+                        — CalcCheck: Found assumption `y > 0 ∨ y = 0`
+                        — CalcCheck: ─ OK
+                    y > 0 ∨ y = 0
+                ⇒ ⟨ “Non-negative `abs` value” ⟩
+                        — CalcCheck: Found “Non-negative `abs` value”
+                        — CalcCheck: ─ OK
+                    abs y = y
+                ≡ ⟨ “Identity of ∧”, Assumption `y > 0 ∨ y = 0` ⟩
+                        — CalcCheck: Found (3.39) “Identity of ∧”
+                        — CalcCheck: Found assumption `y > 0 ∨ y = 0`
+                        — CalcCheck: ─ OK
+                    (y > 0 ∨ y = 0) ∧ abs y = y
+                ≡ ⟨ “Converse of <” ⟩
+                        — CalcCheck: Found “Converse of <”
+                        — CalcCheck: OK (no change)
+                        — CalcCheck: ─ OK
+                    (0 < y ∨ 0 = y) ∧ abs y = y
+                ≡ ⟨ Substitution ⟩
+                        — CalcCheck: ─ OK
+                    (0 < z ∨ 0 = z)[z ≔ y] ∧ abs y = y
+                ≡ ⟨ “Replacement”, Substitution ⟩
+                        — CalcCheck: Found (3.84b) “Replacement”, (3.84a) “Replacement”, (3.84c) “Replacement”, (3.51) “Replacement”
+                        — CalcCheck: ─ OK
+                    (0 < abs y ∨ 0 = abs y) ∧ abs y = y
+                ⇒ ⟨ “Weakening” ⟩
+                        — CalcCheck: Found (3.76e) “Weakening”, (3.76d) “Weakening”, (3.76a) “Weakening”, (3.76b) “Weakening”, (3.76c) “Weakening”, “Weakening”
+                        — CalcCheck: ─ OK
+                    0 < abs y ∨ 0 = abs y
+                ≡ ⟨ “Definition of ≤” ⟩
+                        — CalcCheck: Found (15.38) “At most”
+                        — CalcCheck: ─ OK
+                    0 ≤ abs y            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK    
+    — CalcCheck: All cases covered.
+[22]
+Theorem “Sub-distributivity of `abs` over +”:
+  abs (x + y) ≤ abs x + abs y
+Proof:
+    abs (x + y) ≤ abs x + abs y
+  ≡⟨ “`abs` as maximum”⟩
+    (x + y) ↑ - (x + y) ≤ (x ↑ - x) + (y ↑ - y)
+  ≡⟨ “Definition of ↑”⟩
+    (x + y) ≤ (x ↑ - x) + (y ↑ - y) ∧ - (x + y) ≤ (x ↑ - x) + (y ↑ - y)
+  ≡⟨ “Distributivity of unary minus over +”⟩
+    (x + y) ≤ (x ↑ - x) + (y ↑ - y) ∧ (- x + - y) ≤ (x ↑ - x) + (y ↑ - y)
+  ≡⟨ “Two-sided ≤-Monotonicity of +” with “Maximum is upper bound”⟩
+    true ∧ true
+  ≡⟨ “Idempotency of ∧”⟩
+    true 
+
+Theorem “Sub-distributivity of `abs` over +”: abs (x + y) ≤ abs x + abs y
+Proof:
+    Calculation for expected goal  `abs (x + y) ≤ abs x + abs y`:
+            abs (x + y) ≤ abs x + abs y
+        ≡ ⟨ “`abs` as maximum” ⟩
+                — CalcCheck: Found “`abs` as maximum”
+                — CalcCheck: ─ OK
+            x + y ↑ - (x + y) ≤ (x ↑ - x) + (y ↑ - y)
+        ≡ ⟨ “Definition of ↑” ⟩
+                — CalcCheck: Found (15.53b) “Definition of ↑”
+                — CalcCheck: ─ OK
+            x + y ≤ (x ↑ - x) + (y ↑ - y) ∧ - (x + y) ≤ (x ↑ - x) + (y ↑ - y)
+        ≡ ⟨ “Distributivity of unary minus over +” ⟩
+                — CalcCheck: Found (15.19) “Distributivity of unary minus over +”
+                — CalcCheck: ─ OK
+            x + y ≤ (x ↑ - x) + (y ↑ - y) ∧ - x + - y ≤ (x ↑ - x) + (y ↑ - y)
+        ≡ ⟨ “Two-sided ≤-Monotonicity of +” with “Maximum is upper bound” ⟩
+                — CalcCheck: Found “Two-sided ≤-Monotonicity of +”
+                — CalcCheck: Found (15.57) “Maximum is upper bound”
+                — CalcCheck: ─ OK
+            true ∧ true
+        ≡ ⟨ “Idempotency of ∧” ⟩
+                — CalcCheck: Found (3.38) “Idempotency of ∧”
+                — CalcCheck: ─ OK
+            true    
+    — CalcCheck: All steps OK   
+    — CalcCheck: Calculation matches goal ─ OK
+[23]
+Theorem “Distributivity of `abs` over ·”:
+  abs (x · y) = abs x · abs y
+Proof:
+    By cases: `x > 0`, `x < 0`, `x = 0`
+      Completeness: By “Trichotomy”
+      Case `x = 0`:
+          abs (x · y)
+        =⟨ Assumption `x = 0`, “Zero of ·”, “`abs` of zero”⟩
+          0
+        =⟨ “Zero of ·”⟩
+          0 · abs y
+        =⟨ “`abs` of zero” with Assumption `x = 0` ⟩ 
+          abs x · abs y 
+      
+      Case `x > 0`:
+        By cases: `y < 0`, `y = 0`, `y > 0`
+          Completeness: By “Trichotomy”
+          Case `y = 0`:
+              abs (x · y)
+            =⟨ Assumption `y = 0`, “Zero of ·”, “`abs` of zero”⟩
+              0
+            =⟨ “Zero of ·”⟩
+              0 · abs x
+            =⟨ “`abs` of zero” with Assumption `y = 0`⟩
+              abs x · abs y
+          
+          Case `y < 0`:
+              abs (x · y)
+            =⟨ “Negative `abs` value” with Subproof for `(x · y) < 0`:
+                      y < 0   — This is Assumption `y < 0`
+                    ≡⟨ “Monotonicity of ·” with Assumption `x > 0`⟩ 
+                      y · x < 0 · x
+                    ≡⟨ “Zero of ·”⟩
+                      (x · y) < 0
+              ⟩
+              - (x · y)
+            =⟨ “Commutativity of unary minus with ·”⟩
+              x · - y 
+            =⟨ “Non-negative `abs` value” with Assumption `x > 0`, “Negative `abs` value” with Assumption `y < 0` ⟩ 
+              abs x · abs y
+           
+          Case `y > 0`:
+              abs (x · y)
+            =⟨ “Non-negative `abs` value” with Subproof for `x · y > 0`:
+                      x > 0  — This is Assumption `x > 0`
+                    ≡⟨ “Converse of <”⟩
+                      0 < x 
+                    ≡⟨ “Monotonicity of ·” with Assumption `y > 0`⟩
+                      0 · y < x · y 
+                    ≡⟨ “Zero of ·”⟩
+                      0 < x · y 
+                    ≡⟨ “Converse of <”⟩
+                      x · y > 0
+              ⟩
+              x · y
+            =⟨ “Non-negative `abs` value” with Assumption `x > 0`, “Non-negative `abs` value” with Assumption `y > 0`⟩ 
+              abs x · abs y
+      Case `x < 0`:
+        By cases: `y < 0`, `y = 0`, `y > 0`
+          Completeness: By “Trichotomy”
+          Case `y = 0`:
+              abs (x · y)
+            =⟨ Assumption `y = 0`, “Zero of ·”, “`abs` of zero”⟩
+              0
+            =⟨ “Zero of ·”⟩
+              0 · abs x
+            =⟨ “`abs` of zero” with Assumption `y = 0`⟩
+              abs x · abs y
+
+
+          Case `y > 0`:
+              abs (x · y)
+            =⟨ “Negative `abs` value” with Subproof for `(x · y) < 0`:
+                      x < 0   — This is Assumption `x < 0`
+                    ≡⟨ “Monotonicity of ·” with Assumption `y > 0`⟩ 
+                      x · y < 0 · y
+                    ≡⟨ “Zero of ·”⟩
+                      (x · y) < 0
+              ⟩
+              - (x · y)
+            =⟨ “Commutativity of unary minus with ·”⟩
+              - x · y 
+            =⟨ “Non-negative `abs` value” with Assumption `y > 0`, “Negative `abs` value” with Assumption `x < 0` ⟩ 
+              abs x · abs y
+         
+          Case `y < 0`:
+              abs (x · y)
+            =⟨ “Non-negative `abs` value” with Subproof for `(x · y) > 0`:
+                      x < 0  — This is Assumption `x < 0`
+                    ≡⟨ “<-Anti-isotonicity of unary minus”, “Fixpoint of unary minus”⟩
+                      0 < - x
+                    ≡⟨ “Monotonicity of ·” with Subproof for `0 < - y `:
+                                y < 0 — This is Assumption `y < 0`
+                              ≡⟨ “<-Anti-isotonicity of unary minus”, “Fixpoint of unary minus”⟩ 
+                                0 < - y
+                      ⟩
+                      0 · - y < - x · - y
+                    ≡⟨ “Zero of ·” ⟩
+                      0 < - x · - y 
+                    ≡⟨ (15.23), “Converse of <” ⟩
+                      x · y > 0
+              ⟩
+              x · y
+            =⟨ (15.23) ⟩ 
+              - x · - y
+            =⟨ “Negative `abs` value” with Assumption `x < 0`, “Negative `abs` value” with Assumption `y < 0`⟩
+              abs x · abs y 
+          
+      
+    
+
+Theorem “Distributivity of `abs` over ·”: abs (x · y) = abs x · abs y
+Proof:
+    By cases: `x > 0`, `x < 0`, `x = 0`
+        Completeness:
+            By “Trichotomy”               
+                — CalcCheck: Found “Trichotomy”, (15.44) “Trichotomy”
+        Case `x = 0`:
+            Calculation for expected goal  `abs (x · y) = abs x · abs y`:
+                    abs (x · y)
+                = ⟨ Assumption `x = 0`, “Zero of ·”, “`abs` of zero” ⟩
+                        — CalcCheck: Found assumption `x = 0`
+                        — CalcCheck: Found (15.9) “Zero of ·”
+                        — CalcCheck: Found “`abs` of zero”
+                        — CalcCheck: ─ OK
+                    0
+                = ⟨ “Zero of ·” ⟩
+                        — CalcCheck: Found (15.9) “Zero of ·”
+                        — CalcCheck: ─ OK
+                    0 · abs y
+                = ⟨ “`abs` of zero” with Assumption `x = 0` ⟩
+                        — CalcCheck: Found “`abs` of zero”
+                        — CalcCheck: Found assumption `x = 0`
+                        — CalcCheck: ─ OK
+                    abs x · abs y            
+            — CalcCheck: All steps OK           
+            — CalcCheck: Calculation matches goal ─ OK
+        Case `x > 0`:
+            By cases: `y < 0`, `y = 0`, `y > 0`
+                Completeness:
+                    By “Trichotomy”                       
+                        — CalcCheck: Found “Trichotomy”, (15.44) “Trichotomy”
+                Case `y = 0`:
+                    Calculation for expected goal  `abs (x · y) = abs x · abs y`:
+                            abs (x · y)
+                        = ⟨ Assumption `y = 0`, “Zero of ·”, “`abs` of zero” ⟩
+                                — CalcCheck: Found assumption `y = 0`
+                                — CalcCheck: Found (15.9) “Zero of ·”
+                                — CalcCheck: Found “`abs` of zero”
+                                — CalcCheck: ─ OK
+                            0
+                        = ⟨ “Zero of ·” ⟩
+                                — CalcCheck: Found (15.9) “Zero of ·”
+                                — CalcCheck: ─ OK
+                            0 · abs x
+                        = ⟨ “`abs` of zero” with Assumption `y = 0` ⟩
+                                — CalcCheck: Found “`abs` of zero”
+                                — CalcCheck: Found assumption `y = 0`
+                                — CalcCheck: ─ OK
+                            abs x · abs y                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK
+                Case `y < 0`:
+                    Calculation for expected goal  `abs (x · y) = abs x · abs y`:
+                            abs (x · y)
+                        = ⟨ “Negative `abs` value” with Subproof for `x · y < 0`:
+                                    y < 0     — This is Assumption `y < 0`
+                                ≡ ⟨ “Monotonicity of ·” with Assumption `x > 0` ⟩
+                                        — CalcCheck: Found “Monotonicity of ·”, (15.42) “Monotonicity of ·”
+                                        — CalcCheck: Found assumption `x > 0`
+                                        — CalcCheck: ─ OK
+                                    y · x < 0 · x
+                                ≡ ⟨ “Zero of ·” ⟩
+                                        — CalcCheck: Found (15.9) “Zero of ·”
+                                        — CalcCheck: ─ OK
+                                    x · y < 0                            
+                            — CalcCheck: Found assumption `y < 0`                           
+                            — CalcCheck: All steps OK                           
+                            — CalcCheck: Calculation matches goal ─ OK
+                            ⟩
+                                — CalcCheck: Found “Negative `abs` value”
+                                — CalcCheck: ─ OK
+                            - (x · y)
+                        = ⟨ “Commutativity of unary minus with ·” ⟩
+                                — CalcCheck: Found (15.22) “Commutativity of unary minus with ·”
+                                — CalcCheck: ─ OK
+                            x · - y
+                        = ⟨ “Non-negative `abs` value” with Assumption `x > 0`, “Negative `abs` value” with Assumption `y < 0` ⟩
+                                — CalcCheck: Found “Non-negative `abs` value”
+                                — CalcCheck: Found assumption `x > 0`
+                                — CalcCheck: Found “Negative `abs` value”
+                                — CalcCheck: Found assumption `y < 0`
+                                — CalcCheck: ─ OK
+                            abs x · abs y                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK
+                Case `y > 0`:
+                    Calculation for expected goal  `abs (x · y) = abs x · abs y`:
+                            abs (x · y)
+                        = ⟨ “Non-negative `abs` value” with Subproof for `x · y > 0`:
+                                    x > 0     — This is Assumption `x > 0`
+                                ≡ ⟨ “Converse of <” ⟩
+                                        — CalcCheck: Found “Converse of <”
+                                        — CalcCheck: OK (no change)
+                                        — CalcCheck: ─ OK
+                                    0 < x
+                                ≡ ⟨ “Monotonicity of ·” with Assumption `y > 0` ⟩
+                                        — CalcCheck: Found “Monotonicity of ·”, (15.42) “Monotonicity of ·”
+                                        — CalcCheck: Found assumption `y > 0`
+                                        — CalcCheck: ─ OK
+                                    0 · y < x · y
+                                ≡ ⟨ “Zero of ·” ⟩
+                                        — CalcCheck: Found (15.9) “Zero of ·”
+                                        — CalcCheck: ─ OK
+                                    0 < x · y
+                                ≡ ⟨ “Converse of <” ⟩
+                                        — CalcCheck: Found “Converse of <”
+                                        — CalcCheck: OK (no change)
+                                        — CalcCheck: ─ OK
+                                    x · y > 0                            
+                            — CalcCheck: Found assumption `x > 0`                           
+                            — CalcCheck: All steps OK                           
+                            — CalcCheck: Calculation matches goal ─ OK
+                            ⟩
+                                — CalcCheck: Found “Non-negative `abs` value”
+                                — CalcCheck: ─ OK
+                            x · y
+                        = ⟨ “Non-negative `abs` value” with Assumption `x > 0`, “Non-negative `abs` value” with Assumption `y > 0` ⟩
+                                — CalcCheck: Found “Non-negative `abs` value”
+                                — CalcCheck: Found assumption `x > 0`
+                                — CalcCheck: Found assumption `y > 0`
+                                — CalcCheck: ─ OK
+                            abs x · abs y                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK            
+            — CalcCheck: All cases covered.
+        Case `x < 0`:
+            By cases: `y < 0`, `y = 0`, `y > 0`
+                Completeness:
+                    By “Trichotomy”                       
+                        — CalcCheck: Found “Trichotomy”, (15.44) “Trichotomy”
+                Case `y = 0`:
+                    Calculation for expected goal  `abs (x · y) = abs x · abs y`:
+                            abs (x · y)
+                        = ⟨ Assumption `y = 0`, “Zero of ·”, “`abs` of zero” ⟩
+                                — CalcCheck: Found assumption `y = 0`
+                                — CalcCheck: Found (15.9) “Zero of ·”
+                                — CalcCheck: Found “`abs` of zero”
+                                — CalcCheck: ─ OK
+                            0
+                        = ⟨ “Zero of ·” ⟩
+                                — CalcCheck: Found (15.9) “Zero of ·”
+                                — CalcCheck: ─ OK
+                            0 · abs x
+                        = ⟨ “`abs` of zero” with Assumption `y = 0` ⟩
+                                — CalcCheck: Found “`abs` of zero”
+                                — CalcCheck: Found assumption `y = 0`
+                                — CalcCheck: ─ OK
+                            abs x · abs y                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK
+                Case `y > 0`:
+                    Calculation for expected goal  `abs (x · y) = abs x · abs y`:
+                            abs (x · y)
+                        = ⟨ “Negative `abs` value” with Subproof for `x · y < 0`:
+                                    x < 0     — This is Assumption `x < 0`
+                                ≡ ⟨ “Monotonicity of ·” with Assumption `y > 0` ⟩
+                                        — CalcCheck: Found “Monotonicity of ·”, (15.42) “Monotonicity of ·”
+                                        — CalcCheck: Found assumption `y > 0`
+                                        — CalcCheck: ─ OK
+                                    x · y < 0 · y
+                                ≡ ⟨ “Zero of ·” ⟩
+                                        — CalcCheck: Found (15.9) “Zero of ·”
+                                        — CalcCheck: ─ OK
+                                    x · y < 0                            
+                            — CalcCheck: Found assumption `x < 0`                           
+                            — CalcCheck: All steps OK                           
+                            — CalcCheck: Calculation matches goal ─ OK
+                            ⟩
+                                — CalcCheck: Found “Negative `abs` value”
+                                — CalcCheck: ─ OK
+                            - (x · y)
+                        = ⟨ “Commutativity of unary minus with ·” ⟩
+                                — CalcCheck: Found (15.22) “Commutativity of unary minus with ·”
+                                — CalcCheck: ─ OK
+                            - x · y
+                        = ⟨ “Non-negative `abs` value” with Assumption `y > 0`, “Negative `abs` value” with Assumption `x < 0` ⟩
+                                — CalcCheck: Found “Non-negative `abs` value”
+                                — CalcCheck: Found assumption `y > 0`
+                                — CalcCheck: Found “Negative `abs` value”
+                                — CalcCheck: Found assumption `x < 0`
+                                — CalcCheck: ─ OK
+                            abs x · abs y                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK
+                Case `y < 0`:
+                    Calculation for expected goal  `abs (x · y) = abs x · abs y`:
+                            abs (x · y)
+                        = ⟨ “Non-negative `abs` value” with Subproof for `x · y > 0`:
+                                    x < 0     — This is Assumption `x < 0`
+                                ≡ ⟨ “<-Anti-isotonicity of unary minus”, “Fixpoint of unary minus” ⟩
+                                        — CalcCheck: Found “<-Anti-isotonicity of unary minus”
+                                        — CalcCheck: Found (15.18) “Fixpoint of unary minus”
+                                        — CalcCheck: ─ OK
+                                    0 < - x
+                                ≡ ⟨ “Monotonicity of ·” with Subproof for `0 < - y`:
+                                            y < 0     — This is Assumption `y < 0`
+                                        ≡ ⟨ “<-Anti-isotonicity of unary minus”, “Fixpoint of unary minus” ⟩
+                                                — CalcCheck: Found “<-Anti-isotonicity of unary minus”
+                                                — CalcCheck: Found (15.18) “Fixpoint of unary minus”
+                                                — CalcCheck: ─ OK
+                                            0 < - y                                    
+                                    — CalcCheck: Found assumption `y < 0`                                   
+                                    — CalcCheck: All steps OK                                   
+                                    — CalcCheck: Calculation matches goal ─ OK
+                                    ⟩
+                                        — CalcCheck: Found “Monotonicity of ·”, (15.42) “Monotonicity of ·”
+                                        — CalcCheck: ─ OK
+                                    0 · - y < - x · - y
+                                ≡ ⟨ “Zero of ·” ⟩
+                                        — CalcCheck: Found (15.9) “Zero of ·”
+                                        — CalcCheck: ─ OK
+                                    0 < - x · - y
+                                ≡ ⟨ (15.23), “Converse of <” ⟩
+                                        — CalcCheck: Found (15.23) `- a · - b = a · b`
+                                        — CalcCheck: Found “Converse of <”
+                                        — CalcCheck: ─ OK
+                                    x · y > 0                            
+                            — CalcCheck: Found assumption `x < 0`                           
+                            — CalcCheck: All steps OK                           
+                            — CalcCheck: Calculation matches goal ─ OK
+                            ⟩
+                                — CalcCheck: Found “Non-negative `abs` value”
+                                — CalcCheck: ─ OK
+                            x · y
+                        = ⟨ (15.23) ⟩
+                                — CalcCheck: Found (15.23) `- a · - b = a · b`
+                                — CalcCheck: ─ OK
+                            - x · - y
+                        = ⟨ “Negative `abs` value” with Assumption `x < 0`, “Negative `abs` value” with Assumption `y < 0` ⟩
+                                — CalcCheck: Found “Negative `abs` value”
+                                — CalcCheck: Found assumption `x < 0`
+                                — CalcCheck: Found assumption `y < 0`
+                                — CalcCheck: ─ OK
+                            abs x · abs y                    
+                    — CalcCheck: All steps OK                   
+                    — CalcCheck: Calculation matches goal ─ OK            
+            — CalcCheck: All cases covered.   
+    — CalcCheck: All cases covered.
